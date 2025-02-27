@@ -151,15 +151,8 @@
       </div>
       
       <!-- Payment Methods -->
-      <div class="border-t border-indigo-900 pt-6 pb-4">
-        <div class="flex flex-wrap items-center justify-center gap-4 mb-6">
-          <div class="flex items-center gap-2 bg-indigo-900 px-3 py-1.5 rounded-lg">
-            <Icon icon="cib:visa" />
-          </div>
-          <div class="flex items-center gap-2 bg-indigo-900 px-3 py-1.5 rounded-lg">
-           <Icon icon="lineicons:mastercard" />
-          </div>
-        </div>
+     <div class="border-t border-indigo-900 pt-6 pb-4">
+       <PaymentMethodsSlider />
       </div>
       
       <!-- Copyright -->
@@ -174,4 +167,5 @@
 
 <script setup>
 import { Icon } from '@iconify/vue';
+import PaymentMethodsSlider from '@/components/ui/PaymentGateWaySlider.vue';
 </script>

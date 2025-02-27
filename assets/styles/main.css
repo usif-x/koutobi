@@ -4,7 +4,9 @@
 .font-arabic {
   font-family: 'Cairo', 'Tajawal', sans-serif;
 }
-
+body {
+  scroll-behavior: smooth;
+}
 .rtl {
   direction: rtl;
 }
