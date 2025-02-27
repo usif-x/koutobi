@@ -39,7 +39,7 @@
       class="relative payment-methods-swiper"
     >
       <swiper-slide v-for="(image, index) in paymentMethods" :key="index" class="flex justify-center">
-        <div class="bg-transparent backdrop-blur-sm px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group flex justify-center items-center">
+        <div class="bg-white backdrop-blur-sm px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 group flex justify-center items-center">
           <img 
             :src="image" 
             :alt="`Payment Method ${index + 1}`" 

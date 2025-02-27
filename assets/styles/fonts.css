@@ -1,0 +1,89 @@
+@font-face {
+    font-family: 'SF Arabic';
+    src: url('@/assets/fonts/SF/SFArabic-Regular.woff2') format('woff2'),
+         url('@/assets/fonts/SF/SFArabic-Regular.woff') format('woff'),
+         url('@/assets/fonts/SF/SFArabic-Regular.ttf') format('truetype'),
+         url('@/assets/fonts/SF/SFArabic-Regular.eot');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Arabic Rounded';
+    src: url('@/assets/fonts/SF/SFArabicRounded-Regular.woff2') format('woff2'),
+         url('@/assets/fonts/SF/SFArabicRounded-Regular.woff') format('woff'),
+         url('@/assets/fonts/SF/SFArabicRounded-Regular.ttf') format('truetype'),
+         url('@/assets/fonts/SF/SFArabicRounded-Regular.eot');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Hala';
+    src: url('@/assets/fonts/hala/hala.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Omnes Arabic';
+    src: url('@/assets/fonts/omnes/arfonts-omnes-arabic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Omnes Arabic';
+    src: url('@/assets/fonts/omnes/arfonts-omnes-arabic-black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Omnes Arabic';
+    src: url('@/assets/fonts/omnes/arfonts-omnes-arabic-bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Omnes Arabic';
+    src: url('@/assets/fonts/omnes/arfonts-omnes-arabic-extra-light.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Omnes Arabic';
+    src: url('@/assets/fonts/omnes/arfonts-omnes-arabic-hairline.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Omnes Arabic';
+    src: url('@/assets/fonts/omnes/arfonts-omnes-arabic-light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Omnes Arabic';
+    src: url('@/assets/fonts/omnes/arfonts-omnes-arabic-medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Omnes Arabic';
+    src: url('@/assets/fonts/omnes/arfonts-omnes-arabic-semi-bold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Omnes Arabic';
+    src: url('@/assets/fonts/omnes/arfonts-omnes-arabic-thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}

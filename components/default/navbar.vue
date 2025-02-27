@@ -5,10 +5,11 @@
       <div class="flex items-center justify-between h-16 md:h-20">
         <!-- Logo -->
         <NuxtLink to="/" class="flex items-center gap-2 text-indigo-900 font-bold text-2xl font-arabic">
-          <div class="relative">
-            <span class="absolute -top-1.5 -right-1.5 w-6 h-6 bg-amber-300 rounded-full opacity-30 blur-sm"></span>
-            <span class="relative">كتبي</span>
-          </div>
+         <div class="relative">
+  <span class="absolute -top-1.5 -right-1.5 w-6 h-6 bg-amber-300 rounded-full opacity-30 blur-sm"></span>
+  <img src="/images/logo.png" alt="Logo" class="w-10 h-10">
+</div>
+
         </NuxtLink>
 
         <!-- Desktop Menu -->

@@ -9,7 +9,7 @@
           <div class="flex items-center gap-2">
             <div class="relative">
               <span class="absolute -top-1.5 -right-1.5 w-6 h-6 bg-amber-300 rounded-full opacity-30 blur-sm"></span>
-              <h3 class="relative text-2xl font-bold text-white font-arabic">كتبي</h3>
+              <h3 class="relative text-2xl font-bold text-white font-arabic">كُتُبي</h3>
             </div>
           </div>
           <div class="w-12 h-1 bg-gradient-to-l from-amber-400 to-amber-500 rounded-full"></div>
@@ -17,18 +17,12 @@
             متجر الكتب العربية الأول على الإنترنت. نقدم آلاف العناوين من أفضل الكتب العربية في مختلف المجالات.
           </p>
           <!-- Social Media Links -->
-          <div class="flex space-x-3 space-x-reverse">
+          <div class="flex space-x-3 space-x-reverse gap-3">
             <a href="#" class="w-9 h-9 rounded-full bg-indigo-800 hover:bg-indigo-700 flex items-center justify-center transition-colors">
               <Icon icon="ph:facebook-logo-bold" class="text-lg" />
             </a>
             <a href="#" class="w-9 h-9 rounded-full bg-indigo-800 hover:bg-indigo-700 flex items-center justify-center transition-colors">
-              <Icon icon="ph:twitter-logo-bold" class="text-lg" />
-            </a>
-            <a href="#" class="w-9 h-9 rounded-full bg-indigo-800 hover:bg-indigo-700 flex items-center justify-center transition-colors">
               <Icon icon="ph:instagram-logo-bold" class="text-lg" />
-            </a>
-            <a href="#" class="w-9 h-9 rounded-full bg-indigo-800 hover:bg-indigo-700 flex items-center justify-center transition-colors">
-              <Icon icon="ph:youtube-logo-bold" class="text-lg" />
             </a>
           </div>
         </div>
@@ -111,10 +105,10 @@
 
         <!-- Newsletter -->
         <div class="space-y-4">
-          <h3 class="text-lg font-semibold font-arabic">النشرة البريدية</h3>
+          <h3 class="text-lg font-semibold font-arabic">الاشعارات و العروض</h3>
           <div class="w-12 h-1 bg-gradient-to-l from-amber-400 to-amber-500 rounded-full"></div>
           <p class="text-indigo-200 text-sm font-arabic">
-            اشترك في نشرتنا البريدية للحصول على آخر العروض والإصدارات الجديدة
+ادخل بريدك الالكتروني ليصلك كل جديد عن عروضنا وخصومات 
           </p>
           <form class="mt-2">
             <div class="flex">
@@ -136,15 +130,15 @@
           <div class="space-y-2 mt-4">
             <div class="flex gap-2 text-indigo-200 text-sm">
               <Icon icon="ph:phone-bold" class="text-amber-400 text-lg flex-shrink-0 mt-0.5" />
-              <span class="font-arabic">+966 12 345 6789</span>
+              <span class="font-arabic">+201010000000</span>
             </div>
             <div class="flex gap-2 text-indigo-200 text-sm">
               <Icon icon="ph:envelope-bold" class="text-amber-400 text-lg flex-shrink-0 mt-0.5" />
-              <span class="font-arabic">info@koutobi.com</span>
+              <span class="font-arabic">info@koutobi.shop</span>
             </div>
             <div class="flex gap-2 text-indigo-200 text-sm">
               <Icon icon="ph:map-pin-bold" class="text-amber-400 text-lg flex-shrink-0 mt-0.5" />
-              <span class="font-arabic">الرياض، المملكة العربية السعودية</span>
+              <span class="font-arabic">مصر, القاهرة</span>
             </div>
           </div>
         </div>

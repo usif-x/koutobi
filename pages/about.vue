@@ -7,9 +7,6 @@
       <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-amber-200 to-amber-300 rounded-full mix-blend-multiply opacity-10 animate-float-slow blur-3xl"></div>
     </div>
     
-    <!-- Grid pattern overlay -->
-    <div class="absolute inset-0 bg-grid-pattern opacity-[0.02] z-0"></div>
-    
     <div class="container mx-auto z-10 relative">
       <div class="max-w-5xl mx-auto">
         <!-- Hero section -->
@@ -25,7 +22,7 @@
           </div>
           
           <p class="text-xl md:text-2xl text-indigo-800/80 font-arabic font-light max-w-2xl mr-auto">
-            وجهتك الأولى لاكتشاف عالم الكتب العربية
+         متجر بيع الكتب للصفوف الاعداديه و الثانويه
           </p>
         </div>
 
@@ -33,20 +30,38 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <!-- Text content -->
           <div class="space-y-8 order-2 lg:order-1">
-            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 transform hover:-translate-y-1 transition-all duration-300">
-              <p class="text-lg font-arabic leading-relaxed text-gray-700">
-                مرحباً بكم في كُتبي - وجهتكم المفضلة للكتب العربية. نحن نؤمن بأن القراءة هي مفتاح المعرفة والتطور الشخصي، 
-                ولذلك نسعى جاهدين لتوفير أفضل وأحدث الإصدارات من الكتب العربية.
-              </p>
-            </div>
+  <!-- الصندوق الأول -->
+  <div class="bg-white shadow-lg rounded-2xl p-6 md:p-8 transition-all hover:-translate-y-1">
+    <p class="text-base md:text-lg font-arabic leading-relaxed md:leading-loose text-gray-800 break-words">
+      <span class="font-semibold text-indigo-600">📚 إحنا هنا علشان نساعدك!</span>  
+      وفرنا لك كل الكتب الخارجية وملازم المدرسين للمرحلتين الإعدادية والثانوية، علشان تلاقي كل اللي محتاجه بسهولة وفي مكان واحد.  
 
-            <div class="bg-indigo-600/5 backdrop-blur-sm rounded-2xl shadow-xl p-8 transform hover:-translate-y-1 transition-all duration-300">
-              <p class="text-lg font-arabic leading-relaxed text-gray-700">
-                تأسست منصتنا بهدف إثراء المحتوى العربي وتسهيل وصول القراء إلى الكتب التي يحبونها. 
-                نحن نتعاون مع أفضل دور النشر العربية لنقدم لكم مجموعة متنوعة من الكتب في مختلف المجالات.
-              </p>
-            </div>
-          </div>
+      🎯 <span class="font-semibold text-indigo-600">هدفنا:</span>  
+      نوفر لك أحدث الكتب والمذكرات بأفضل الأسعار، علشان تذاكر براحتك وتحقق أعلى الدرجات.  
+
+      🚀 <span class="font-semibold text-indigo-600">ليه تختارنا؟</span>  
+      ✅ جميع الكتب والملازم في مكان واحد.  
+      ✅ أحدث الإصدارات والتحديثات باستمرار.  
+      ✅ سهولة الطلب والتوصيل السريع.  
+
+      معانا، هتلاقي كل اللي يساعدك على النجاح والتفوق! 🎓📖  
+    </p>
+  </div>
+
+  <!-- الصندوق الثاني -->
+  <div class="bg-indigo-100 shadow-lg rounded-2xl p-6 md:p-8 transition-all hover:-translate-y-1">
+    <p class="text-base md:text-lg font-arabic leading-relaxed md:leading-loose text-gray-800 break-words">
+      <span class="font-semibold text-indigo-700">📦 خدماتنا:</span>  
+      🔹 توفير جميع الكتب الخارجية والمذكرات لجميع المواد.  
+      🔹 تحديث مستمر بأحدث المناهج والإصدارات.  
+      🔹 دعم سريع لأي استفسار أو طلب خاص.  
+
+      ⏳ اطلب الآن واستعد للنجاح بأفضل الموارد التعليمية! 🚀  
+    </p>
+  </div>
+</div>
+
+
 
           <!-- Stats & Features -->
           <div class="order-1 lg:order-2">
@@ -58,7 +73,7 @@
                   <div class="absolute -top-4 -right-4 w-16 h-16 bg-amber-300/20 rounded-full blur-xl
                              group-hover:w-20 group-hover:h-20 transition-all duration-500"></div>
                   <Icon icon="ph:books-bold" class="text-5xl text-amber-500 mb-4 transform group-hover:scale-110 transition-transform duration-300" />
-                  <h3 class="text-2xl font-semibold text-indigo-900 font-arabic mb-2">+10,000</h3>
+                  <h3 class="text-2xl font-semibold text-indigo-900 font-arabic mb-2">10</h3>
                   <p class="text-gray-600 font-arabic">كتاب متوفر</p>
                 </div>
               </div>
@@ -69,8 +84,8 @@
                   <div class="absolute -top-4 -right-4 w-16 h-16 bg-indigo-300/20 rounded-full blur-xl
                              group-hover:w-20 group-hover:h-20 transition-all duration-500"></div>
                   <Icon icon="ph:users-bold" class="text-5xl text-indigo-500 mb-4 transform group-hover:scale-110 transition-transform duration-300" />
-                  <h3 class="text-2xl font-semibold text-indigo-900 font-arabic mb-2">+50,000</h3>
-                  <p class="text-gray-600 font-arabic">قارئ نشط</p>
+                  <h3 class="text-2xl font-semibold text-indigo-900 font-arabic mb-2">100</h3>
+                  <p class="text-gray-600 font-arabic">طلب منفذ</p>
                 </div>
               </div>
 
@@ -118,40 +133,3 @@
 <script setup>
 import { Icon } from '@iconify/vue';
 </script>
-
-<style scoped>
-/* Grid pattern background */
-.bg-grid-pattern {
-  background-image: linear-gradient(to right, #6366f1 1px, transparent 1px),
-                    linear-gradient(to bottom, #6366f1 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-/* Floating animations */
-@keyframes float {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-10px, 15px); }
-}
-
-@keyframes float-delay {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(15px, -10px); }
-}
-
-@keyframes float-slow {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-15px, -15px); }
-}
-
-.animate-float {
-  animation: float 15s ease-in-out infinite;
-}
-
-.animate-float-delay {
-  animation: float-delay 18s ease-in-out infinite;
-}
-
-.animate-float-slow {
-  animation: float-slow 20s ease-in-out infinite;
-}
-</style>
