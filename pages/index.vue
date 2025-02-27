@@ -71,7 +71,7 @@
               <span class="absolute inset-0 border-2 border-white/30 rounded-2xl z-20 transition-all duration-300 group-hover:border-white/50 group-hover:blur-[1px]"></span>
               
               <div class="relative overflow-hidden">
-                <img src="/images/hero.jpg" alt="Koutobi Books" class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src="/images/hero.jpg" alt="kotoubi Books" class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" />
                 
                 <!-- Overlay gradient with interactive effect -->
                 <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-50"></div>

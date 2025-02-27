@@ -68,7 +68,7 @@
           <p class="font-arabic">إذا كان لديك أي استفسارات حول شروطنا وأحكامنا، يرجى التواصل معنا على:</p>
           <div class="flex items-center gap-2 mt-4">
             <Icon icon="ph:envelope-duotone" class="text-xl" />
-            <span class="font-arabic">legal@koutobi.shop</span>
+            <span class="font-arabic">legal@kotoubi.shop</span>
           </div>
         </div>
       </div>

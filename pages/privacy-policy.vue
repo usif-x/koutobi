@@ -90,7 +90,7 @@
           <div class="space-y-3">
             <div class="flex items-center gap-2">
               <Icon icon="ph:envelope-duotone" class="text-xl" />
-              <span class="font-arabic">privacy@koutobi.shop</span>
+              <span class="font-arabic">privacy@kotoubi.shop</span>
             </div>
             <div class="flex items-center gap-2">
               <Icon icon="ph:phone-duotone" class="text-xl" />

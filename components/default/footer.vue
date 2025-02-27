@@ -134,7 +134,7 @@
             </div>
             <div class="flex gap-2 text-indigo-200 text-sm">
               <Icon icon="ph:envelope-bold" class="text-amber-400 text-lg flex-shrink-0 mt-0.5" />
-              <span class="font-arabic">info@koutobi.shop</span>
+              <span class="font-arabic">info@kotoubi.shop</span>
             </div>
             <div class="flex gap-2 text-indigo-200 text-sm">
               <Icon icon="ph:map-pin-bold" class="text-amber-400 text-lg flex-shrink-0 mt-0.5" />
