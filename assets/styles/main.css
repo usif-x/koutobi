@@ -1,0 +1,51 @@
+/* assets/css/main.css */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&display=swap');
+
+.font-arabic {
+  font-family: 'Cairo', 'Tajawal', sans-serif;
+}
+
+.rtl {
+  direction: rtl;
+}
+
+/* Grid pattern background */
+.bg-grid-pattern {
+  background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+                    linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Floating animations for background shapes */
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-10px) translateX(5px); }
+}
+
+@keyframes float-delay {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(10px) translateX(-5px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-15px) translateX(-8px); }
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-float-delay {
+  animation: float-delay 10s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 12s ease-in-out infinite;
+}
+
+/* Apply RTL and font to HTML element */
+html {
+  direction: rtl;
+  font-family: 'Cairo', 'Tajawal', sans-serif;
+}
