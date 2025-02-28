@@ -1,7 +1,7 @@
 <!-- components/Navbar.vue -->
 <template>
-  <header class="sticky top-0 z-50 bg-transparent rtl"
-          :class="[scrolled ? 'bg-white backdrop-blur-sm shadow-sm' : 'bg-transparent']">
+  <header class="sticky top-0 z-50 bg-transparent rtl transition-all ease duration-500"
+          :class="[scrolled ? 'bg-white backdrop-blur-sm' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50']">
     <div class="container mx-auto px-4 md:px-6">
       <div class="flex items-center justify-between h-16 md:h-20">
         <!-- Logo -->
@@ -80,6 +80,14 @@
         </button>
       </div>
     </div>
+    
+    <!-- Add scroll progress bar UNDER the navigation -->
+      <transition name="fade-down">
+    <div v-if="scrolled" class="h-1 bg-transparent w-full relative transition-transform duration-500 ease">
+      <div class="absolute top-0 left-0 h-full bg-indigo-600"
+           :style="{ width: `${scrollProgress}%` }"></div>
+    </div>
+  </transition>
 
     <!-- Mobile Menu Dropdown -->
     <div v-if="mobileMenuOpen" class="md:hidden bg-white border-t border-gray-100 shadow-md rtl">
@@ -114,23 +122,52 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Icon } from '@iconify/vue';
-const scrolled = ref(false)
-const handleScroll = () => {
-  scrolled.value = window.scrollY > 0
-  if (isMenuOpen.value && scrolled.value) {
-  }
-}
 
-// State for mobile menu
+const scrolled = ref(false);
+const scrollY = ref(0);
 const mobileMenuOpen = ref(false);
 
+// Calculate scroll percentage for progress bar
+const scrollProgress = computed(() => {
+  if (typeof window === 'undefined') return 0;
+  
+  const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+  if (totalHeight <= 0) return 0;
+  
+  return Math.min((scrollY.value / totalHeight) * 100, 100);
+});
+
+const handleScroll = () => {
+  scrollY.value = window.scrollY;
+  scrolled.value = window.scrollY > 0;
+};
+
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // Initial check
+});
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
+
+<style>
+.fade-down-enter-active, .fade-down-leave-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* البداية عند الإدخال */
+.fade-down-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* النهاية عند الإخفاء */
+.fade-down-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+</style>

@@ -1,8 +1,5 @@
 @import "./fonts.css";
 @import "./sweetalert2.css";
-body {
-  scroll-behavior: smooth;
-}
 .rtl {
   direction: rtl;
 }
@@ -46,6 +43,7 @@ body {
 html {
   direction: rtl;
   font-family: 'Omnes Arabic', sans-serif;
+  scroll-behavior: smooth;
 }
 
 /* Grid pattern background */
