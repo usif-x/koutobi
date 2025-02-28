@@ -40,7 +40,7 @@
           <!-- Search Button -->
           <button class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group">
             <Icon icon="ph:magnifying-glass-bold" class="text-xl" />
-            <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[999]">
               بحث
             </span>
           </button>
@@ -53,7 +53,7 @@
                 3
               </span>
             </div>
-            <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[999]">
               عربة التسوق
             </span>
           </button>
@@ -61,7 +61,7 @@
           <!-- User Button -->
           <NuxtLink to="/login" class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group">
             <Icon icon="ph:user-circle-bold" class="text-xl" />
-            <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[999]">
               تسجيل الدخول
             </span>
           </NuxtLink>
