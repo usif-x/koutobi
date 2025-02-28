@@ -51,13 +51,15 @@
     </div>
 
     <KInput
-      v-model="form.email"
-      label="البريد الإلكتروني"
-      type="email"
-      icon="ph:envelope-duotone"
-      :error="errors.email"
-      required
-    />
+  v-model="form.email"
+  label="البريد الإلكتروني"
+  type="email"
+  icon="ph:envelope-duotone"
+  placeholder="example@domain.com"
+  :error="errors.email"
+  helper="سيتم استخدامه للتواصل معك"
+  required
+/>
 
     <KInput
       v-model="form.subject"
@@ -119,7 +121,7 @@
                 </div>
                 <div>
                   <h3 class="text-lg font-semibold text-indigo-900 font-arabic mb-1">اتصل بنا</h3>
-                  <p class="text-gray-600 font-arabic" dir="ltr">+966 XX XXX XXXX</p>
+                  <p class="text-gray-600 font-arabic" dir="ltr">+201032589270</p>
                 </div>
               </div>
             </div>
@@ -171,7 +173,7 @@ import { ref, reactive } from 'vue';
 import { Icon } from '@iconify/vue';
 import { toast } from 'vue3-toastify';
 import "vue3-toastify/dist/index.css";
-import KInput from '~/components/ui/KInput.vue'; // Fixed import case
+import KInput from '~/components/ui/KInput.vue'; 
 
 const loading = ref(false);
 const form = reactive({

@@ -1,0 +1,29 @@
+.swal2-popup {
+  font-family: 'Omnes Arabic', sans-serif !important;
+  direction: rtl !important;
+}
+
+.swal2-title {
+  font-family: 'Omnes Arabic', sans-serif !important;
+}
+
+.swal2-html-container {
+  font-family: 'Omnes Arabic', sans-serif !important;
+}
+
+.swal2-confirm {
+  font-family: 'Omnes Arabic', sans-serif !important;
+  background-color: #4f46e5 !important;
+  color: white !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+.swal2-confirm:focus {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.5) !important;
+}
+
+.swal2-timer-progress-bar {
+  background: #4f46e5 !important;
+}

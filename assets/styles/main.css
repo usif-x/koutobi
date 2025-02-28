@@ -1,4 +1,5 @@
 @import "./fonts.css";
+@import "./sweetalert2.css";
 body {
   scroll-behavior: smooth;
 }

@@ -1,1 +1,21 @@
 @import "tailwindcss";
+@config "../../tailwind.config.js";
+
+
+/* INPUT */
+input:disabled {
+  @apply bg-gray-50 cursor-not-allowed;
+}
+
+input::placeholder {
+  @apply text-gray-400 opacity-0 transition-opacity duration-200;
+}
+
+input:focus::placeholder {
+  @apply opacity-100;
+}
+
+input:focus {
+  @apply ring-2 ring-indigo-500/20 ring-offset-1;
+}
+/* END INPUT */

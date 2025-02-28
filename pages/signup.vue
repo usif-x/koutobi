@@ -50,7 +50,7 @@
               label="رقم الهاتف"
               type="tel"
               icon="ph:phone-duotone"
-              placeholder="05xxxxxxxx"
+              placeholder="01xxxxxxxx"
               :error="errors.phone"
               required
             />
@@ -62,7 +62,7 @@
               icon="ph:lock-duotone"
               placeholder="********"
               :error="errors.password"
-              helper="يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل"
+              helper="يجب أن تحتوي كلمة المرور على 4 أحرف على الأقل"
               required
             />
 
@@ -139,6 +139,10 @@
 import { ref, reactive } from 'vue';
 import { Icon } from '@iconify/vue';
 import KInput from '~/components/ui/KInput.vue';
+definePageMeta({
+  middleware: ['auth'],
+  requiresAuth: true
+})
 const loading = ref(false);
 const form = reactive({
   firstName: '',
@@ -171,7 +175,7 @@ const validatePhone = (phone) => {
 };
 
 const validatePassword = (password) => {
-  return password.length >= 8;
+  return password.length >= 4;
 };
 
 const validateForm = () => {

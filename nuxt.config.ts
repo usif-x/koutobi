@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
   css: ['~/assets/styles/tailwind.css','~/assets/styles/main.css'],
+  pages: true,
   vite: {
     plugins: [
       tailwindcss(),
@@ -32,6 +33,7 @@ export default defineNuxtConfig({
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID: process.env.TELEGRAM_ADMIN_ID,
   },
+  modules: ['@pinia/nuxt'],
   components: true,
   build: {
     transpile: ['@iconify/vue','vue3-toastify'],
