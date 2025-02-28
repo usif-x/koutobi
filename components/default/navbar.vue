@@ -1,7 +1,7 @@
 <!-- components/Navbar.vue -->
 <template>
   <header class="sticky top-0 z-50 bg-transparent rtl"
-          :class="[scrolled ? 'bg-white/80 backdrop-blur-sm shadow-sm' : 'bg-transparent']">
+          :class="[scrolled ? 'bg-white backdrop-blur-sm shadow-sm' : 'bg-transparent']">
     <div class="container mx-auto px-4 md:px-6">
       <div class="flex items-center justify-between h-16 md:h-20">
         <!-- Logo -->
@@ -118,7 +118,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { Icon } from '@iconify/vue';
 const scrolled = ref(false)
 const handleScroll = () => {
-  scrolled.value = window.scrollY > 10
+  scrolled.value = window.scrollY > 0
   if (isMenuOpen.value && scrolled.value) {
   }
 }
