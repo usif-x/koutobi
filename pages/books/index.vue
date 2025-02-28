@@ -11,7 +11,7 @@
     <div class="container mx-auto z-10 py-12">
       <!-- Page header -->
       <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-indigo-900 font-arabic mb-4">معرض الكتب</h1>
+        <h1 class="text-4xl md:text-5xl font-bold text-indigo-900 font-arabic mb-4">منتجاتنا</h1>
         <div class="w-24 h-1.5 bg-gradient-to-l from-amber-400 to-amber-500 mx-auto rounded-full"></div>
         <p class="text-gray-700 mt-4 max-w-2xl mx-auto font-arabic">اكتشف مجموعتنا الواسعة من الكتب والمذكرات الدراسية للمراحل الإعدادية والثانوية</p>
       </div>
