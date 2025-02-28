@@ -31,18 +31,11 @@
           
           <div class="flex flex-col sm:flex-row gap-3 justify-end mt-6">
             <!-- Outline button with hover effect -->
-            <NuxtLink to="/signup" class="group px-5 py-3 bg-transparent border-2 border-indigo-600 text-indigo-600 rounded-lg font-semibold transition-all duration-300 hover:bg-indigo-600 hover:text-white text-center sm:text-right font-arabic flex items-center justify-center gap-2 relative overflow-hidden">
-              <span class="relative z-10">إنشئ/سجل حسابك</span>
-              <Icon icon="ph:user-plus-bold" class="relative z-10 text-xl transition-transform group-hover:rotate-12" />
-              <span class="absolute inset-0 bg-indigo-600 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-0"></span>
-            </NuxtLink>
+            <ButtonUi label="إنشئ/سجل حسابك" icon="ph:user-plus-bold" to="/signup" isOutline isLink />
             
             <!-- Primary button with hover effect -->
-            <NuxtLink to="/books" class="group px-5 py-3 bg-indigo-600 border-2 border-indigo-600 text-white rounded-lg font-semibold transition-all duration-300 hover:bg-indigo-700 hover:border-indigo-700 shadow-md hover:shadow-lg text-center sm:text-right font-arabic flex items-center justify-center gap-2 relative overflow-hidden">
-              <span class="relative z-10">تصفح الكتب</span>
-              <Icon icon="ph:books-bold" class="relative z-10 text-xl transition-transform group-hover:translate-x-1" />
-              <span class="absolute inset-0 bg-gradient-to-r from-indigo-700 to-indigo-800 transform scale-x-0 origin-right transition-transform duration-300 group-hover:scale-x-100 -z-0"></span>
-            </NuxtLink>
+            <ButtonUi label="تصفح الكتب" icon="ph:books-bold" to="/books" isLink />
+
           </div>
           
           <!-- Trust badges with animated hover -->
@@ -119,7 +112,7 @@ import { ref, onMounted } from 'vue';
 import { useProductStore } from '~/stores/product';
 import { Icon } from '@iconify/vue';
 import BookSlider from '~/components/ui/BooksSlider.vue';
-import TrustBadge from '~/components/ui/TrustBadge.vue';
+import ButtonUi from '~/components/ui/ButtonUi.vue';
 // SEO
 useHead({
   title: 'كُتُبي - متجر الكتب العربية الأول',

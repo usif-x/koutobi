@@ -89,22 +89,8 @@
   <p v-if="errors.message" class="mt-1 text-sm text-red-600 text-right font-arabic">{{ errors.message }}</p>
 </div>
 
-            <button
-              type="submit"
-              :disabled="loading"
-              class="group w-full px-5 py-3 bg-indigo-600 border-2 border-indigo-600 text-white rounded-lg font-semibold 
-                     transition-all duration-300 hover:bg-indigo-700 hover:border-indigo-700 shadow-md hover:shadow-lg 
-                     text-center font-arabic flex items-center justify-center gap-2 relative overflow-hidden"
-            >
-              <span class="relative z-10">{{ loading ? 'جاري الإرسال...' : 'إرسال الرسالة' }}</span>
-              <Icon 
-                :icon="loading ? 'ph:spinner-bold' : 'ph:paper-plane-right-bold'" 
-                class="relative z-10 text-xl transition-transform"
-                :class="loading ? 'animate-spin' : 'group-hover:translate-x-1'" 
-              />
-              <span class="absolute inset-0 bg-gradient-to-r from-indigo-700 to-indigo-800 transform scale-x-0 origin-right 
-                         transition-transform duration-300 group-hover:scale-x-100 -z-0"></span>
-            </button>
+            <ButtonUi label="إرسال الرسالة" icon="ph:paper-plane-right-bold" type="submit" :loading="loading" />
+
           </form>
         </div>
         
@@ -174,6 +160,7 @@ import { Icon } from '@iconify/vue';
 import { toast } from 'vue3-toastify';
 import "vue3-toastify/dist/index.css";
 import KInput from '~/components/ui/KInput.vue'; 
+import ButtonUi from '~/components/ui/ButtonUi.vue';
 
 const loading = ref(false);
 const form = reactive({

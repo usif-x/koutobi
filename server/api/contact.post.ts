@@ -14,35 +14,41 @@ export default defineEventHandler(async (event) => {
       timeStyle: 'medium'
     });
 
-    const formattedMessage = `
+    const escapeMarkdownV2 = (text) => {
+  return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
+};
+
+const formattedMessage = `
 🔔 *طلب تواصل جديد*
 
 👤 *معلومات المرسل:*
-• الاسم: \`${name}\`
-• الهاتف: \`${phone}\`
-• البريد: \`${email}\`
+• الاسم: ${escapeMarkdownV2(name)}
+• الهاتف: \`${escapeMarkdownV2(phone)}\`
+• البريد: \`${escapeMarkdownV2(email)}\`
 
 📝 *تفاصيل الرسالة:*
-• الموضوع: \`${subject}\`
+• الموضوع: ${escapeMarkdownV2(subject)}
 
 💬 *نص الرسالة:*
-${message}
+||${escapeMarkdownV2(message)}||
 
 ⏰ *وقت الإرسال:* 
-${egyptDate}
+${escapeMarkdownV2(egyptDate)}
 
-`
+👁️ *اضغط علي الرساله لرئِيتها*
+`;
 
-    // Send to Telegram
-    const telegramResponse = await fetch(`https://api.telegram.org/bot${config.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: config.TELEGRAM_CHAT_ID,
-        text: formattedMessage,
-        parse_mode: 'Markdown'
-      })
-    })
+
+const telegramResponse = await fetch(`https://api.telegram.org/bot${config.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    chat_id: config.TELEGRAM_CHAT_ID,
+    text: formattedMessage,
+    parse_mode: 'MarkdownV2'
+  })
+});
+
 
     if (!telegramResponse.ok) {
       console.error('Telegram API Error:', await telegramResponse.text())
