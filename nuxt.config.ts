@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     ],
   },
   app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       htmlAttrs: {
         dir: 'rtl',
@@ -39,8 +40,5 @@ export default defineNuxtConfig({
   components: true,
   build: {
     transpile: ['@iconify/vue','vue3-toastify'],
-  },
-  nitro: {
-    plugins: ['~/server/api/middleware/auth.js'],
   },
 })
