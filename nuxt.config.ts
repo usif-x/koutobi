@@ -29,13 +29,18 @@ export default defineNuxtConfig({
     }
   },
   runtimeConfig: {
-    MONGODB_URI: process.env.MONGODB_URI,
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID: process.env.TELEGRAM_ADMIN_ID,
+    mongodbUri: process.env.MONGODB_URI,
+    jwtSecret: process.env.JWT_SECRET,
+    jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
   },
   modules: ['@pinia/nuxt'],
   components: true,
   build: {
     transpile: ['@iconify/vue','vue3-toastify'],
+  },
+  nitro: {
+    plugins: ['~/server/api/middleware/auth.js'],
   },
 })
