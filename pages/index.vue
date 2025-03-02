@@ -113,6 +113,11 @@ import { useProductStore } from '~/stores/product';
 import { Icon } from '@iconify/vue';
 import BookSlider from '~/components/ui/BooksSlider.vue';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
+
+definePageMeta({
+  auth: false // Allow access without authentication
+})
+
 // SEO
 useHead({
   title: 'كُتُبي - متجر الكتب العربية الأول',

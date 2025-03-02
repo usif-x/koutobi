@@ -140,8 +140,7 @@ import { ref, reactive } from 'vue';
 import { Icon } from '@iconify/vue';
 import KInput from '~/components/ui/KInput.vue';
 definePageMeta({
-  middleware: ['auth'],
-  requiresAuth: true
+  auth: false // Allow access without authentication
 })
 const loading = ref(false);
 const form = reactive({
@@ -234,7 +233,6 @@ const validateForm = () => {
 
   return isValid;
 };
-
 const handleSignup = async () => {
   if (!validateForm()) {
     return;
@@ -243,35 +241,55 @@ const handleSignup = async () => {
   loading.value = true;
 
   try {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        number: form.phone,
+        password: form.password
+      })
+    });
 
-    // Create user object
-    const user = {
-      firstName: form.firstName,
-      lastName: form.lastName,
-      email: form.email,
-      phone: form.phone,
-      createdAt: new Date().toISOString()
-    };
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Registration failed');
+    }
 
-    // Here you would typically make an API call to create the user
-    console.log('User registration:', user);
+    const data = await response.json();
 
-    // Show success message
-    // You might want to use a toast notification system here
-    alert('تم إنشاء الحساب بنجاح!');
+    // Login automatically after successful registration
+    const loginResponse = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        login: form.email,
+        password: form.password
+      })
+    });
 
-    // Redirect to login page
-    navigateTo('/login');
+    if (!loginResponse.ok) {
+      throw new Error('Auto-login failed');
+    }
 
+    const loginData = await loginResponse.json();
+    localStorage.setItem('token', loginData.token);
+    localStorage.setItem('refreshToken', loginData.refreshToken);
+
+    // Navigate to home page
+    navigateTo('/');
   } catch (error) {
     console.error('Signup error:', error);
-    // Handle specific error cases
-    if (error.response?.status === 409) {
+    if (error.message === 'User already exists') {
       errors.email = 'البريد الإلكتروني مستخدم بالفعل';
     } else {
-      alert('حدث خطأ أثناء إنشاء الحساب. يرجى المحاولة مرة أخرى.');
+      errors.email = 'حدث خطأ أثناء إنشاء الحساب';
     }
   } finally {
     loading.value = false;

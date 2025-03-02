@@ -93,8 +93,7 @@ import { ref, reactive } from 'vue';
 import { Icon } from '@iconify/vue';
 import KInput from '~/components/ui/KInput.vue';
 definePageMeta({
-  middleware: ['auth'],
-  requiresAuth: true
+  auth: false // Allow access without authentication
 })
 const loading = ref(false);
 const form = reactive({
@@ -135,10 +134,25 @@ const handleLogin = async () => {
   loading.value = true;
 
   try {
-    // Add your login logic here
-    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API call
-    console.log('Login submitted:', form);
-    
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        login: form.email,
+        password: form.password
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Invalid credentials');
+    }
+
+    const data = await response.json();
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('refreshToken', data.refreshToken);
+
     // Navigate to home page after successful login
     navigateTo('/');
   } catch (error) {
