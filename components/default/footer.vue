@@ -45,7 +45,7 @@
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/new-releases" class="text-indigo-200 hover:text-white transition-colors font-arabic text-sm inline-flex items-center">
+              <NuxtLink to="/new" class="text-indigo-200 hover:text-white transition-colors font-arabic text-sm inline-flex items-center">
                 <Icon icon="ph:caret-left-bold" class="ml-1" />
                 <span>إصدارات جديدة</span>
               </NuxtLink>
