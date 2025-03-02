@@ -37,11 +37,14 @@
         <!-- Right Side Actions -->
         <div class="flex items-center gap-2 md:gap-4">
           <!-- Search Button -->
-          <button class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group">
+          <button
+              class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group"
+              @click="showSearchModal = true"
+          >
             <Icon icon="ph:magnifying-glass-bold" class="text-xl" />
             <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[999]">
-              بحث
-            </span>
+      بحث
+    </span>
           </button>
 
           <!-- Cart Button -->
@@ -152,13 +155,16 @@
       </div>
     </div>
   </header>
+  <SearchModal v-model="showSearchModal" />
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { useAuth } from '~/composables/useAuth';
+import SearchModal from '~/components/ui/SearchModal.vue';
 
+const showSearchModal = ref(false);
 const scrolled = ref(false);
 const scrollY = ref(0);
 const mobileMenuOpen = ref(false);
