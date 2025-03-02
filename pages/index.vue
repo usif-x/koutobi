@@ -4,104 +4,107 @@
     <section class="relative py-16 md:py-24 px-4 md:px-6 lg:px-8 overflow-hidden">
       <!-- Background Effects -->
       <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-      <div class="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full mix-blend-multiply opacity-20 animate-float blur-2xl"></div>
-      <div class="absolute bottom-1/4 right-1/6 w-80 h-80 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full mix-blend-multiply opacity-20 animate-float-delay blur-2xl"></div>
-      <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-amber-200 to-amber-300 rounded-full mix-blend-multiply opacity-10 animate-float-slow blur-3xl"></div>
-    </div>
-    
-    <!-- Subtle grid pattern overlay -->
-   
-    
-    <!-- Main content container -->
-    <div class="container mx-auto z-10 py-8 md:py-0">
-      <div class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 md:gap-12 lg:gap-16 max-w-6xl mx-auto">
-        <!-- Text content (right side in RTL) -->
-        <div class="w-full md:w-1/2 text-right space-y-5 md:space-y-6">
-          <div class="relative inline-block">
-            <span class="absolute -top-3 -right-3 w-12 h-12 bg-amber-300 rounded-full opacity-20 blur-md"></span>
-            <h1 class="relative text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-900 font-arabic tracking-tight">كُتُبي</h1>
-            <div class="w-16 h-1.5 bg-gradient-to-l from-amber-400 to-amber-500 mr-1 ml-auto rounded-full mt-3"></div>
-          </div>
-          
-          <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold text-indigo-800 font-arabic">كل كتبك في مكان واحد <Icon icon="fa6-solid:face-laugh-wink" class="inline"/></h2>
-          
-          <p class="text-base md:text-lg text-gray-700 leading-relaxed font-arabic">
-           جمعنالك كل الكتب الخارجية مذكرات المدرسين للصفوف الإعدادية والثانوية، علشان تلاقي كل اللي محتاجه في مكان واحد! بنوفر أحدث الإصدارات من الكتب والمذكرات عشان تساعدك تذاكر وتتفوق.
-          </p>
-          
-          <div class="flex flex-col sm:flex-row gap-3 justify-end mt-6">
-            <!-- Outline button with hover effect -->
-            <ButtonUi label="إنشئ/سجل حسابك" icon="ph:user-plus-bold" to="/signup" isOutline isLink />
-            
-            <!-- Primary button with hover effect -->
-            <ButtonUi label="تصفح الكتب" icon="ph:books-bold" to="/books" isLink />
+        <div class="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full mix-blend-multiply opacity-20 animate-float blur-2xl"></div>
+        <div class="absolute bottom-1/4 right-1/6 w-80 h-80 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full mix-blend-multiply opacity-20 animate-float-delay blur-2xl"></div>
+        <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-amber-200 to-amber-300 rounded-full mix-blend-multiply opacity-10 animate-float-slow blur-3xl"></div>
+      </div>
 
-          </div>
-          
-          <!-- Trust badges with animated hover -->
-          <div class="flex flex-wrap justify-end items-center gap-4 pt-6 mt-2 border-t border-indigo-100/50">
-            <div class="flex items-center text-gray-600 gap-2 group transition-all duration-300 hover:text-indigo-700">
-              <Icon icon="ph:truck-duotone" class="text-amber-500 text-lg group-hover:scale-110 transition-transform" />
-              <span class="text-sm font-arabic">توصيل سريع</span>
+      <!-- Main content container -->
+      <div class="container mx-auto z-10 py-8 md:py-0">
+        <div class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 md:gap-12 lg:gap-16 max-w-6xl mx-auto">
+          <!-- Text content (right side in RTL) -->
+          <div class="w-full md:w-1/2 text-right space-y-5 md:space-y-6">
+            <div class="relative inline-block">
+              <span class="absolute -top-3 -right-3 w-12 h-12 bg-amber-300 rounded-full opacity-20 blur-md"></span>
+              <h1 class="relative text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-900 font-arabic tracking-tight">كُتُبي</h1>
+              <div class="w-16 h-1.5 bg-gradient-to-l from-amber-400 to-amber-500 mr-1 ml-auto rounded-full mt-3"></div>
             </div>
-            
-            <div class="flex items-center text-gray-600 gap-2 group transition-all duration-300 hover:text-indigo-700">
-              <Icon icon="ph:shield-check-duotone" class="text-amber-500 text-lg group-hover:scale-110 transition-transform" />
-              <span class="text-sm font-arabic">دفع آمن</span>
+
+            <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold text-indigo-800 font-arabic">كل كتبك في مكان واحد <Icon icon="fa6-solid:face-laugh-wink" class="inline"/></h2>
+
+            <p class="text-base md:text-lg text-gray-700 leading-relaxed font-arabic">
+              جمعنالك كل الكتب الخارجية مذكرات المدرسين للصفوف الإعدادية والثانوية، علشان تلاقي كل اللي محتاجه في مكان واحد! بنوفر أحدث الإصدارات من الكتب والمذكرات عشان تساعدك تذاكر وتتفوق.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-end mt-6">
+              <!-- Conditional buttons based on authentication state -->
+              <template v-if="!isAuthenticated">
+                <!-- Outline button with hover effect - Only shown to non-authenticated users -->
+                <ButtonUi label="إنشئ/سجل حسابك" icon="ph:user-plus-bold" to="/signup" isOutline isLink />
+              </template>
+              <template v-else>
+                <!-- Button for authenticated users to view their account -->
+                <ButtonUi label="حسابي الشخصي" icon="ph:user-circle-bold" to="/profile" isOutline isLink />
+              </template>
+
+              <!-- Primary button with hover effect - Always shown -->
+              <ButtonUi label="تصفح الكتب" icon="ph:books-bold" to="/books" isLink />
             </div>
-            
-            <div class="flex items-center text-gray-600 gap-2 group transition-all duration-300 hover:text-indigo-700">
-              <Icon icon="ph:medal-duotone" class="text-amber-500 text-lg group-hover:scale-110 transition-transform" />
-              <span class="text-sm font-arabic">ضمان الجودة</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Image content (left side in RTL) -->
-        <div class="w-full md:w-1/2">
-          <div class="relative group">
-            <!-- Main image with advanced styling -->
-            <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 group-hover:shadow-indigo-200/50 transform group-hover:-translate-y-1">
-              <!-- Border glow effect -->
-              <span class="absolute inset-0 border-2 border-white/30 rounded-2xl z-20 transition-all duration-300 group-hover:border-white/50 group-hover:blur-[1px]"></span>
-              
-              <div class="relative overflow-hidden">
-                <img src="/images/hero.jpg" alt="kotoubi Books" class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" />
-                
-                <!-- Overlay gradient with interactive effect -->
-                <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-50"></div>
-                
-                <!-- Shine effect on hover -->
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out"></div>
+
+            <!-- Trust badges with animated hover -->
+            <div class="flex flex-wrap justify-end items-center gap-4 pt-6 mt-2 border-t border-indigo-100/50">
+              <div class="flex items-center text-gray-600 gap-2 group transition-all duration-300 hover:text-indigo-700">
+                <Icon icon="ph:truck-duotone" class="text-amber-500 text-lg group-hover:scale-110 transition-transform" />
+                <span class="text-sm font-arabic">توصيل سريع</span>
+              </div>
+
+              <div class="flex items-center text-gray-600 gap-2 group transition-all duration-300 hover:text-indigo-700">
+                <Icon icon="ph:shield-check-duotone" class="text-amber-500 text-lg group-hover:scale-110 transition-transform" />
+                <span class="text-sm font-arabic">دفع آمن</span>
+              </div>
+
+              <div class="flex items-center text-gray-600 gap-2 group transition-all duration-300 hover:text-indigo-700">
+                <Icon icon="ph:medal-duotone" class="text-amber-500 text-lg group-hover:scale-110 transition-transform" />
+                <span class="text-sm font-arabic">ضمان الجودة</span>
               </div>
             </div>
-            
-            <!-- Subtle decorative elements -->
-            <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-400 rounded-full opacity-20 blur-xl transition-all duration-500 group-hover:w-32 group-hover:h-32 group-hover:opacity-30"></div>
-            <div class="absolute -top-4 -left-4 w-32 h-32 bg-indigo-400 rounded-full opacity-20 blur-xl transition-all duration-500 group-hover:w-40 group-hover:h-40 group-hover:opacity-30"></div>
+          </div>
+
+          <!-- Image content (left side in RTL) -->
+          <div class="w-full md:w-1/2">
+            <div class="relative group">
+              <!-- Main image with advanced styling -->
+              <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 group-hover:shadow-indigo-200/50 transform group-hover:-translate-y-1">
+                <!-- Border glow effect -->
+                <span class="absolute inset-0 border-2 border-white/30 rounded-2xl z-20 transition-all duration-300 group-hover:border-white/50 group-hover:blur-[1px]"></span>
+
+                <div class="relative overflow-hidden">
+                  <img src="/images/hero.jpg" alt="kotoubi Books" class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" />
+
+                  <!-- Overlay gradient with interactive effect -->
+                  <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-50"></div>
+
+                  <!-- Shine effect on hover -->
+                  <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out"></div>
+                </div>
+              </div>
+
+              <!-- Subtle decorative elements -->
+              <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-400 rounded-full opacity-20 blur-xl transition-all duration-500 group-hover:w-32 group-hover:h-32 group-hover:opacity-30"></div>
+              <div class="absolute -top-4 -left-4 w-32 h-32 bg-indigo-400 rounded-full opacity-20 blur-xl transition-all duration-500 group-hover:w-40 group-hover:h-40 group-hover:opacity-30"></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </section>
 
     <!-- Book Sliders -->
     <section class="py-16 relative z-10">
       <BookSlider
-        title="الكتب المميزة"
-        subtitle="اكتشف مجموعة مختارة من أفضل الكتب"
-        :books="featuredBooks"
-        :autoplay="true"
-        :autoplay-speed="4000"
-        class="mb-16"
+          title="الكتب المميزة"
+          subtitle="اكتشف مجموعة مختارة من أفضل الكتب"
+          :books="featuredBooks"
+          :autoplay="true"
+          :autoplay-speed="4000"
+          class="mb-16"
       />
 
       <BookSlider
-        title="أحدث الإصدارات"
-        subtitle="تصفح أحدث الكتب المضافة إلى مكتبتنا"
-        :books="newArrivals"
-        :autoplay="true"
-        :autoplay-speed="3500"
+          title="أحدث الإصدارات"
+          subtitle="تصفح أحدث الكتب المضافة إلى مكتبتنا"
+          :books="newArrivals"
+          :autoplay="true"
+          :autoplay-speed="3500"
       />
     </section>
   </div>
@@ -113,6 +116,10 @@ import { useProductStore } from '~/stores/product';
 import { Icon } from '@iconify/vue';
 import BookSlider from '~/components/ui/BooksSlider.vue';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
+import { useAuth } from '~/composables/useAuth';
+
+// Import authentication composable and get authentication state
+const { isAuthenticated } = useAuth();
 
 definePageMeta({
   auth: false // Allow access without authentication
@@ -124,17 +131,17 @@ useHead({
   meta: [
     { charset: 'utf-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { 
-      name: 'description', 
-      content: 'كُتُبِي - متجر الكتب العربية الأول، نوفر لك أحدث الكتب والمراجع بأفضل الأسعار، مع توصيل سريع.' 
+    {
+      name: 'description',
+      content: 'كُتُبِي - متجر الكتب العربية الأول، نوفر لك أحدث الكتب والمراجع بأفضل الأسعار، مع توصيل سريع.'
     },
-    { 
-      name: 'keywords', 
-      content: 'كتب, متجر كتب, كتب دراسية, كتب إلكترونية, مذكرات, كتب خارجية' 
+    {
+      name: 'keywords',
+      content: 'كتب, متجر كتب, كتب دراسية, كتب إلكترونية, مذكرات, كتب خارجية'
     },
-    { 
-      name: 'author', 
-      content: 'Yousseif Muhammed / Telegram: @YousseifMuhammed' 
+    {
+      name: 'author',
+      content: 'Yousseif Muhammed / Telegram: @YousseifMuhammed'
     }
   ],
 });
@@ -146,14 +153,14 @@ const newArrivals = ref([]);
 
 onMounted(async () => {
   await store.fetchProducts();
-  
+
   featuredBooks.value = store.products
-    .filter(book => book.rating >= 4.5)
-    .slice(0, 8);
+      .filter(book => book.rating >= 4.5)
+      .slice(0, 8);
 
   newArrivals.value = [...store.products]
-    .sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate))
-    .slice(0, 8);
+      .sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate))
+      .slice(0, 8);
 });
 </script>
 
