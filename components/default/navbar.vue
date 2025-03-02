@@ -48,6 +48,7 @@
           </button>
 
           <!-- Cart Button -->
+          <NuxtLink to="/cart" class="p-2 text-gray-600 hover:text-indigo-700 transition-colors">
           <button class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group">
             <div class="relative">
               <Icon icon="ph:shopping-cart-bold" class="text-xl" />
@@ -59,6 +60,7 @@
               عربة التسوق
             </span>
           </button>
+          </NuxtLink>
 
           <!-- User Profile/Login Button - Changes based on authentication status -->
           <template v-if="isAuthenticated">
