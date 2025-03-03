@@ -1,37 +1,35 @@
-import jwt from 'jsonwebtoken';
-import { H3Event } from 'h3';
+import { User } from '~/server/models/user.model'
+import { Token } from '~/server/models/token.model'
+import jwt from 'jsonwebtoken'
 
-export default defineEventHandler(async (event: H3Event) => {
-    const publicRoutes = [
-        '/api/auth/login',
-        '/api/auth/register',
-        '/login',
-        '/signup',
-        '/'  // Add root path as public
-    ];
+export default defineEventHandler(async (event) => {
+    const authHeader = event.node.req.headers.authorization
+    const accessToken = authHeader?.split(' ')[1]
 
-    const path = event.node.req.url;
-
-    // Skip auth for public routes
-    if (publicRoutes.some(route => path?.startsWith(route))) {
-        return;
-    }
+    if (!accessToken) return // Continue without authentication
 
     try {
-        const token = getHeader(event, 'authorization')?.split(' ')[1];
-        if (!token) {
-            throw createError({ statusCode: 401, message: 'No token provided' });
+        // Check if token is blocked
+        const isBlocked = await Token.exists({ token: accessToken })
+        if (isBlocked) {
+            throw createError({ statusCode: 401, message: 'Token revoked' })
         }
 
-        const config = useRuntimeConfig();
-        const decoded = jwt.verify(token, config.jwtSecret) as { userId: string };
-        event.context.auth = decoded;
+        // Verify access token
+        const decoded = jwt.verify(accessToken, process.env.JWT_SECRET!) as {
+            userId: string
+            tokenVersion: number
+        }
+
+        // Validate user and token version
+        const user = await User.findById(decoded.userId)
+        if (!user || user.tokenVersion !== decoded.tokenVersion) {
+            throw createError({ statusCode: 401, message: 'Invalid token' })
+        }
+
+        // Attach user to context
+        event.context.user = user
     } catch (error) {
-        throw createError({
-            statusCode: 401,
-            message: error instanceof jwt.JsonWebTokenError
-                ? 'Invalid token'
-                : 'Authentication failed'
-        });
+        throw createError({ statusCode: 401, message: 'Unauthorized' })
     }
-});
+})
