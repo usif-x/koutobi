@@ -1,26 +1,9 @@
+import { useCookie } from '#app';
+import { useFetch } from '#imports';
+
 export const useAuth = () => {
-  const isAuthenticated = () => {
-    return !!localStorage.getItem('token');
-  };
+    const token = useCookie<string | null>('token', { default: () => null });
+    const isAuthenticated = computed(() => !!token.value);
 
-  const getToken = () => {
-    return localStorage.getItem('token');
-  };
-
-  const getRefreshToken = () => {
-    return localStorage.getItem('refreshToken');
-  };
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    navigateTo('/login');
-  };
-
-  return {
-    isAuthenticated,
-    getToken,
-    getRefreshToken,
-    logout
-  };
+    return { token, isAuthenticated };
 };

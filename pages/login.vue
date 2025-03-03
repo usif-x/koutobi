@@ -92,9 +92,7 @@
 import { ref, reactive } from 'vue';
 import { Icon } from '@iconify/vue';
 import KInput from '~/components/ui/KInput.vue';
-definePageMeta({
-  auth: false // Allow access without authentication
-})
+
 const loading = ref(false);
 const form = reactive({
   email: '',

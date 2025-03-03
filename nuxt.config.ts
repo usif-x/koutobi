@@ -32,13 +32,28 @@ export default defineNuxtConfig({
   runtimeConfig: {
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID: process.env.TELEGRAM_ADMIN_ID,
-    mongodbUri: process.env.MONGODB_URI,
     jwtSecret: process.env.JWT_SECRET,
     jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
+    mongoUri: process.env.MONGO_URI,
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE
+    },
   },
   modules: ['@pinia/nuxt'],
   components: true,
   build: {
-    transpile: ['@iconify/vue','vue3-toastify'],
+    transpile: ['@iconify/vue','vue3-toastify','sweetalert2'],
   },
+  nitro: {
+    plugins: ['~/server/plugins/mongodb.ts','~/server/plugins/rateLimit.ts'],
+    storage: {
+      'rate-limits': {
+        driver: 'fs',
+        base: './data/rate-limits'
+      }
+    },
+    // Add redis for production
+    // devStorage: { /* ... */ }
+    }
+
 })

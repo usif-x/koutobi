@@ -107,7 +107,7 @@
 
     <!-- Add scroll progress bar UNDER the navigation -->
     <transition name="fade-down">
-      <div v-if="scrolled" class="h-1 bg-transparent w-full relative transition-transform duration-500 ease">
+      <div v-if="scrolled" class="h-1 w-full relative bg-indigo-300">
         <div class="absolute top-0 left-0 h-full bg-indigo-600"
              :style="{ width: `${scrollProgress}%` }"></div>
       </div>

@@ -6,12 +6,6 @@
 </div>
 </template>
 
-<script setup>
-import { useAuth } from '~/composables/useAuth';
-
-// Initialize auth state
-const { isAuthenticated } = useAuth();
-</script>
 <style>
 .page-enter-active,
 .page-leave-active {

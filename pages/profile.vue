@@ -388,9 +388,7 @@ useHead({
 });
 
 // Define page meta
-definePageMeta({
-  auth: true // Require authentication
-});
+
 
 // Navigation items
 const navItems = [

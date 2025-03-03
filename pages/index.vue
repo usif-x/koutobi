@@ -121,10 +121,6 @@ import { useAuth } from '~/composables/useAuth';
 // Import authentication composable and get authentication state
 const { isAuthenticated } = useAuth();
 
-definePageMeta({
-  auth: false // Allow access without authentication
-})
-
 // SEO
 useHead({
   title: 'كُتُبي - متجر الكتب العربية الأول',

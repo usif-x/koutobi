@@ -147,10 +147,6 @@ useHead({
   ],
 });
 
-// Define page meta
-definePageMeta({
-  auth: true
-});
 
 // Filters
 const filter = ref({
