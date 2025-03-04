@@ -19,11 +19,6 @@ const productSchema = new Schema({
         enum: ['paperback', 'hardcover', 'ebook', 'audiobook'],
         required: true
     },
-    category: {
-        type: String,
-        enum: ['study', 'story', 'academic', 'children', 'biography'], // Allowed values
-        required: true
-    },
     metadata: {
         publisher: String,
         publicationDate: Date,
@@ -35,7 +30,26 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Admin',
         required: true
-    }
+    },
+    category: {
+        type: String,
+        enum: ['study', 'story', 'academic', 'children', 'biography'],
+        required: true
+    },
+    year: {
+        type: Number,
+        enum: [1, 2, 3, 4, 5, 6],
+        required: function() {
+            return this.category === 'study';
+        },
+        validate: {
+            validator: function(v) {
+                // Year should only exist for study books
+                return this.category === 'study' || v === undefined;
+            },
+            message: 'Year is only allowed for study category books'
+        }
+    },
 }, { timestamps: true })
 
 export const Product = model('Product', productSchema)

@@ -1,11 +1,11 @@
 import { Product } from '~/server/models/product.model'
 import { logEvent } from '~/server/utils/logger'
-export default defineEventHandler(async (event) => {
-    const { id } = event.context.params // Get the product ID from the URL
-    const body = await readBody(event) // Get the update data from the request body
-    const admin = event.context.admin // Get the authenticated admin
 
-    // Check if admin is authenticated
+export default defineEventHandler(async (event) => {
+    const { id } = event.context.params
+    const body = await readBody(event)
+    const admin = event.context.admin
+
     if (!admin) {
         throw createError({ statusCode: 401, message: 'Unauthorized' })
     }
@@ -19,25 +19,52 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        // Find and update the product
-        const product = await Product.findByIdAndUpdate(
-            id,
-            { $set: body },
-            { new: true, runValidators: true } // Return the updated product and run validators
-        )
-
-        // Check if product exists
-        if (!product) {
+        // Get existing product first
+        const existingProduct = await Product.findById(id)
+        if (!existingProduct) {
             throw createError({ statusCode: 404, message: 'Product not found' })
         }
+
+        // Validate year based on category
+        const newCategory = body.category || existingProduct.category
+        const newYear = body.year || existingProduct.year
+
+        if (newCategory === 'study') {
+            if (!newYear) {
+                throw createError({ statusCode: 400, message: 'Year is required for study books' })
+            }
+            if (![1, 2, 3, 4, 5, 6].includes(newYear)) {
+                throw createError({ statusCode: 400, message: 'Year must be between 1 and 6' })
+            }
+        } else {
+            if (body.year) {
+                throw createError({ statusCode: 400, message: 'Year is only allowed for study category books' })
+            }
+            // Remove year if changing from study to another category
+            body.year = undefined
+        }
+
+        // Update the product
+        const updatedProduct = await Product.findByIdAndUpdate(
+            id,
+            {
+                ...body,
+                price: parseFloat(body.price),
+                discountPercentage: body.hasDiscount ? parseFloat(body.discountPercentage) : 0,
+                year: newCategory === 'study' ? parseInt(body.year) : undefined
+            },
+            { new: true, runValidators: true }
+        )
+
         await logEvent('edit', {
             entity: 'product',
             updatedBy: admin._id,
-            changes: body // The updated fields
+            changes: body
         })
+
         return {
             message: 'Product updated successfully',
-            product
+            product: updatedProduct
         }
     } catch (error) {
         throw createError({

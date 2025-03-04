@@ -35,6 +35,7 @@ export default defineNuxtConfig({
     jwtSecret: process.env.JWT_SECRET,
     jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
     mongoUri: process.env.MONGO_URI,
+    imgbbApiKey: process.env.IMGBB_API_KEY,
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE
     },
