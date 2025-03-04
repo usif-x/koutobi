@@ -1,9 +1,9 @@
 import { defineNitroPlugin } from 'nitropack/dist/runtime/plugin'
+import { useStorage } from '#imports'
 
 export default defineNitroPlugin((nitroApp) => {
     const storage = useStorage('rate-limits')
     const config = {
-        // Global rate limits for all requests
         maxRequests: 10, // Requests per IP per window
         intervalMs: 60 * 1000, // 1 minute window
         paths: ['/**'], // Apply to all routes
@@ -14,13 +14,16 @@ export default defineNitroPlugin((nitroApp) => {
         const ip = event.node.req.socket.remoteAddress || 'unknown-ip'
         const path = event.node.req.url
 
+        // Skip rate limiting for specific paths (optional)
+        if (path.startsWith('/api/health')) return
+
         // Create storage key
-        const key = `global-rate-limit:${ip}`
+        const key = `rate-limit:${ip}:${path}`
 
         // Get current count
-        const current = (await storage.getItem(key)) || {
-            count: 0,
-            expiresAt: Date.now() + config.intervalMs
+        let current = await storage.getItem(key)
+        if (!current) {
+            current = { count: 0, expiresAt: Date.now() + config.intervalMs }
         }
 
         // Reset if expired
