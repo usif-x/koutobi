@@ -12,6 +12,8 @@ const productSchema = new Schema({
     discountPercentage: { type: Number, min: 0, max: 100 },
     visible: { type: Boolean, default: true },
     isAllowCoupon: { type: Boolean, default: false },
+    ratingAverage: { type: Number, default: 0, min: 0, max: 5 },
+    ratingCount: { type: Number, default: 0 },
     bookType: {
         type: String,
         enum: ['paperback', 'hardcover', 'ebook', 'audiobook'],

@@ -14,7 +14,8 @@ const userSchema = new Schema({
         state: String,
         postalCode: String
     },
-    tokenVersion: { type: Number, default: 0 }
+    tokenVersion: { type: Number, default: 0 },
+    wishlist: [{ type: Schema.Types.ObjectId, ref: 'Product' }]
 })
 
 userSchema.pre('save', async function (next) {
