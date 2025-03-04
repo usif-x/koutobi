@@ -58,7 +58,7 @@
               <!-- Book Card -->
               <div 
                 class="bg-white/10 backdrop-blur-md rounded-2xl p-4 h-full
-                       hover:transform hover:scale-105 transition-all duration-300
+                       hover:transform hover:bg-white/20 hover:shadow-xl transition-all duration-300
                        border border-white/20 group/card"
               >
                 <!-- Book Image -->
