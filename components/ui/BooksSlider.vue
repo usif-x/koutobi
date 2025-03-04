@@ -79,7 +79,7 @@ const totalSlides = computed(() =>
 );
 
 const currentTranslate = computed(() =>
-    currentSlide.value * 50 // Changed from -100 to +100
+    currentSlide.value * 75 // Changed from -100 to +100
 );
 
 const nextSlide = () => {
