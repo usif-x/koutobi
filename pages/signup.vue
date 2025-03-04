@@ -248,7 +248,7 @@ const handleSignup = async () => {
         firstName: form.firstName,
         lastName: form.lastName,
         email: form.email,
-        number: form.phone,
+        primaryPhone: form.phone,
         password: form.password
       })
     });

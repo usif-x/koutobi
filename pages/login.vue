@@ -138,7 +138,7 @@ const handleLogin = async () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        login: form.email,
+        identifier: form.email,
         password: form.password
       })
     });

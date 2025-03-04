@@ -49,17 +49,17 @@
 
           <!-- Cart Button -->
           <NuxtLink to="/cart" class="p-2 text-gray-600 hover:text-indigo-700 transition-colors">
-          <button class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group">
-            <div class="relative">
-              <Icon icon="ph:shopping-cart-bold" class="text-xl" />
-              <span class="absolute -top-2 -right-2 w-5 h-5 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+            <button class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group">
+              <div class="relative">
+                <Icon icon="ph:shopping-cart-bold" class="text-xl" />
+                <span class="absolute -top-2 -right-2 w-5 h-5 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
                 3
               </span>
-            </div>
-            <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[999]">
+              </div>
+              <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[999]">
               عربة التسوق
             </span>
-          </button>
+            </button>
           </NuxtLink>
 
           <!-- User Profile/Login Button - Changes based on authentication status -->
