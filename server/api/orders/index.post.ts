@@ -1,6 +1,8 @@
 import { Order } from '~/server/models/order.model'
 import { Cart } from '~/server/models/cart.model'
 import { Product } from '~/server/models/product.model'
+import { logEvent } from '~/server/utils/logger'
+import { UserNotification } from '~/server/models/userNotification.model'
 
 export default defineEventHandler(async (event) => {
     const user = event.context.user
@@ -42,6 +44,18 @@ export default defineEventHandler(async (event) => {
         await $fetch('/api/orders/notify', {
             method: 'POST',
             body: { orderId: order._id }
+        })
+        await logEvent('order', {
+            orderId: order._id,
+            userId: user._id,
+            total: order.total,
+            status: order.status
+        })
+        await UserNotification.create({
+            user: user._id,
+            title: 'Order Created',
+            description: `Your order #${order._id.toString().slice(-6).toUpperCase()} has been placed successfully.`,
+            eventType: 'order_created'
         })
         return { message: 'Order created successfully', order }
     } catch (error) {

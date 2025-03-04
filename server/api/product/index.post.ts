@@ -1,4 +1,5 @@
 import { Product } from '~/server/models/product.model'
+import { logEvent } from '~/server/utils/logger'
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
@@ -24,7 +25,12 @@ export default defineEventHandler(async (event) => {
             price: parseFloat(body.price),
             discountPercentage: body.hasDiscount ? parseFloat(body.discountPercentage) : 0
         })
-
+        await logEvent('product', {
+            productId: product._id,
+            name: product.name,
+            price: product.price,
+            addedBy: admin._id
+        })
         return {
             message: 'Product creation successful',
             product

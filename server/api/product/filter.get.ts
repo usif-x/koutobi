@@ -80,8 +80,6 @@ export default defineEventHandler(async (event) => {
                 break
         }
     }
-
-    // Pagination
     const page = parseInt(query.page?.toString() || '1')
     const limit = parseInt(query.limit?.toString() || '20')
     const skip = (page - 1) * limit

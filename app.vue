@@ -1,11 +1,16 @@
 <template>
-<div>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
-</div>
+  <div>
+    <NuxtLayout>
+      <NuxtPage />
+      <Notifications />
+    </NuxtLayout>
+  </div>
 </template>
+
 <script setup>
+import Notifications from './components/ui/Notifications.vue'
+
+// Crisp chat integration
 useHead({
   script: [{
     innerHTML: `
@@ -19,6 +24,7 @@ useHead({
   }]
 });
 </script>
+
 <style>
 .page-enter-active,
 .page-leave-active {

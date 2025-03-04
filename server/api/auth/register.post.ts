@@ -1,5 +1,6 @@
 import { User } from '~/server/models/user.model'
 import { generateTokens } from '~/server/utils/auth'
+import { logEvent } from '~/server/utils/logger'
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
@@ -50,6 +51,11 @@ export default defineEventHandler(async (event) => {
             newUser._id.toString(),
             newUser.tokenVersion
         )
+        await logEvent('register', {
+            userId: newUser._id,
+            email: newUser.email,
+            name: `${newUser.firstName} ${newUser.lastName}`
+        })
 
         return {
             user: {

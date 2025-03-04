@@ -1,5 +1,5 @@
 import { Product } from '~/server/models/product.model'
-
+import { logEvent } from '~/server/utils/logger'
 export default defineEventHandler(async (event) => {
     const { id } = event.context.params // Get the product ID from the URL
     const body = await readBody(event) // Get the update data from the request body
@@ -30,7 +30,11 @@ export default defineEventHandler(async (event) => {
         if (!product) {
             throw createError({ statusCode: 404, message: 'Product not found' })
         }
-
+        await logEvent('edit', {
+            entity: 'product',
+            updatedBy: admin._id,
+            changes: body // The updated fields
+        })
         return {
             message: 'Product updated successfully',
             product

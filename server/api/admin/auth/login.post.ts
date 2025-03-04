@@ -1,5 +1,6 @@
 import { Admin } from '~/server/models/admin.model'
 import { generateTokens } from '~/server/utils/auth'
+import { logEvent } from '~/server/utils/logger'
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
@@ -25,7 +26,12 @@ export default defineEventHandler(async (event) => {
             0, // Token version
             true // isAdmin flag
         )
-
+        await logEvent('login', {
+            adminId: admin._id,
+            email: admin.email,
+            name: admin.name,
+            role: admin.role
+        })
         return {
             admin: {
                 _id: admin._id,

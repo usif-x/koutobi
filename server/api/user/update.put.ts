@@ -1,4 +1,5 @@
 import { User } from '~/server/models/user.model'
+import { logEvent } from '~/server/utils/logger'
 
 export default defineEventHandler(async (event) => {
     const user = event.context.user
@@ -24,6 +25,11 @@ export default defineEventHandler(async (event) => {
             },
             { new: true }
         )
+        await logEvent('edit', {
+            entity: 'user',
+            updatedBy: user._id, // or user._id
+            changes: body // The updated fields
+        })
 
         return {
             user: {
