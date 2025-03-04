@@ -14,7 +14,7 @@
     <div class="container mx-auto z-10 text-center">
       <div class="max-w-2xl mx-auto px-4">
         <!-- Error Animation -->
-        <div class="relative mb-8 group">
+        <div class="relative mb-8">
           <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
           <div class="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
             <h1 class="text-8xl md:text-9xl font-bold text-indigo-600 font-arabic mb-4">404</h1>
@@ -30,7 +30,7 @@
               <!-- Back button -->
               <button 
                 @click="handleError"
-                class="group px-6 py-3 bg-transparent border-2 border-indigo-600 text-indigo-600 rounded-lg font-semibold transition-all duration-300 hover:bg-indigo-600 hover:text-white text-center font-arabic flex items-center justify-center gap-2 relative overflow-hidden"
+                class="px-6 py-3 bg-transparent border-2 border-indigo-600 text-indigo-600 rounded-lg font-semibold transition-all duration-300 hover:bg-indigo-600 hover:text-white text-center font-arabic flex items-center justify-center gap-2 relative overflow-hidden"
               >
                 <span class="relative z-10">العودة للصفحة السابقة</span>
                 <Icon 
@@ -43,7 +43,7 @@
               <!-- Home button -->
               <NuxtLink 
                 to="/"
-                class="group px-6 py-3 bg-indigo-600 border-2 border-indigo-600 text-white rounded-lg font-semibold transition-all duration-300 hover:bg-indigo-700 hover:border-indigo-700 shadow-md hover:shadow-lg text-center font-arabic flex items-center justify-center gap-2 relative overflow-hidden"
+                class="px-6 py-3 bg-indigo-600 border-2 border-indigo-600 text-white rounded-lg font-semibold transition-all duration-300 hover:bg-indigo-700 hover:border-indigo-700 shadow-md hover:shadow-lg text-center font-arabic flex items-center justify-center gap-2 relative overflow-hidden"
               >
                 <span class="relative z-10">الصفحة الرئيسية</span>
                 <Icon 

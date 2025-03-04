@@ -5,7 +5,7 @@
       @click="handleClick"
       :type="type"
       :disabled="loading || disabled"
-      class="group px-5 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+      class="group px-5 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed w-fit"
       :class="[buttonClasses, { 'cursor-pointer': !loading && !disabled }]"
   >
     <!-- Button Content -->
@@ -73,8 +73,15 @@ const props = defineProps({
 });
 
 const handleClick = (event) => {
-  if (props.loading || props.disabled) return;
-  emit('click', event);
+  if (props.loading || props.disabled) {
+    event.preventDefault();
+    return;
+  }
+
+  // Only emit click event for buttons, not for links
+  if (!props.isLink) {
+    emit('click', event);
+  }
 };
 
 const buttonClasses = computed(() => ({

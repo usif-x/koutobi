@@ -27,18 +27,31 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-3 justify-end mt-6">
-              <!-- Conditional buttons based on authentication state -->
               <template v-if="!isAuthenticated">
-                <!-- Outline button with hover effect - Only shown to non-authenticated users -->
-                <ButtonUi label="إنشئ/سجل حسابك" icon="ph:user-plus-bold" to="/signup" isOutline isLink />
+                <ButtonUi
+                    label="إنشئ/سجل حسابك"
+                    icon="ph:user-plus-bold"
+                    to="/signup"
+                    isOutline
+                    isLink
+                />
               </template>
               <template v-else>
-                <!-- Button for authenticated users to view their account -->
-                <ButtonUi label="حسابي الشخصي" icon="ph:user-circle-bold" to="/profile" isOutline isLink />
+                <ButtonUi
+                    label="حسابي الشخصي"
+                    icon="ph:user-circle-bold"
+                    to="/profile"
+                    isOutline
+                    isLink
+                />
               </template>
 
-              <!-- Primary button with hover effect - Always shown -->
-              <ButtonUi label="تصفح الكتب" icon="ph:books-bold" to="/books" isLink />
+              <ButtonUi
+                  label="تصفح الكتب"
+                  icon="ph:books-bold"
+                  to="/books"
+                  isLink
+              />
             </div>
 
             <!-- Trust badges with animated hover -->
