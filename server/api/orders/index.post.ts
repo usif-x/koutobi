@@ -39,7 +39,10 @@ export default defineEventHandler(async (event) => {
 
         // Clear the cart
         await Cart.deleteOne({ user: user._id })
-
+        await $fetch('/api/orders/notify', {
+            method: 'POST',
+            body: { orderId: order._id }
+        })
         return { message: 'Order created successfully', order }
     } catch (error) {
         throw createError({
