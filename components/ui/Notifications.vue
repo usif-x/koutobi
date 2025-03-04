@@ -3,7 +3,7 @@
     <div
         v-for="notification in notifications"
         :key="notification._id"
-        class="bg-[#0D4471] text-white px-6 py-4 shadow-md mx-4 rounded-lg flex items-center justify-between relative"
+        class="bg-indigo-600 text-white px-6 py-4 shadow-md mx-4 rounded-lg flex items-center justify-between relative"
     >
       <!-- أيقونة الإغلاق -->
       <button
