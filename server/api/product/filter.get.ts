@@ -4,51 +4,56 @@ export default defineEventHandler(async (event) => {
     const query = getQuery(event)
 
     // Build filter object
-    const filter: any = { visible: true }
+    let filter: any = {}
 
-    // Text search (name and description)
-    if (query.search) {
-        filter.$text = { $search: query.search.toString() }
-    }
+    // إذا لم يكن all=true، قم بتطبيق الفلاتر
+    if (query.all !== 'true') {
+        filter.visible = true
 
-    // Discount filter
-    if (query.hasDiscount === 'true') {
-        filter.hasDiscount = true
-        filter.discountPercentage = { $gt: 0 }
-    }
+        // Text search (name and description)
+        if (query.search) {
+            filter.$text = { $search: query.search.toString() }
+        }
 
-    // Price range
-    if (query.minPrice || query.maxPrice) {
-        filter.price = {}
-        if (query.minPrice) filter.price.$gte = parseFloat(query.minPrice.toString())
-        if (query.maxPrice) filter.price.$lte = parseFloat(query.maxPrice.toString())
-    }
+        // Discount filter
+        if (query.hasDiscount === 'true') {
+            filter.hasDiscount = true
+            filter.discountPercentage = { $gt: 0 }
+        }
 
-    // Category filter (multiple categories allowed)
-    if (query.categories) {
-        filter.category = { $in: query.categories.toString().split(',') }
-    }
+        // Price range
+        if (query.minPrice || query.maxPrice) {
+            filter.price = {}
+            if (query.minPrice) filter.price.$gte = parseFloat(query.minPrice.toString())
+            if (query.maxPrice) filter.price.$lte = parseFloat(query.maxPrice.toString())
+        }
 
-    // Author filter (multiple authors allowed)
-    if (query.authors) {
-        filter.author = { $in: query.authors.toString().split(',') }
-    }
+        // Category filter (multiple categories allowed)
+        if (query.categories) {
+            filter.category = { $in: query.categories.toString().split(',') }
+        }
 
-    // Book type filter (multiple types allowed)
-    if (query.bookTypes) {
-        filter.bookType = { $in: query.bookTypes.toString().split(',') }
-    }
+        // Author filter (multiple authors allowed)
+        if (query.authors) {
+            filter.author = { $in: query.authors.toString().split(',') }
+        }
 
-    // Availability filter
-    if (query.available === 'true') {
-        filter.available = true
-    } else if (query.available === 'false') {
-        filter.available = false
-    }
+        // Book type filter (multiple types allowed)
+        if (query.bookTypes) {
+            filter.bookType = { $in: query.bookTypes.toString().split(',') }
+        }
 
-    // Visibility filter
-    if (query.visible === 'false') {
-        filter.visible = false
+        // Availability filter
+        if (query.available === 'true') {
+            filter.available = true
+        } else if (query.available === 'false') {
+            filter.available = false
+        }
+
+        // Visibility filter
+        if (query.visible === 'false') {
+            filter.visible = false
+        }
     }
 
     // Build sort object
