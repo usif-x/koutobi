@@ -10,7 +10,7 @@
           class="absolute left-3 text-[#1CD4D4] px-2 text-lg font-bold hover:scale-105 hover:shadow-xl transition duration-300 rounded-lg"
           @click="dismissNotification(notification._id)"
       >
-        ✖
+        x
       </button>
 
       <!-- محتوى الإشعار -->
