@@ -136,11 +136,15 @@
 <!-- Previous template code remains the same -->
 
 <script setup>
-import { ref, reactive } from 'vue';
-import { Icon } from '@iconify/vue';
-import KInput from '~/components/ui/KInput.vue';
+import { ref, reactive, watch } from 'vue'
+import { Icon } from '@iconify/vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '~/composables/useAuth'
+import KInput from '~/components/ui/KInput.vue'
 
-const loading = ref(false);
+const router = useRouter()
+const { login } = useAuth() // Import login function
+const loading = ref(false)
 const form = reactive({
   firstName: '',
   lastName: '',
@@ -167,7 +171,7 @@ const validateEmail = (email) => {
 };
 
 const validatePhone = (phone) => {
-  const phoneRegex = /^05[0-9]{8}$/;
+  const phoneRegex = /^01[0-9]{9}$/;
   return phoneRegex.test(phone);
 };
 
@@ -207,7 +211,7 @@ const validateForm = () => {
     errors.phone = 'رقم الهاتف مطلوب';
     isValid = false;
   } else if (!validatePhone(form.phone)) {
-    errors.phone = 'يجب أن يبدأ رقم الهاتف بـ 05 ويتكون من 10 أرقام';
+    errors.phone = 'يجب أن يبدأ رقم الهاتف بـ 01 ويتكون من 11 رقمًا';
     isValid = false;
   }
 
@@ -232,13 +236,12 @@ const validateForm = () => {
   return isValid;
 };
 const handleSignup = async () => {
-  if (!validateForm()) {
-    return;
-  }
+  if (!validateForm()) return
 
-  loading.value = true;
+  loading.value = true
 
   try {
+    // Register user
     const response = await fetch('/api/auth/register', {
       method: 'POST',
       headers: {
@@ -251,48 +254,35 @@ const handleSignup = async () => {
         primaryPhone: form.phone,
         password: form.password
       })
-    });
+    })
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Registration failed');
+      const error = await response.json()
+      throw new Error(error.message || 'Registration failed')
     }
 
-    const data = await response.json();
+    // Auto login after successful registration
+    const success = await login({
+      identifier: form.email,
+      password: form.password
+    })
 
-    // Login automatically after successful registration
-    const loginResponse = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        login: form.email,
-        password: form.password
-      })
-    });
-
-    if (!loginResponse.ok) {
-      throw new Error('Auto-login failed');
-    }
-
-    const loginData = await loginResponse.json();
-    localStorage.setItem('token', loginData.token);
-    localStorage.setItem('refreshToken', loginData.refreshToken);
-
-    // Navigate to home page
-    navigateTo('/');
-  } catch (error) {
-    console.error('Signup error:', error);
-    if (error.message === 'User already exists') {
-      errors.email = 'البريد الإلكتروني مستخدم بالفعل';
+    if (success) {
+      await router.push('/')
     } else {
-      errors.email = 'حدث خطأ أثناء إنشاء الحساب';
+      throw new Error('Auto-login failed')
+    }
+  } catch (error) {
+    console.error('Signup error:', error)
+    if (error.message === 'User already exists') {
+      errors.email = 'البريد الإلكتروني مستخدم بالفعل'
+    } else {
+      errors.email = 'حدث خطأ أثناء إنشاء الحساب'
     }
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
 // Optional: Real-time validation
 const validateField = (field) => {

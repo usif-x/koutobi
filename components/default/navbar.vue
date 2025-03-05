@@ -75,7 +75,10 @@
                 <NuxtLink to="/orders" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-arabic text-right">
                   طلباتي
                 </NuxtLink>
-                <button @click="logout" class="block w-full px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-arabic text-right">
+                <button
+                    @click="handleLogout"
+                    class="block w-full text-right px-3 py-2 text-rose-600 hover:bg-rose-50 hover:text-rose-700 hover:shadow-lg transition duration-300 rounded-lg font-arabic"
+                >
                   تسجيل الخروج
                 </button>
               </div>
@@ -136,16 +139,30 @@
         </NuxtLink>
         <div class="border-t border-gray-100 my-2 pt-2">
           <!-- Conditional rendering for mobile menu based on auth status -->
+          <!-- Desktop profile dropdown -->
           <template v-if="isAuthenticated">
-            <NuxtLink to="/profile" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
-              الملف الشخصي
-            </NuxtLink>
-            <NuxtLink to="/orders" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
-              طلباتي
-            </NuxtLink>
-            <button @click="logout" class="block w-full text-right px-3 py-2 text-gray-700 hover:bg-rose-50 hover:text-rose-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
-              تسجيل الخروج
-            </button>
+            <div class="relative group">
+              <NuxtLink to="/profile" class="p-2 text-gray-600 hover:text-indigo-700 transition-colors">
+                <Icon icon="ph:user-circle-bold" class="text-xl" />
+              </NuxtLink>
+              <div class="absolute top-10 right-0 bg-white shadow-md rounded py-2 opacity-0 group-hover:opacity-100 transition-opacity z-[999] w-40">
+                <div class="px-4 py-2 border-b border-gray-100">
+                  <p class="text-sm text-gray-600 font-arabic">{{ user?.firstName }}</p>
+                </div>
+                <NuxtLink to="/profile" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-arabic text-right">
+                  الملف الشخصي
+                </NuxtLink>
+                <NuxtLink to="/orders" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-arabic text-right">
+                  طلباتي
+                </NuxtLink>
+                <button
+                    @click="handleLogout"
+                    class="block w-full px-4 py-2 text-right text-rose-600 hover:bg-rose-50 font-arabic"
+                >
+                  تسجيل الخروج
+                </button>
+              </div>
+            </div>
           </template>
           <template v-else>
             <NuxtLink to="/signup" class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-arabic text-sm font-semibold transition-colors">
@@ -159,44 +176,56 @@
   </header>
   <SearchModal v-model="showSearchModal" />
 </template>
-
+// Update the script section in navbar.vue
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { Icon } from '@iconify/vue';
-import { useAuth } from '~/composables/useAuth';
-import SearchModal from '~/components/ui/SearchModal.vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { Icon } from '@iconify/vue'
+import { useAuth } from '~/composables/useAuth'
+import SearchModal from '~/components/ui/SearchModal.vue'
+import { useRouter } from 'vue-router'
 
-const showSearchModal = ref(false);
-const scrolled = ref(false);
-const scrollY = ref(0);
-const mobileMenuOpen = ref(false);
+const router = useRouter()
+const showSearchModal = ref(false)
+const scrolled = ref(false)
+const scrollY = ref(0)
+const mobileMenuOpen = ref(false)
 
-// Get authentication functions from useAuth composable
-const { isAuthenticated, logout } = useAuth();
+// Get authentication state and functions
+const { isAuthenticated, logout: authLogout, user } = useAuth()
 
-// Calculate scroll percentage for progress bar
+// Handle logout with proper error handling and navigation
+const handleLogout = async () => {
+  try {
+    await authLogout()
+    // Close mobile menu if open
+    mobileMenuOpen.value = false
+    // Navigate to home page
+    await router.push('/')
+  } catch (error) {
+    console.error('Logout failed:', error)
+  }
+}
+
+// Scroll handling logic remains the same
 const scrollProgress = computed(() => {
-  if (typeof window === 'undefined') return 0;
-
-  const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-  if (totalHeight <= 0) return 0;
-
-  return Math.min((scrollY.value / totalHeight) * 100, 100);
-});
+  if (typeof window === 'undefined') return 0
+  const totalHeight = document.documentElement.scrollHeight - window.innerHeight
+  return totalHeight <= 0 ? 0 : Math.min((scrollY.value / totalHeight) * 100, 100)
+})
 
 const handleScroll = () => {
-  scrollY.value = window.scrollY;
-  scrolled.value = window.scrollY > 0;
-};
+  scrollY.value = window.scrollY
+  scrolled.value = window.scrollY > 0
+}
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-  handleScroll(); // Initial check
-});
+  window.addEventListener('scroll', handleScroll)
+  handleScroll()
+})
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style>

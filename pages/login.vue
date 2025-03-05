@@ -89,77 +89,71 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
-import { Icon } from '@iconify/vue';
-import KInput from '~/components/ui/KInput.vue';
+import { ref, reactive } from 'vue'
+import { Icon } from '@iconify/vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '~/composables/useAuth'
+import KInput from '~/components/ui/KInput.vue'
 
-const loading = ref(false);
+const router = useRouter()
+const { login } = useAuth() // Import login function
+const loading = ref(false)
+
 const form = reactive({
   email: '',
   password: '',
   remember: false
-});
+})
 
 const errors = reactive({
   email: '',
   password: ''
-});
+})
 
 const validateEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
 
 const handleLogin = async () => {
   // Reset errors
-  errors.email = '';
-  errors.password = '';
+  errors.email = ''
+  errors.password = ''
 
   // Validation
   if (!form.email) {
-    errors.email = 'البريد الإلكتروني مطلوب';
-    return;
+    errors.email = 'البريد الإلكتروني مطلوب'
+    return
   }
   if (!validateEmail(form.email)) {
-    errors.email = 'البريد الإلكتروني غير صحيح';
-    return;
+    errors.email = 'البريد الإلكتروني غير صحيح'
+    return
   }
   if (!form.password) {
-    errors.password = 'كلمة المرور مطلوبة';
-    return;
+    errors.password = 'كلمة المرور مطلوبة'
+    return
   }
 
-  loading.value = true;
+  loading.value = true
 
   try {
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        identifier: form.email,
-        password: form.password
-      })
-    });
+    const success = await login({
+      identifier: form.email,
+      password: form.password
+    })
 
-    if (!response.ok) {
-      throw new Error('Invalid credentials');
+    if (success) {
+      await router.push('/')
+    } else {
+      errors.password = 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
     }
-
-    const data = await response.json();
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('refreshToken', data.refreshToken);
-
-    // Navigate to home page after successful login
-    navigateTo('/');
   } catch (error) {
-    console.error('Login error:', error);
-    errors.password = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+    console.error('Login error:', error)
+    errors.password = 'حدث خطأ أثناء تسجيل الدخول'
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 </script>
 
 <style scoped>
