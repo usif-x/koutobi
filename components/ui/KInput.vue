@@ -4,7 +4,7 @@
     <div class="relative h-6 mb-1">
       <label 
         :for="id" 
-        class="absolute transition-all duration-200 font-arabic z-10"
+        class="absolute transition-all duration-200 font-arabic z-10 right-[50px]"
         :class="[
           modelValue || focused ? 
             'text-xs top-5 rounded-full border border-indigo-600 right-3 bg-white px-2 z-10' : 
@@ -29,11 +29,11 @@
       <!-- Icon -->
       <div 
         v-if="icon" 
-        class="absolute top-1/2 right-4 transform -translate-y-1/2 transition-colors duration-200"
+        class="absolute top-1/2 right-4 transform -translate-y-1/2 transition duration-200"
         :class="{ 
-          'text-indigo-600': focused && !error,
-          'text-gray-400': !focused && !error,
-          'text-red-500': error
+          'text-indigo-600 z-20': focused && !error,
+          'text-gray-400 z-20': !focused && !error,
+          'text-red-500 z-20': error
         }"
       >
         <Icon :icon="icon" class="text-xl" />

@@ -107,7 +107,7 @@
                 </div>
                 <div>
                   <h3 class="text-lg font-semibold text-indigo-900 font-arabic mb-1">اتصل بنا</h3>
-                  <p class="text-gray-600 font-arabic" dir="ltr">+201032589270</p>
+                  <p class="text-gray-600 font-arabic" dir="ltr">+201</p>
                 </div>
               </div>
             </div>

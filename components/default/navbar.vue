@@ -14,22 +14,22 @@
 
         <!-- Desktop Menu -->
         <nav class="hidden md:flex space-x-1 space-x-reverse">
-          <NuxtLink to="/" class="px-3 py-2 text-gray-700 hover:text-indigo-700 transition-colors font-arabic">
+          <NuxtLink to="/" class="px-3 py-2 text-gray-700 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
             الرئيسية
           </NuxtLink>
-          <NuxtLink to="/books" class="px-3 py-2 text-gray-700 hover:text-indigo-700 transition-colors font-arabic">
+          <NuxtLink to="/books" class="px-3 py-2 text-gray-700 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
             الكتب
           </NuxtLink>
-          <NuxtLink to="/categories" class="px-3 py-2 text-gray-700 hover:text-indigo-700 transition-colors font-arabic">
+          <NuxtLink to="/categories" class="px-3 py-2 text-gray-700 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
             التصنيفات
           </NuxtLink>
-          <NuxtLink to="/authors" class="px-3 py-2 text-gray-700 hover:text-indigo-700 transition-colors font-arabic">
+          <NuxtLink to="/authors" class="px-3 py-2 text-gray-700 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
             المؤلفون
           </NuxtLink>
-          <NuxtLink to="/about" class="px-3 py-2 text-gray-700 hover:text-indigo-700 transition-colors font-arabic">
+          <NuxtLink to="/about" class="px-3 py-2 text-gray-700 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
             عن المتجر
           </NuxtLink>
-          <NuxtLink to="/contact" class="px-3 py-2 text-gray-700 hover:text-indigo-700 transition-colors font-arabic">
+          <NuxtLink to="/contact" class="px-3 py-2 text-gray-700 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
             اتصل بنا
           </NuxtLink>
         </nav>
@@ -116,34 +116,34 @@
     <!-- Mobile Menu Dropdown -->
     <div v-if="mobileMenuOpen" class="md:hidden bg-white border-t border-gray-100 shadow-md rtl">
       <div class="container mx-auto px-4 py-3 space-y-1">
-        <NuxtLink to="/" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors font-arabic">
+        <NuxtLink to="/" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
           الرئيسية
         </NuxtLink>
-        <NuxtLink to="/books" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors font-arabic">
+        <NuxtLink to="/books" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lgs font-arabic">
           الكتب
         </NuxtLink>
-        <NuxtLink to="/categories" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors font-arabic">
+        <NuxtLink to="/categories" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
           التصنيفات
         </NuxtLink>
-        <NuxtLink to="/authors" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors font-arabic">
+        <NuxtLink to="/authors" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
           المؤلفون
         </NuxtLink>
-        <NuxtLink to="/about" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors font-arabic">
+        <NuxtLink to="/about" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
           عن المتجر
         </NuxtLink>
-        <NuxtLink to="/contact" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors font-arabic">
+        <NuxtLink to="/contact" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
           اتصل بنا
         </NuxtLink>
         <div class="border-t border-gray-100 my-2 pt-2">
           <!-- Conditional rendering for mobile menu based on auth status -->
           <template v-if="isAuthenticated">
-            <NuxtLink to="/profile" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors font-arabic">
+            <NuxtLink to="/profile" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
               الملف الشخصي
             </NuxtLink>
-            <NuxtLink to="/orders" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors font-arabic">
+            <NuxtLink to="/orders" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
               طلباتي
             </NuxtLink>
-            <button @click="logout" class="block w-full text-right px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors font-arabic">
+            <button @click="logout" class="block w-full text-right px-3 py-2 text-gray-700 hover:bg-rose-50 hover:text-rose-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
               تسجيل الخروج
             </button>
           </template>

@@ -25,7 +25,6 @@
             <p class="text-base md:text-lg text-gray-700 leading-relaxed font-arabic">
               جمعنالك كل الكتب الخارجية مذكرات المدرسين للصفوف الإعدادية والثانوية، علشان تلاقي كل اللي محتاجه في مكان واحد! بنوفر أحدث الإصدارات من الكتب والمذكرات عشان تساعدك تذاكر وتتفوق.
             </p>
-
             <div class="flex flex-col sm:flex-row gap-3 justify-end mt-6">
               <template v-if="!isAuthenticated">
                 <ButtonUi

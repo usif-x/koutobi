@@ -1,6 +1,6 @@
 <template>
   <component
-      :is="isLink ? 'NuxtLink' : 'button'"
+      :is="isLink ? 'router-link' : 'button'"
       :to="isLink ? to : undefined"
       @click="handleClick"
       :type="type"
