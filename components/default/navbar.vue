@@ -194,16 +194,9 @@ const mobileMenuOpen = ref(false)
 const { isAuthenticated, logout: authLogout, user } = useAuth()
 
 // Handle logout with proper error handling and navigation
-const handleLogout = async () => {
-  try {
-    await authLogout()
-    // Close mobile menu if open
-    mobileMenuOpen.value = false
-    // Navigate to home page
-    await router.push('/')
-  } catch (error) {
-    console.error('Logout failed:', error)
-  }
+const handleLogout = () => {
+  mobileMenuOpen.value = false
+  router.push('/logout')
 }
 
 // Scroll handling logic remains the same

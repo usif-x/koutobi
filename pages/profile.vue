@@ -34,7 +34,7 @@
                 <div class="relative flex flex-col items-center">
                   <div class="w-24 h-24 rounded-full border-4 border-white shadow-lg overflow-hidden">
                     <img
-                        :src="userProfile.avatar || '/images/default-avatar.jpg'"
+                        src="/images/profile.png"
                         alt="صورة المستخدم"
                         class="w-full h-full object-cover"
                     />
@@ -378,6 +378,9 @@
 import { ref, reactive } from 'vue';
 import { Icon } from '@iconify/vue';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // SEO
 useHead({
@@ -526,11 +529,7 @@ const updatePassword = () => {
 };
 
 const logout = () => {
-  // Add your logout logic here
-  // For example: auth.logout()
-
-  // Navigate to home page
-  navigateTo('/');
+  router.push('/logout')
 };
 
 const getOrderStatusText = (status) => {
