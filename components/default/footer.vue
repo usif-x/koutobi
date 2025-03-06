@@ -156,7 +156,7 @@
           <span>&copy; 2025 كتبي - جميع الحقوق محفوظة</span>
           <span class="hidden md:inline">|</span>
           <span>Developed by
-      <a href="https://t.me/YousseifMuhammed"
+      <a href="https://yousseif.vercel.app"
          class="text-amber-400 hover:text-white transition-colors p-[3px] border rounded-md hover:bg-amber-300 hover:border-amber-300">
          Yousseif Muhammed
       </a>

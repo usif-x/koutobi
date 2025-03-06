@@ -62,7 +62,7 @@
               icon="ph:lock-duotone"
               placeholder="********"
               :error="errors.password"
-              helper="يجب أن تحتوي كلمة المرور على 4 أحرف على الأقل"
+              helper="يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل"
               required
             />
 
@@ -305,7 +305,7 @@ const validateField = (field) => {
       break;
     case 'phone':
       if (form.phone && !validatePhone(form.phone)) {
-        errors.phone = 'يجب أن يبدأ رقم الهاتف بـ 05 ويتكون من 10 أرقام';
+        errors.phone = 'يجب أن يبدأ رقم الهاتف بـ 01 ويتكون من 11 رقمًا';
       } else {
         errors.phone = '';
       }

@@ -702,7 +702,36 @@ const addToCart = async (bookId) => {
 
 // Update onMounted to include fetchRatings
 
+const addNotification = async (typeOfNotification) => {
+  const typeOfN = typeOfNotification
+  if (typeOfN === 'password') {
+    await $fetch('/api/user/notifications', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      },
+      body: {
+        title: 'تم تحديث الملف الشخصي',
+        description: 'لقد قمت بتحديث كلمة المرور الخاصة بك بنجاح.',
+        eventType: 'info'
+      }
+    })
+  } else {
+    await $fetch('/api/user/notifications', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      },
+      body: {
+        title: 'تم تحديث الملف الشخصي',
+        description: 'لقد قمت بتحديث العنوان الخاص بك بنجاح.',
+        eventType: 'info'
+      }
+    })
+  }
+}
 
+  // Add updatePassword function
 // Add viewOrderDetails function
 const viewOrderDetails = (orderId) => {
   router.push(`/orders/${orderId}`)
@@ -744,6 +773,7 @@ const updatePassword = async () => {
     passwordForm.currentPassword = ''
     passwordForm.newPassword = ''
     passwordForm.confirmPassword = ''
+    addNotification('password')
   } catch (error) {
     errorToast('فشل في تحديث كلمة المرور')
   }
@@ -766,6 +796,13 @@ const updateAddress = async () => {
       }
     })
     successToast('تم تحديث العنوان بنجاح')
+    addNotification('address')
+    if (error.value) {
+      console.error('خطأ أثناء إرسال الإشعار:', error.value);
+    } else {
+      console.log('تم إرسال الإشعار بنجاح:', data.value);
+    }
+
     await fetchUserData()
   } catch (error) {
     errorToast('فشل في تحديث العنوان')
