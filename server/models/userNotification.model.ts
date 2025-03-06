@@ -7,7 +7,7 @@ const userNotificationSchema = new Schema({
     eventType: {
         type: String,
         required: true,
-        enum: ['order_created', 'order_updated', 'order_delivered', 'promotion', 'other']
+        enum: ['order_created', 'order_updated', 'order_delivered', 'promotion', 'other','admin_note','info']
     },
     isRead: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now }

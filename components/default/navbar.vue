@@ -71,6 +71,14 @@
             </span>
 
             <!-- Notifications Dropdown -->
+            <Transition
+                enter-active-class="transition duration-100 ease-out"
+                enter-from-class="transform scale-95 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+                leave-active-class="transition duration-75 ease-in"
+                leave-from-class="transform scale-100 opacity-100"
+                leave-to-class="transform scale-95 opacity-0"
+            >
             <div v-if="showNotifications" class="absolute top-12 right-0 bg-white shadow-lg rounded-lg py-2 z-[999] w-72 max-h-96 overflow-y-auto">
               <div class="px-4 py-2 border-b border-gray-100 flex justify-between items-center">
                 <p class="text-sm font-semibold text-gray-700 font-arabic">الإشعارات</p>
@@ -107,7 +115,9 @@
                 </div>
               </div>
             </div>
+            </Transition>
           </div>
+
 
           <!-- Cart Button -->
           <div v-if="isAuthenticated" class="relative cart-modal-group">
@@ -127,11 +137,20 @@
             </button>
 
             <!-- Cart Mini Modal -->
+            <Transition
+                enter-active-class="transition duration-100 ease-out"
+                enter-from-class="transform scale-95 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+                leave-active-class="transition duration-75 ease-in"
+                leave-from-class="transform scale-100 opacity-100"
+                leave-to-class="transform scale-95 opacity-0"
+            >
             <CartMiniModal
                 :show="showCartModal"
                 :cart-items="cartItems"
                 @close="showCartModal = false"
             />
+            </Transition>
           </div>
 
           <!-- User Profile/Login Button - Changes based on authentication status -->
@@ -140,7 +159,15 @@
               <button class="p-2 text-gray-600 hover:text-indigo-700 transition-colors" @click="toggleProfileDropdown">
                 <Icon icon="ph:user-circle-bold" class="text-xl" />
               </button>
-              <div v-if="showProfileDropdown" class="absolute top-10 right-0 bg-white shadow-md rounded py-2 z-[999] w-40">
+              <Transition
+                  enter-active-class="transition duration-100 ease-out"
+                  enter-from-class="transform scale-95 opacity-0"
+                  enter-to-class="transform scale-100 opacity-100"
+                  leave-active-class="transition duration-75 ease-in"
+                  leave-from-class="transform scale-100 opacity-100"
+                  leave-to-class="transform scale-95 opacity-0"
+              >
+              <div v-if="showProfileDropdown" class="absolute top-10 right-0 bg-white shadow-md rounded py-2 z-[99999] w-40">
                 <div class="px-4 py-2 border-b border-gray-100">
                   <p class="text-sm text-gray-600 font-arabic">اهلا {{ user?.firstName }} {{ user?.lastName }}</p>
                 </div>
@@ -157,6 +184,7 @@
                   تسجيل الخروج
                 </button>
               </div>
+              </Transition>
             </div>
           </template>
           <template v-else>
@@ -185,46 +213,54 @@
       </div>
     </transition>
 
-    <!-- Mobile Menu Dropdown -->
-    <div v-if="mobileMenuOpen" class="md:hidden bg-white border-t border-gray-100 shadow-md rtl">
-      <div class="container mx-auto px-4 py-3 space-y-1">
-        <NuxtLink to="/" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
-          الرئيسية
-        </NuxtLink>
-        <NuxtLink to="/books" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lgs font-arabic">
-          الكتب
-        </NuxtLink>
-        <NuxtLink to="/categories" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
-          التصنيفات
-        </NuxtLink>
-        <NuxtLink to="/authors" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
-          المؤلفون
-        </NuxtLink>
-        <NuxtLink to="/about" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
-          عن المتجر
-        </NuxtLink>
-        <NuxtLink to="/contact" class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
-          اتصل بنا
-        </NuxtLink>
-        <div class="border-t border-gray-100 my-2 pt-2">
-          <template v-if="isAuthenticated">
-            <button
-                @click="handleLogout"
-                class="w-full flex items-center justify-between px-3 py-2 text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition duration-300 rounded-lg font-arabic"
-            >
-              <span>تسجيل الخروج</span>
-              <Icon icon="ph:sign-out-bold" class="text-xl" />
-            </button>
-          </template>
-          <template v-else>
-            <NuxtLink to="/signup" class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-arabic text-sm font-semibold transition-colors">
-              <span>إنشاء حساب جديد</span>
-              <Icon icon="ph:user-plus-bold" />
-            </NuxtLink>
-          </template>
+
+    <Transition
+        enter-active-class="transition duration-100 ease-out"
+        enter-from-class="transform scale-95 opacity-0"
+        enter-to-class="transform scale-100 opacity-100"
+        leave-active-class="transition duration-75 ease-in"
+        leave-from-class="transform scale-100 opacity-100"
+        leave-to-class="transform scale-95 opacity-0"
+    >
+      <div
+          v-if="mobileMenuOpen"
+          class="md:hidden bg-white border-t border-gray-100 shadow-md rtl fixed top-16 left-0 right-0 max-h-[calc(100vh-4rem)] overflow-y-auto z-40 w-[95%] mx-auto rounded-lg overflow-hidden"
+      >
+        <div class="container mx-auto px-4 py-3 space-y-1">
+          <NuxtLink
+              v-for="(link, index) in mobileLinks"
+              :key="index"
+              :to="link.to"
+              class="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic"
+              @click="mobileMenuOpen = false"
+          >
+            {{ link.text }}
+          </NuxtLink>
+
+          <div class="border-t border-gray-100 my-2 pt-2">
+            <template v-if="isAuthenticated">
+              <button
+                  @click="handleLogout"
+                  class="w-full flex items-center justify-between px-3 py-2 text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition duration-300 rounded-lg font-arabic"
+              >
+                <span>تسجيل الخروج</span>
+                <Icon icon="ph:sign-out-bold" class="text-xl" />
+              </button>
+            </template>
+            <template v-else>
+              <NuxtLink
+                  to="/signup"
+                  class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-arabic text-sm font-semibold transition-colors"
+                  @click="mobileMenuOpen = false"
+              >
+                <span>إنشاء حساب جديد</span>
+                <Icon icon="ph:user-plus-bold" />
+              </NuxtLink>
+            </template>
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </header>
   <SearchModal v-model="showSearchModal" />
 </template>
@@ -252,7 +288,14 @@ const cartItems = ref([]);
 const cartItemsCount = ref(0)
 const notifications = ref([])
 const unreadNotificationsCount = ref(0)
-
+const mobileLinks = [
+  { to: '/', text: 'الرئيسية' },
+  { to: '/books', text: 'الكتب' },
+  { to: '/categories', text: 'التصنيفات' },
+  { to: '/authors', text: 'المؤلفون' },
+  { to: '/about', text: 'عن المتجر' },
+  { to: '/contact', text: 'اتصل بنا' }
+]
 // Get authentication state and functions
 const { isAuthenticated, logout: authLogout, user } = useAuth()
 
@@ -429,8 +472,16 @@ const getNotificationIcon = (eventType) => {
       return 'ph:book-bookmark-bold'
     case 'account_updated':
       return 'ph:user-gear-bold'
-    default:
+    case 'promotion':
+      return 'ph:tag-bold'
+    case 'admin_note':
+      return 'ph:note-bold'
+    case 'other':
       return 'ph:bell-bold'
+    case 'info':
+      return 'ph:info-bold'
+    default:
+      return 'icon-park-twotone:message'
   }
 }
 
@@ -481,6 +532,22 @@ onUnmounted(() => {
 </script>
 
 <style>
+.fixed {
+  position: fixed;
+}
+
+/* Smooth scrolling for mobile menu */
+.max-h-[calc(100vh-4rem)] {
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar but allow scrolling */
+.max-h-[calc(100vh-4rem)]::-webkit-scrollbar {
+                           display: none;
+                         }
+
 .fade-down-enter-active, .fade-down-leave-active {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
