@@ -1,4 +1,3 @@
-// middleware/auth.ts
 export default defineNuxtRouteMiddleware(async (to) => {
     if (process.server) return
 

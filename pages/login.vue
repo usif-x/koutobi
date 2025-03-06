@@ -78,6 +78,8 @@ import { useAuth } from '~/composables/useAuth'
 import KInput from '~/components/ui/KInput.vue'
 import Swal from "sweetalert2";
 
+
+
 const router = useRouter()
 const { login } = useAuth() // Import login function
 const loading = ref(false)
@@ -145,6 +147,10 @@ const handleLogin = async () => {
     loading.value = false
   }
 }
+
+useHead({
+  title: 'كُتُبي - تسجيل الدخول',
+})
 
 definePageMeta({
   middleware: ['auth']

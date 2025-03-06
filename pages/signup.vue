@@ -330,7 +330,9 @@ const validateField = (field) => {
 definePageMeta({
   middleware: ['auth']
 })
-
+useHead({
+  title: 'كُتُبي - إنشاء حساب جديد',
+})
 // Watch for changes in form fields
 watch(() => form.email, () => validateField('email'));
 watch(() => form.phone, () => validateField('phone'));
