@@ -7,7 +7,7 @@
     >
       <!-- أيقونة الإغلاق -->
       <button
-          class="absolute left-3 bg-[#1CD4D4] text-black px-2 text-lg font-bold hover:scale-105 hover:shadow-xl transition duration-300 rounded-lg"
+          class="absolute top-2 left-3 bg-[#1CD4D4] text-black px-2 text-lg font-bold hover:scale-105 hover:shadow-xl transition duration-300 rounded-lg"
           @click="dismissNotification(notification._id)"
       >
         (X)
@@ -16,7 +16,7 @@
       <!-- محتوى الإشعار -->
       <div class="flex-1 text-center">
         <h4 class="text-lg font-bold underline">{{ notification.title }}</h4>
-        <p class="text-sm mt-1">{{ notification.description }}</p>
+        <p class="text-md mt-1">{{ notification.description }}</p>
       </div>
     </div>
   </div>
