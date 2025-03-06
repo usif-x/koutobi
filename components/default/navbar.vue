@@ -409,7 +409,7 @@ const markAllAsRead = async () => {
 // Format date
 const formatDate = (dateString) => {
   const date = new Date(dateString)
-  return new Intl.DateTimeFormat('ar-SA', {
+  return new Intl.DateTimeFormat('ar-EG', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

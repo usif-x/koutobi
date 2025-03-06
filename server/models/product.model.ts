@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose'
+import mongoose from 'mongoose'
 
-const productSchema = new Schema({
+const productSchema = new mongoose.Schema({
     name: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String, required: true },
@@ -27,7 +27,7 @@ const productSchema = new Schema({
         language: String
     },
     createdBy: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
         required: true
     },
@@ -40,16 +40,15 @@ const productSchema = new Schema({
         type: Number,
         enum: [1, 2, 3, 4, 5, 6],
         required: function() {
-            return this.category === 'study';
+            return this.category === 'study'
         },
         validate: {
-            validator: function(v) {
-                // Year should only exist for study books
-                return this.category === 'study' || v === undefined;
+            validator: function(v: number) {
+                return this.category === 'study' || v === undefined
             },
             message: 'Year is only allowed for study category books'
         }
-    },
+    }
 }, { timestamps: true })
 
-export const Product = model('Product', productSchema)
+export const Product = mongoose.models.Product || mongoose.model('Product', productSchema)

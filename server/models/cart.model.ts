@@ -1,14 +1,14 @@
-import { Schema, model } from 'mongoose'
-import './product.model'
+import mongoose from 'mongoose'
+import { Product } from './product.model' // Importing to ensure registration
 
-const cartItemSchema = new Schema({
-    product: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+const cartItemSchema = new mongoose.Schema({
+    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
     quantity: { type: Number, required: true, min: 1 }
 })
 
-const cartSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+const cartSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
     items: [cartItemSchema]
 }, { timestamps: true })
 
-export const Cart = model('Cart', cartSchema)
+export const Cart = mongoose.models.Cart || mongoose.model('Cart', cartSchema)
