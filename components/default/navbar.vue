@@ -132,7 +132,7 @@
               </button>
               <div v-if="showProfileDropdown" class="absolute top-10 right-0 bg-white shadow-md rounded py-2 z-[999] w-40">
                 <div class="px-4 py-2 border-b border-gray-100">
-                  <p class="text-sm text-gray-600 font-arabic">{{ user?.firstName }}</p>
+                  <p class="text-sm text-gray-600 font-arabic">اهلا {{ user?.firstName }} {{ user?.lastName }}</p>
                 </div>
                 <NuxtLink to="/profile" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-arabic text-right">
                   الملف الشخصي
@@ -290,16 +290,18 @@ const handleLogout = () => {
 // Fetch cart items from API with auth token
 const fetchCartItems = async () => {
   try {
-    const { data } = await useFetch('/api/cart', {
-      headers: getAuthHeaders()
+    const { data } = await useFetch("/api/cart", {
+      headers: getAuthHeaders(),
     })
 
-    // Assuming the response contains an array of cart items
-    if (data.value && Array.isArray(data.value)) {
-      cartItemsCount.value = data.value.length
+    if (data.value && data.value.cart && Array.isArray(data.value.cart.items)) {
+      // حساب العدد الكلي للعناصر بناءً على الكمية
+      cartItemsCount.value = data.value.cart.items.reduce((sum, item) => sum + item.quantity, 0)
+    } else {
+      cartItemsCount.value = 0
     }
   } catch (error) {
-    console.error('Failed to fetch cart items:', error)
+    normalToast("❌ فشل في جلب عناصر السلة:")
     cartItemsCount.value = 0
   }
 }
@@ -323,7 +325,7 @@ const fetchNotifications = async () => {
       unreadNotificationsCount.value = data.value.filter(notification => !notification.isRead).length
     }
   } catch (error) {
-    console.error('Failed to fetch notifications:', error)
+    normalToast('❌ فشل في جلب الإشعارات')
   }
 }
 
@@ -342,7 +344,7 @@ const readNotification = async (id) => {
       unreadNotificationsCount.value = notifications.value.filter(n => !n.isRead).length
     }
   } catch (error) {
-    console.error('Failed to mark notification as read:', error)
+    normalToast('❌ فشل في تعليم الإشعار كمقروء')
   }
 }
 
@@ -406,6 +408,7 @@ const closeDropdowns = (event) => {
 watch(isAuthenticated, (newValue) => {
   if (newValue) {
     fetchNotifications()
+    fetchCartItems()
   } else {
     notifications.value = []
     unreadNotificationsCount.value = 0
@@ -428,24 +431,10 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   window.addEventListener('click', closeDropdowns)
   handleScroll()
-
-  // Initial fetch of cart and notifications
-  fetchCartItems()
   if (isAuthenticated.value) {
     fetchNotifications()
-  }
-
-  // Set up polling for cart and notifications
-  const intervalId = setInterval(() => {
     fetchCartItems()
-    if (isAuthenticated.value) {
-      fetchNotifications()
-    }
-  }, 60000) // Refresh every minute
-
-  onUnmounted(() => {
-    clearInterval(intervalId)
-  })
+  }
 })
 
 onUnmounted(() => {

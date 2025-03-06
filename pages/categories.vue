@@ -30,17 +30,21 @@
         </div>
 
         <!-- Categories Grid -->
+        <!-- Categories Grid -->
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="category in categories" :key="category._id"
+          <div v-if="categories.length === 0" class="col-span-full text-center py-12">
+            <div class="font-arabic text-xl text-gray-600">لا توجد تصنيفات متاحة حالياً</div>
+          </div>
+          <div v-else v-for="category in categories" :key="category._id"
                class="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
             <NuxtLink :to="`/books?category=${category._id}`" class="block">
               <div class="relative h-48 bg-[url('/images/category-bg.jpeg')] bg-cover bg-center">
-                <div class="absolute inset-0 bg-black/30"></div>
-                <div class="relative z-10 p-6 h-full flex flex-col justify-end bg-white/20 rounded-lg">
-                  <h3 class="text-xl font-bold text-indigo-800 font-arabic mb-2">{{ category.name }}</h3>
-                  <p class="text-indigo-500 text-sm mb-2">{{ category.description }}</p>
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="relative z-10 p-6 h-full flex flex-col justify-end rounded-lg">
+                  <h3 class="text-xl p-2 font-bold text-indigo-600 font-arabic mb-2 bg-white/50 rounded-lg">{{ category.name }}</h3>
+                  <p class="text-white text-sm mb-2">{{ category.description }}</p>
                   <div class="flex justify-between items-center text-sm text-white/90">
-                    <span>أنشئ في: {{ formatDate(category.createdAt) }}</span>
+                    <span>أنشئ في: {{ category.formattedDate }}</span>
                   </div>
                 </div>
               </div>
@@ -56,21 +60,20 @@
 const { data: apiData, pending, error } = useFetch('/api/categories', {
   headers: {
     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-  },
-  transform: (response) => {
-    return response.categories.map(category => ({
-      ...category,
-      createdAt: new Date(category.createdAt).toLocaleDateString('ar-EG', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
-    }))
   }
 });
 
-const categories = computed(() => apiData.value || []);
-
+const categories = computed(() => {
+  if (!apiData.value) return [];
+  return apiData.value.categories.map(category => ({
+    ...category,
+    formattedDate: new Date(category.createdAt).toLocaleDateString('ar-EG', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }));
+});
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('ar-EG', {
