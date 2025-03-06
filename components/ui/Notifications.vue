@@ -15,7 +15,7 @@
 
       <!-- محتوى الإشعار -->
       <div class="flex-1 text-center">
-        <h4 class="text-lg font-bold">{{ notification.title }}</h4>
+        <h4 class="text-lg font-bold underline">{{ notification.title }}</h4>
         <p class="text-sm mt-1">{{ notification.description }}</p>
       </div>
     </div>

@@ -132,7 +132,7 @@ export function useAuth() {
         error.value = null
 
         try {
-            const checkSession = await fetch('/api/user/me', {
+            const checkSession = await fetch('/api/auth/status', {
                 headers: {
                     Authorization: `Bearer ${accessToken.value}`
                 }

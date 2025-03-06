@@ -110,19 +110,29 @@
           </div>
 
           <!-- Cart Button -->
-          <NuxtLink v-if="isAuthenticated"  to="/cart" class="p-2 text-gray-600 hover:text-indigo-700 transition-colors">
-            <button class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group">
+          <div v-if="isAuthenticated" class="relative cart-modal-group">
+            <button
+                class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group"
+                @click="toggleCartModal($event)"
+            >
               <div class="relative">
                 <Icon icon="ph:shopping-cart-bold" class="text-xl" />
                 <span v-if="cartItemsCount > 0" class="absolute -top-2 -right-2 w-5 h-5 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                  {{ cartItemsCount }}
-                </span>
+        {{ cartItemsCount }}
+      </span>
               </div>
               <span class="absolute top-10 right-0 bg-white shadow-md px-3 py-1.5 rounded text-sm font-arabic opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[999]">
-                عربة التسوق
-              </span>
+      عربة التسوق
+    </span>
             </button>
-          </NuxtLink>
+
+            <!-- Cart Mini Modal -->
+            <CartMiniModal
+                :show="showCartModal"
+                :cart-items="cartItems"
+                @close="showCartModal = false"
+            />
+          </div>
 
           <!-- User Profile/Login Button - Changes based on authentication status -->
           <template v-if="isAuthenticated">
@@ -224,6 +234,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useAuth } from '~/composables/useAuth'
 import SearchModal from '~/components/ui/SearchModal.vue'
+import CartMiniModal from '~/components/ui/CartMiniModel.vue';
 import { useRouter } from 'vue-router'
 import { useAlerts } from '~/composables/useAlerts'
 
@@ -236,6 +247,8 @@ const scrollY = ref(0)
 const mobileMenuOpen = ref(false)
 const showNotifications = ref(false)
 const showProfileDropdown = ref(false)
+const showCartModal = ref(false);
+const cartItems = ref([]);
 const cartItemsCount = ref(0)
 const notifications = ref([])
 const unreadNotificationsCount = ref(0)
@@ -288,23 +301,50 @@ const handleLogout = () => {
 }
 
 // Fetch cart items from API with auth token
-const fetchCartItems = async () => {
-  try {
-    const { data } = await useFetch("/api/cart", {
-      headers: getAuthHeaders(),
-    })
+const toggleCartModal = (event) => {
+  event.preventDefault(); // Prevent navigation to cart page
+  showCartModal.value = !showCartModal.value;
 
-    if (data.value && data.value.cart && Array.isArray(data.value.cart.items)) {
-      // حساب العدد الكلي للعناصر بناءً على الكمية
-      cartItemsCount.value = data.value.cart.items.reduce((sum, item) => sum + item.quantity, 0)
+  if (showProfileDropdown.value) {
+    showProfileDropdown.value = false;
+  }
+
+  if (showNotifications.value) {
+    showNotifications.value = false;
+  }
+
+  // If opening cart modal, fetch cart items
+  if (showCartModal.value) {
+    fetchCartItems();
+  }
+};
+
+const fetchCartItems = async () => {
+  if (!isAuthenticated.value) return;
+
+  try {
+    const response = await $fetch("/api/cart", {
+      headers: getAuthHeaders(),
+    });
+
+    console.log('Cart API response:', response);
+
+    if (response && response.cart && Array.isArray(response.cart.items)) {
+      cartItems.value = response.cart.items;
+      cartItemsCount.value = response.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+      console.log('Updated cart count to:', cartItemsCount.value);
     } else {
-      cartItemsCount.value = 0
+      cartItems.value = [];
+      cartItemsCount.value = 0;
     }
   } catch (error) {
-    normalToast("❌ فشل في جلب عناصر السلة:")
-    cartItemsCount.value = 0
+    console.error('Error fetching cart:', error);
+    normalToast("❌ فشل في جلب عناصر السلة");
+    cartItems.value = [];
+    cartItemsCount.value = 0;
   }
-}
+};
+
 
 // Fetch user notifications with auth token
 const fetchNotifications = async () => {
@@ -402,6 +442,9 @@ const closeDropdowns = (event) => {
   if (showProfileDropdown.value && !event.target.closest('.group')) {
     showProfileDropdown.value = false
   }
+  if (showCartModal.value && !event.target.closest('.cart-modal-group')) {
+    showCartModal.value = false;
+  }
 }
 
 // Watch for authentication changes
@@ -409,11 +452,8 @@ watch(isAuthenticated, (newValue) => {
   if (newValue) {
     fetchNotifications()
     fetchCartItems()
-  } else {
-    notifications.value = []
-    unreadNotificationsCount.value = 0
   }
-})
+}, { immediate: true })
 
 // Scroll handling logic
 const scrollProgress = computed(() => {
@@ -431,10 +471,7 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   window.addEventListener('click', closeDropdowns)
   handleScroll()
-  if (isAuthenticated.value) {
-    fetchNotifications()
-    fetchCartItems()
-  }
+
 })
 
 onUnmounted(() => {
