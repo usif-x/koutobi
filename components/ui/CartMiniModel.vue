@@ -67,8 +67,6 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['close']);
-
 // Calculate total number of items
 const totalItems = computed(() => {
   return props.cartItems.reduce((sum, item) => sum + item.quantity, 0);
