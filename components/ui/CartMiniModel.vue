@@ -30,7 +30,7 @@
               <div class="flex items-center">
                 <span class="text-xs text-gray-500 font-arabic">الكمية: {{ item.quantity }}</span>
               </div>
-              <p class="text-xs font-bold text-indigo-600">{{ item.product.price }} ر.س</p>
+              <p class="text-xs font-bold text-indigo-600">{{ item.product.price }} ج.م</p>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
       <div class="px-4 py-3 border-b border-gray-100 bg-gray-50">
         <div class="flex justify-between items-center">
           <p class="text-sm font-medium text-gray-800 font-arabic">المجموع:</p>
-          <p class="text-sm font-bold text-indigo-700">{{ totalPrice }} ر.س</p>
+          <p class="text-sm font-bold text-indigo-700">{{ totalPrice }} ج.م</p>
         </div>
       </div>
 
