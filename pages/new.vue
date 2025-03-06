@@ -155,6 +155,10 @@ const resetFilters = () => {
   filter.value.category = '';
   filter.value.grade = '';
 };
+
+definePageMeta({
+  middleware: ['auth']
+})
 </script>
 
 <style scoped>

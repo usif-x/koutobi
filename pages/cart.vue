@@ -254,8 +254,8 @@ onMounted(() => {
 
 // Define page meta
 definePageMeta({
-  auth: false // Allow access without authentication
-});
+  middleware: ['auth']
+})
 </script>
 
 <style scoped>

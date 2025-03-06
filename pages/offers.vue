@@ -76,6 +76,6 @@ useHead({
 });
 
 definePageMeta({
-  auth: false
-});
+  middleware: ['auth']
+})
 </script>

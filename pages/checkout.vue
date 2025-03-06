@@ -270,6 +270,6 @@ useHead({
 })
 
 definePageMeta({
-  auth: true
+  middleware: ['auth']
 })
 </script>

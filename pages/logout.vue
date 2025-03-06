@@ -29,6 +29,10 @@ onMounted(async () => {
     await router.push('/')
   }
 })
+
+definePageMeta({
+  middleware: ['auth']
+})
 </script>
 
 <template>

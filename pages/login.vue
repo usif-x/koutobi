@@ -145,6 +145,10 @@ const handleLogin = async () => {
     loading.value = false
   }
 }
+
+definePageMeta({
+  middleware: ['auth']
+})
 </script>
 
 <style scoped>

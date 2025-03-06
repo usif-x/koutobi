@@ -823,7 +823,7 @@ onMounted(async () => {
 })
 // Meta
 definePageMeta({
-  auth: true
+  middleware: ['auth']
 })
 
 useHead({
@@ -832,6 +832,8 @@ useHead({
     { name: 'description', content: 'إدارة الملف الشخصي في متجر كُتُبي' }
   ]
 })
+
+
 </script>
 
 <style scoped>

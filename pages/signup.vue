@@ -327,6 +327,10 @@ const validateField = (field) => {
   }
 };
 
+definePageMeta({
+  middleware: ['auth']
+})
+
 // Watch for changes in form fields
 watch(() => form.email, () => validateField('email'));
 watch(() => form.phone, () => validateField('phone'));

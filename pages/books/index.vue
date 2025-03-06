@@ -584,6 +584,10 @@ meta: [
 { name: 'description', content: 'تصفح مجموعتنا الواسعة من الكتب والمذكرات الدراسية للمراحل الإعدادية والثانوية' }
 ]
 })
+
+definePageMeta({
+  middleware: ['auth']
+})
 </script>
 
 <style>

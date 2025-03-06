@@ -53,6 +53,5 @@ export default defineNuxtConfig({
         url: process.env.REDIS_URL
       }
     },
-    }
-
+  }
 })
