@@ -1,16 +1,25 @@
 <template>
-  <div>
-    <NuxtLayout>
-      <NuxtPage />
-      <Notifications />
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+    <Notifications />
+  </NuxtLayout>
 </template>
 
 <script setup>
-import Notifications from './components/ui/Notifications.vue'
+import { useHead } from '#imports'
+import { useAuth } from '~/composables/useAuth'
+import Notifications from '~/components/ui/Notifications.vue'
+import { useAlerts } from '~/composables/useAlerts'
 
-// Crisp chat integration
+const { isAuthenticated } = useAuth()
+const { normalToast } = useAlerts()
+
+onMounted(() => {
+  if (!isAuthenticated.value) {
+    normalToast('يفضل تسجيل الدخول لتتمكن من الاستفادة من كل خدمات الموقع')
+  }
+})
+
 useHead({
   script: [{
     innerHTML: `
@@ -22,7 +31,7 @@ useHead({
     src: 'https://client.crisp.chat/l.js',
     async: true
   }]
-});
+})
 </script>
 
 <style>

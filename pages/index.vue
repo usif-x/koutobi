@@ -110,15 +110,9 @@ import { Icon } from '@iconify/vue';
 import BookSlider from '~/components/ui/BooksSlider.vue';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
 import { useAuth } from '~/composables/useAuth';
-import { useAlerts } from '~/composables/useAlerts.js';
 
 // Import authentication composable and get authentication state
 const { isAuthenticated } = useAuth();
-const { normalToast } = useAlerts();
-
-const showNoteToast = async () => {
-  normalToast('يفضل تسجيل الدخول لتتمكن من الاستفادة من كل خدمات الموقع');
-}
 // SEO
 useHead({
   title: 'كُتُبي - متجر الكتب العربية الأول',
@@ -147,9 +141,6 @@ const newArrivals = ref([]);
 
 onMounted(async () => {
   await store.fetchProducts();
-  if (!isAuthenticated.value) {
-    normalToast('يفضل تسجيل الدخول لتتمكن من الاستفادة من كل خدمات الموقع')
-  }
 
   featuredBooks.value = store.products
       .filter(book => book.rating >= 4.5)
