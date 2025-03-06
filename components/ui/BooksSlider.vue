@@ -18,16 +18,29 @@
 
       <div class="relative group">
         <!-- Navigation buttons remain unchanged -->
-        <button @click="prevSlide" class="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/10 backdrop-blur-md text-white rounded-full p-3 hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-2">
+        <button @click="prevSlide" class="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/10 backdrop-blur-md text-white rounded-full p-3 hover:bg-white/20 transition-all duration-300 opacity-100 group-hover:translate-x-2">
           <Icon icon="ph:caret-right-bold" class="text-2xl" />
         </button>
 
-        <button @click="nextSlide" class="absolute left-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/10 backdrop-blur-md text-white rounded-full p-3 hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:-translate-x-2">
+        <button @click="nextSlide" class="absolute left-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/10 backdrop-blur-md text-white rounded-full p-3 hover:bg-white/20 transition-all duration-300 opacity-100 group-hover:-translate-x-2">
           <Icon icon="ph:caret-left-bold" class="text-2xl" />
         </button>
 
-        <div class="overflow-hidden" @mouseenter="pauseAutoplay" @mouseleave="resumeAutoplay">
-          <div class="flex transition-transform duration-500 ease-out" :style="{ transform: `translateX(${currentTranslate}%)` }">
+        <div
+            class="overflow-hidden"
+            @mouseenter="pauseAutoplay"
+            @mouseleave="resumeAutoplay"
+            @touchstart="handleTouchStart"
+            @touchmove="handleTouchMove"
+            @touchend="handleTouchEnd"
+        >
+          <div
+              class="flex transition-transform duration-500 ease-out"
+              :style="{
+            transform: `translateX(${currentTranslate + dragOffset}%)`,
+            cursor: isDragging ? 'grabbing' : 'grab'
+          }"
+          >
             <div v-for="book in books" :key="book.id" class="min-w-[280px] sm:min-w-[320px] px-4">
               <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 h-full hover:transform hover:bg-white/20 hover:shadow-xl transition-all duration-300 border border-white/20 group/card">
                 <div class="relative aspect-[3/4] mb-4 rounded-xl overflow-hidden">
@@ -65,7 +78,41 @@ const props = defineProps({
 const currentSlide = ref(0);
 const itemsPerView = ref(4);
 let autoplayInterval = null;
+const isDragging = ref(false);
+const dragOffset = ref(0);
+const startX = ref(0);
+const currentX = ref(0);
 
+// Touch handlers
+const handleTouchStart = (e) => {
+  isDragging.value = true;
+  startX.value = e.touches[0].clientX;
+  pauseAutoplay();
+};
+
+const handleTouchMove = (e) => {
+  if (!isDragging.value) return;
+
+  currentX.value = e.touches[0].clientX;
+  const diff = currentX.value - startX.value;
+  const percentageMoved = (diff / window.innerWidth) * 75;
+  dragOffset.value = percentageMoved;
+};
+
+const handleTouchEnd = () => {
+  isDragging.value = false;
+
+  if (Math.abs(dragOffset.value) > 15) { // Reduced threshold to match -75 movement
+    if (dragOffset.value > 0) {
+      prevSlide();
+    } else {
+      nextSlide();
+    }
+  }
+
+  dragOffset.value = 0;
+  resumeAutoplay();
+};
 const updateItemsPerView = () => {
   const width = window.innerWidth;
   if (width < 640) itemsPerView.value = 1;
@@ -79,7 +126,7 @@ const totalSlides = computed(() =>
 );
 
 const currentTranslate = computed(() =>
-    currentSlide.value * 75 // Changed from -100 to +100
+    currentSlide.value * 75
 );
 
 const nextSlide = () => {

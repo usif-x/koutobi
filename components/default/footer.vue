@@ -18,10 +18,10 @@
           </p>
           <!-- Social Media Links -->
           <div class="flex space-x-3 space-x-reverse gap-3">
-            <a href="#" class="w-9 h-9 rounded-full bg-indigo-800 hover:bg-indigo-700 flex items-center justify-center transition-colors">
-              <Icon icon="ph:facebook-logo-bold" class="text-lg" />
+            <a href="https://t.me/KotoubiShop" class="w-9 h-9 rounded-full bg-indigo-800 hover:bg-indigo-700 flex items-center justify-center transition-colors">
+              <Icon icon="ph:telegram-logo-bold" class="text-lg" />
             </a>
-            <a href="#" class="w-9 h-9 rounded-full bg-indigo-800 hover:bg-indigo-700 flex items-center justify-center transition-colors">
+            <a href="https://instagram.com/kotoubi.shop" class="w-9 h-9 rounded-full bg-indigo-800 hover:bg-indigo-700 flex items-center justify-center transition-colors">
               <Icon icon="ph:instagram-logo-bold" class="text-lg" />
             </a>
           </div>
@@ -150,9 +150,17 @@
       </div>
       
       <!-- Copyright -->
+      <!-- Copyright -->
       <div class="text-center border-t border-indigo-900 pt-6">
-        <p class="text-indigo-300 text-sm font-arabic">
-          &copy; 2025 كتبي - جميع الحقوق محفوظة
+        <p class="text-indigo-300 text-sm font-arabic flex flex-col md:flex-row items-center justify-center gap-2">
+          <span>&copy; 2025 كتبي - جميع الحقوق محفوظة</span>
+          <span class="hidden md:inline">|</span>
+          <span>Developed by
+      <a href="https://t.me/YousseifMuhammed"
+         class="text-amber-400 hover:text-white transition-colors p-[3px] border rounded-md hover:bg-amber-300 hover:border-amber-300">
+         Yousseif Muhammed
+      </a>
+    </span>
         </p>
       </div>
     </div>
