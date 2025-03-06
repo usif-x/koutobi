@@ -19,18 +19,29 @@
           <p class="mt-4 text-gray-600 font-arabic">تصفح الكتب حسب التصنيف</p>
         </div>
 
+        <!-- Loading State -->
+        <div v-if="pending" class="text-center py-12">
+          <div class="animate-spin inline-block w-12 h-12 border-4 border-current border-t-transparent text-indigo-600 rounded-full"></div>
+        </div>
+
+        <!-- Error State -->
+        <div v-else-if="error" class="bg-red-50 text-red-700 p-6 rounded-xl font-arabic">
+          حدث خطأ في تحميل التصنيفات: {{ error.message }}
+        </div>
+
         <!-- Categories Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="category in categories" :key="category.id"
+        <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div v-for="category in categories" :key="category._id"
                class="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-            <NuxtLink :to="`/books?category=${category.slug}`" class="block">
-              <div class="relative h-48">
-                <img :src="category.image" :alt="category.name"
-                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/80 to-transparent"></div>
-                <div class="absolute bottom-0 p-6">
-                  <h3 class="text-xl font-bold text-white font-arabic mb-2">{{ category.name }}</h3>
-                  <p class="text-indigo-100 text-sm">{{ category.bookCount }} كتاب</p>
+            <NuxtLink :to="`/books?category=${category._id}`" class="block">
+              <div class="relative h-48 bg-[url('/images/category-bg.jpeg')] bg-cover bg-center">
+                <div class="absolute inset-0 bg-black/30"></div>
+                <div class="relative z-10 p-6 h-full flex flex-col justify-end bg-white/20 rounded-lg">
+                  <h3 class="text-xl font-bold text-indigo-800 font-arabic mb-2">{{ category.name }}</h3>
+                  <p class="text-indigo-500 text-sm mb-2">{{ category.description }}</p>
+                  <div class="flex justify-between items-center text-sm text-white/90">
+                    <span>أنشئ في: {{ formatDate(category.createdAt) }}</span>
+                  </div>
                 </div>
               </div>
             </NuxtLink>
@@ -42,43 +53,32 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useProductStore } from '~/stores/product';
-
-const store = useProductStore();
-const categories = ref([
-  {
-    id: 1,
-    name: 'العلوم',
-    slug: 'science',
-    image: '/images/categories/science.jpg',
-    bookCount: 0
+const { data: apiData, pending, error } = useFetch('/api/categories', {
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
   },
-  {
-    id: 2,
-    name: 'الأدب',
-    slug: 'literature',
-    image: '/images/categories/literature.jpg',
-    bookCount: 0
-  },
-  {
-    id: 3,
-    name: 'التاريخ',
-    slug: 'history',
-    image: '/images/categories/history.jpg',
-    bookCount: 0
-  },
-  // Add more categories as needed
-]);
-
-onMounted(async () => {
-  await store.fetchProducts();
-  // Calculate book count for each category
-  categories.value = categories.value.map(category => ({
-    ...category,
-    bookCount: store.products.filter(book => book.category === category.slug).length
-  }));
+  transform: (response) => {
+    return response.categories.map(category => ({
+      ...category,
+      createdAt: new Date(category.createdAt).toLocaleDateString('ar-EG', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    }))
+  }
 });
+
+const categories = computed(() => apiData.value || []);
+
+
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('ar-EG', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
 
 // SEO
 useHead({

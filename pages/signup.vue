@@ -141,6 +141,7 @@ import { Icon } from '@iconify/vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '~/composables/useAuth'
 import KInput from '~/components/ui/KInput.vue'
+import Swal from "sweetalert2";
 
 const router = useRouter()
 const { login } = useAuth() // Import login function
@@ -268,6 +269,14 @@ const handleSignup = async () => {
     })
 
     if (success) {
+      await Swal.fire({
+        title: 'تم إنشاء الحساب بنجاح',
+        text: 'مرحباً بك في كُتُبي، استمتع بتجربة تسوق مميزة',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: false,
+        allowOutsideClick: false
+      })
       await router.push('/')
     } else {
       throw new Error('Auto-login failed')

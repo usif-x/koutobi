@@ -37,24 +37,6 @@
               required
             />
 
-            <div class="flex items-center justify-between mb-6">
-              <NuxtLink 
-                to="/forgot-password"
-                class="text-sm text-indigo-600 hover:text-indigo-500 font-arabic"
-              >
-                نسيت كلمة المرور؟
-              </NuxtLink>
-
-              <label class="flex items-center space-x-2 space-x-reverse">
-                <input 
-                  type="checkbox" 
-                  v-model="form.remember"
-                  class="rounded text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                />
-                <span class="text-sm text-gray-600 font-arabic">تذكرني</span>
-              </label>
-            </div>
-
             <button
               type="submit"
               :disabled="loading"
@@ -94,6 +76,7 @@ import { Icon } from '@iconify/vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '~/composables/useAuth'
 import KInput from '~/components/ui/KInput.vue'
+import Swal from "sweetalert2";
 
 const router = useRouter()
 const { login } = useAuth() // Import login function
@@ -143,6 +126,14 @@ const handleLogin = async () => {
     })
 
     if (success) {
+      await Swal.fire({
+        title: 'تم تسجيل الدخول بنجاح',
+        text: 'مرحباً بك مجدداً في كُتُبي',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: false,
+        allowOutsideClick: false
+      })
       await router.push('/')
     } else {
       errors.password = 'البريد الإلكتروني أو كلمة المرور غير صحيحة'

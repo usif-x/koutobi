@@ -1,9 +1,7 @@
-// composables/useAuth.ts
 import { ref, computed } from 'vue'
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
 interface User {
     _id: string
     firstName: string
@@ -127,7 +125,6 @@ export function useAuth() {
         }
     }
 
-    // composables/useAuth.ts - update the refreshToken function
     const refreshToken = async () => {
         if (!refreshTokenValue.value) return false
 
@@ -176,9 +173,10 @@ export function useAuth() {
                     text: 'فشل تجديد الجلسة. يجب عليك تسجيل الدخول يدويًا باستخدام البريد الإلكتروني/الهاتف وكلمة المرور.',
                     icon: 'error',
                     showConfirmButton: true
-                }).then(() => {
-                   router.push("/login")
                 })
+
+                const router = useRouter() // استدعاء useRouter() هنا داخل الدالة فقط
+                await router.push("/login")
                 return false
             }
             setTokens(data.accessToken, data.refreshToken)
@@ -206,7 +204,7 @@ export function useAuth() {
     return {
         user: computed(() => user.value),
         accessToken: computed(() => accessToken.value),
-        refreshTokenValue: computed(() => refreshTokenValue.value), // إعادة التسمية لتجنب التكرار
+        refreshTokenValue: computed(() => refreshTokenValue.value),
         isAuthenticated,
         loading: computed(() => loading.value),
         error: computed(() => error.value),
@@ -217,5 +215,4 @@ export function useAuth() {
         setTokens,
         clearTokens
     }
-
 }
