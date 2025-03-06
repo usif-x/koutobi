@@ -7,10 +7,10 @@
     >
       <!-- أيقونة الإغلاق -->
       <button
-          class="absolute left-3 text-[#1CD4D4] px-2 text-lg font-bold hover:scale-105 hover:shadow-xl transition duration-300 rounded-lg"
+          class="absolute left-3 bg-[#1CD4D4] text-black px-2 text-lg font-bold hover:scale-105 hover:shadow-xl transition duration-300 rounded-lg"
           @click="dismissNotification(notification._id)"
       >
-        x
+        (X)
       </button>
 
       <!-- محتوى الإشعار -->
@@ -24,6 +24,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useAuth } from "~/composables/useAuth";
+
+const { isAuthenticated } = useAuth();
 
 // تعريف واجهة البيانات
 interface Notification {
@@ -38,6 +41,7 @@ interface Notification {
 const notifications = ref<Notification[]>([]);
 
 // جلب الإشعارات من API
+
 const fetchNotifications = async () => {
   try {
     const response = await $fetch("/api/notifications");
@@ -53,7 +57,11 @@ const dismissNotification = (id: string) => {
 };
 
 // تحميل الإشعارات عند تشغيل المكون
-onMounted(fetchNotifications);
+onMounted(() => {
+  if (isAuthenticated.value) {
+    fetchNotifications();
+  }
+});
 </script>
 
 <style scoped>
