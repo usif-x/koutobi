@@ -49,12 +49,10 @@ export default defineNuxtConfig({
     plugins: ['~/server/plugins/mongodb.ts','~/server/plugins/rateLimit.ts'],
     storage: {
       'rate-limits': {
-        driver: 'fs', // Use filesystem for development
-        base: './data/rate-limits' // Directory to store rate-limit data
+        driver: 'redis',
+        url: process.env.REDIS_URL
       }
     },
-    // Add redis for production
-    // devStorage: { /* ... */ }
     }
 
 })
