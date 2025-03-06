@@ -1,7 +1,7 @@
 <!-- components/ui/CartMiniModal.vue -->
 <template>
   <div v-if="show"
-       class="fixed md:absolute md:top-12 md:right-0 top-16 left-1/2 -translate-x-1/2 md:translate-x-0 bg-white shadow-lg rounded-lg py-2 z-[999] w-[95%] md:w-72 max-h-96 overflow-y-auto mx-auto md:mx-0">
+       class="fixed md:absolute md:top-18 md:right-50 top-16 left-1/2 -translate-x-1/2 md:translate-x-0 bg-white shadow-lg rounded-lg py-2 z-[999] w-[95%] md:w-72 max-h-96 overflow-y-auto mx-auto md:mx-0">
     <div class="px-4 py-2 border-b border-gray-100 flex justify-between items-center">
       <p class="text-sm font-semibold text-gray-700 font-arabic">عربة التسوق</p>
       <p v-if="cartItems.length > 0" class="text-xs text-gray-600">

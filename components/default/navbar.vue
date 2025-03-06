@@ -120,9 +120,10 @@
 
 
           <!-- Cart Button -->
-          <div v-if="isAuthenticated" class="relative cart-modal-group">
+          <!-- Cart Button -->
+          <div v-if="isAuthenticated" class="relative group cart-modal-group">
             <button
-                class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative group"
+                class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative"
                 @click="toggleCartModal($event)"
             >
               <div class="relative">
@@ -136,7 +137,6 @@
     </span>
             </button>
 
-            <!-- Cart Mini Modal -->
             <Transition
                 enter-active-class="transition duration-100 ease-out"
                 enter-from-class="transform scale-95 opacity-0"
@@ -145,11 +145,11 @@
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0"
             >
-            <CartMiniModal
-                :show="showCartModal"
-                :cart-items="cartItems"
-                @close="showCartModal = false"
-            />
+              <CartMiniModal
+                  :show="showCartModal"
+                  :cart-items="cartItems"
+                  @close="showCartModal = false"
+              />
             </Transition>
           </div>
 
@@ -530,35 +530,33 @@ onUnmounted(() => {
   window.removeEventListener('click', closeDropdowns)
 })
 </script>
-
 <style>
 .fixed {
   position: fixed;
 }
 
 /* Smooth scrolling for mobile menu */
-.max-h-[calc(100vh-4rem)] {
+.max-h-\[calc\(100vh-4rem\)\] {
   max-height: calc(100vh - 4rem);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 /* Hide scrollbar but allow scrolling */
-.max-h-[calc(100vh-4rem)]::-webkit-scrollbar {
-                           display: none;
-                         }
+.max-h-\[calc\(100vh-4rem\)\]::-webkit-scrollbar {
+  display: none;
+}
 
-.fade-down-enter-active, .fade-down-leave-active {
+.fade-down-enter-active,
+.fade-down-leave-active {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* البداية عند الإدخال */
 .fade-down-enter-from {
   opacity: 0;
   transform: translateY(-10px);
 }
 
-/* النهاية عند الإخفاء */
 .fade-down-leave-to {
   opacity: 0;
   transform: translateY(-10px);
