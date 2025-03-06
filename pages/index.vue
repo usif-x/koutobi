@@ -74,26 +74,8 @@
 
           <!-- Image content (left side in RTL) -->
           <div class="w-full md:w-1/2">
-            <div class="relative group">
-              <!-- Main image with advanced styling -->
-              <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 group-hover:shadow-indigo-200/50 transform group-hover:-translate-y-1">
-                <!-- Border glow effect -->
-                <span class="absolute inset-0 border-2 border-white/30 rounded-2xl z-20 transition-all duration-300 group-hover:border-white/50 group-hover:blur-[1px]"></span>
-
-                <div class="relative overflow-hidden">
-                  <img src="/images/hero.jpg" alt="kotoubi Books" class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" />
-
-                  <!-- Overlay gradient with interactive effect -->
-                  <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-50"></div>
-
-                  <!-- Shine effect on hover -->
-                  <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out"></div>
-                </div>
-              </div>
-
-              <!-- Subtle decorative elements -->
-              <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-400 rounded-full opacity-20 blur-xl transition-all duration-500 group-hover:w-32 group-hover:h-32 group-hover:opacity-30"></div>
-              <div class="absolute -top-4 -left-4 w-32 h-32 bg-indigo-400 rounded-full opacity-20 blur-xl transition-all duration-500 group-hover:w-40 group-hover:h-40 group-hover:opacity-30"></div>
+            <div class="rounded-2xl overflow-hidden">
+              <img src="/images/hero.png" alt="kotoubi Books" class="w-full h-auto object-cover" />
             </div>
           </div>
         </div>
