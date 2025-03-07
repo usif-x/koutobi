@@ -62,7 +62,9 @@ export default defineEventHandler(async (event) => {
                 _id: newUser._id,
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
-                email: newUser.email
+                email: newUser.email,
+                status: newUser.status,
+                createdAt: newUser.createdAt,
             },
             accessToken,
             refreshToken

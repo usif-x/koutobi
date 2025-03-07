@@ -2,68 +2,135 @@ import { defineNitroPlugin } from 'nitropack/dist/runtime/plugin'
 import { useStorage, useRuntimeConfig } from '#imports'
 import jwt from 'jsonwebtoken'
 
+interface RateLimit {
+    count: number
+    expiresAt: number
+    penalties: number
+    lastViolation: number
+}
+
 export default defineNitroPlugin(async (nitroApp) => {
-    const storage = useStorage('rate-limits') // الآن يستخدم Redis من nitro.storage
+    const storage = useStorage('rate-limits')
     const config = {
         maxRequests: 10,
-        intervalMs: 60 * 1000,
-        paths: ['/api/**'],
-        headers: true
+        baseIntervalMs: 60 * 1000, // 1 دقيقة
+        maxPenalties: 5,
+        penaltyReductionMs: 5 * 60 * 1000, // 5 دقائق
+        excludedPaths: ['/api/admin']
     }
 
     nitroApp.hooks.hook('request', async (event) => {
-        const ip = event.node.req.socket.remoteAddress || 'unknown-ip'
-        const path = event.node.req.url
-
-        if (path.startsWith('/api/admin')) return
-
-        const authHeader = event.node.req.headers['authorization']
-        let isAdmin = false
-
-        if (authHeader?.startsWith('Bearer ')) {
-            const token = authHeader.split(' ')[1]
-            try {
-                const decoded = jwt.verify(token, useRuntimeConfig().jwtSecret)
-                isAdmin = decoded?.isAdmin || false
-            } catch (err) {
-                console.error('JWT Verification Error:', err.message)
+        try {
+            const path = event.path || ''
+            if (!path.startsWith('/api/') || config.excludedPaths.some(p => path.startsWith(p))) {
+                return
             }
-        }
 
-        if (isAdmin) {
-            console.log(`Skipping rate limit for admin user at IP: ${ip}`)
-            return
-        }
+            // استخراج التوكن من الهيدر
+            const token = event.node.req.headers.authorization?.replace('Bearer ', '')
+            if (!token) return
 
-        const key = `rate-limit:${ip}:${path}`
-        let current = await storage.getItem(key)
+            let decoded: { isAdmin?: boolean; sub?: string }
+            try {
+                decoded = jwt.verify(token, useRuntimeConfig().jwtSecret) as { isAdmin?: boolean; sub?: string }
+                if (decoded.isAdmin) return
+                if (!decoded.sub) return
+            } catch {
+                return
+            }
 
-        if (!current) {
-            current = { count: 0, expiresAt: Date.now() + config.intervalMs }
-        }
+            const baseApiPath = path.split('/').slice(0, 3).join('/')
+            const key = `rate-limit:${decoded.sub}:${baseApiPath}`
 
-        if (Date.now() > current.expiresAt) {
-            current.count = 0
-            current.expiresAt = Date.now() + config.intervalMs
-        }
+            // جلب أو إنشاء السجل من Redis
+            let limit = await storage.getItem<RateLimit>(key)
+            const now = Date.now()
 
-        if (current.count >= config.maxRequests) {
-            event.node.res.setHeader('Retry-After', Math.ceil((current.expiresAt - Date.now()) / 1000))
-            event.node.res.statusCode = 429
-            event.node.res.statusMessage = 'Too Many Requests'
-            event.node.res.end(JSON.stringify({
-                message: `تم تجاوز الحد الأقصى. حاول مرة أخرى بعد ${Math.ceil((current.expiresAt - Date.now()) / 1000)} ثانية`
-            }))
-            return
-        }
+            if (!limit) {
+                limit = {
+                    count: 0,
+                    expiresAt: now + config.baseIntervalMs,
+                    penalties: 0,
+                    lastViolation: 0
+                }
+            }
 
-        current.count++
-        await storage.setItem(key, current)
+            // تقليل العقوبات إذا مر وقت كافٍ
+            if (limit.penalties > 0 && now > limit.lastViolation + config.penaltyReductionMs) {
+                limit.penalties = Math.max(0, limit.penalties - 1)
+            }
 
-        if (config.headers) {
-            event.node.res.setHeader('X-RateLimit-Limit', config.maxRequests)
-            event.node.res.setHeader('X-RateLimit-Remaining', config.maxRequests - current.count)
-            event.node.res.setHeader('X-RateLimit-Reset', Math.ceil(current.expiresAt / 1000))
+            // إعادة تعيين العداد إذا انتهت المهلة
+            if (now > limit.expiresAt) {
+                limit.count = 0
+                limit.expiresAt = now + (config.baseIntervalMs * Math.pow(2, limit.penalties))
+            }
+
+            // فحص ما إذا تم تجاوز الحد
+            if (limit.count >= config.maxRequests) {
+                limit.penalties = Math.min(config.maxPenalties, limit.penalties + 1)
+                limit.lastViolation = now
+                const blockDuration = config.baseIntervalMs * Math.pow(2, limit.penalties)
+                limit.expiresAt = now + blockDuration
+
+                await storage.setItem(key, limit)
+
+                setRateLimitHeaders(event, {
+                    limit: config.maxRequests,
+                    remaining: 0,
+                    reset: Math.ceil(limit.expiresAt / 1000),
+                    penalties: limit.penalties
+                })
+
+                throw createError({
+                    statusCode: 429,
+                    statusMessage: 'Too Many Requests',
+                    data: {
+                        message: `تم تجاوز الحد الأقصى للطلبات. حاول مرة أخرى بعد ${Math.ceil(blockDuration / 1000)} ثانية`,
+                        retryAfter: Math.ceil(blockDuration / 1000),
+                        penalties: limit.penalties
+                    }
+                })
+            }
+
+            // تحديث العداد وحفظ البيانات
+            limit.count++
+            await storage.setItem(key, limit)
+
+            setRateLimitHeaders(event, {
+                limit: config.maxRequests,
+                remaining: config.maxRequests - limit.count,
+                reset: Math.ceil(limit.expiresAt / 1000),
+                penalties: limit.penalties
+            })
+
+        } catch (err: any) {
+            if (err.statusCode === 429) {
+                return err
+            }
+            console.error('Rate limit error:', err.message)
         }
     })
 })
+
+// دالة لإعداد الهيدرات
+function setRateLimitHeaders(event: any, {
+    limit,
+    remaining,
+    reset,
+    penalties
+}: {
+    limit: number,
+    remaining: number,
+    reset: number,
+    penalties: number
+}) {
+    try {
+        event.node.res.setHeader('X-RateLimit-Limit', String(limit))
+        event.node.res.setHeader('X-RateLimit-Remaining', String(remaining))
+        event.node.res.setHeader('X-RateLimit-Reset', String(reset))
+        event.node.res.setHeader('X-RateLimit-Penalties', String(penalties))
+    } catch (error) {
+        console.error('Error setting headers:', error)
+    }
+}

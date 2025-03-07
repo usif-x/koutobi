@@ -12,38 +12,39 @@
         <!-- Login Form Card -->
         <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8">
           <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-indigo-900 font-arabic mb-2">تسجيل الدخول</h1>
-            <p class="text-gray-600 font-arabic">مرحباً بعودتك! يرجى تسجيل الدخول للمتابعة</p>
+            <h1 class="text-3xl font-bold text-indigo-900 font-arabic mb-2">
+              تسجيل الدخول
+            </h1>
+            <p class="text-gray-600 font-arabic">
+              مرحباً بعودتك! يرجى تسجيل الدخول للمتابعة
+            </p>
           </div>
 
           <form @submit.prevent="handleLogin" class="space-y-6">
             <KInput
-              v-model="form.email"
-              label="البريد الإلكتروني"
-              type="email"
-              icon="ph:envelope-duotone"
-              placeholder="example@domain.com"
-              :error="errors.email"
-              required
+                v-model="form.email"
+                label="البريد الإلكتروني"
+                type="email"
+                icon="ph:envelope-duotone"
+                placeholder="example@domain.com"
+                :error="errors.email"
+                required
             />
 
             <KInput
-              v-model="form.password"
-              label="كلمة المرور"
-              type="password"
-              icon="ph:lock-duotone"
-              placeholder="********"
-              :error="errors.password"
-              required
+                v-model="form.password"
+                label="كلمة المرور"
+                type="password"
+                icon="ph:lock-duotone"
+                placeholder="********"
+                :error="errors.password"
+                required
             />
 
             <button
-              type="submit"
-              :disabled="loading"
-              class="w-full bg-indigo-600 text-white rounded-lg px-4 py-3 font-arabic
-                     transform transition-all duration-300 hover:bg-indigo-700 hover:scale-[1.02]
-                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
-                     disabled:opacity-50 disabled:cursor-not-allowed"
+                type="submit"
+                :disabled="loading"
+                class="w-full bg-indigo-600 text-white rounded-lg px-4 py-3 font-arabic transform transition-all duration-300 hover:bg-indigo-700 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span v-if="!loading">تسجيل الدخول</span>
               <span v-else class="flex items-center justify-center">
@@ -56,10 +57,7 @@
           <div class="mt-8 text-center">
             <p class="text-gray-600 font-arabic">
               ليس لديك حساب؟
-              <NuxtLink 
-                to="/signup"
-                class="text-indigo-600 hover:text-indigo-500 font-bold mr-1"
-              >
+              <NuxtLink to="/signup" class="text-indigo-600 hover:text-indigo-500 font-bold mr-1">
                 إنشاء حساب جديد
               </NuxtLink>
             </p>
@@ -72,22 +70,19 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { Icon } from '@iconify/vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '~/composables/useAuth'
 import KInput from '~/components/ui/KInput.vue'
-import Swal from "sweetalert2";
-
-
+import Swal from 'sweetalert2'
+import { Icon } from '@iconify/vue'
 
 const router = useRouter()
-const { login } = useAuth() // Import login function
+const { login, user } = useAuth()
 const loading = ref(false)
 
 const form = reactive({
   email: '',
-  password: '',
-  remember: false
+  password: ''
 })
 
 const errors = reactive({
@@ -101,11 +96,9 @@ const validateEmail = (email) => {
 }
 
 const handleLogin = async () => {
-  // Reset errors
   errors.email = ''
   errors.password = ''
 
-  // Validation
   if (!form.email) {
     errors.email = 'البريد الإلكتروني مطلوب'
     return
@@ -120,23 +113,26 @@ const handleLogin = async () => {
   }
 
   loading.value = true
-
   try {
     const success = await login({
       identifier: form.email,
-      password: form.password
+      password: form.password,
     })
-
-    if (success) {
-      await Swal.fire({
-        title: 'تم تسجيل الدخول بنجاح',
-        text: 'مرحباً بك مجدداً في كُتُبي',
-        icon: 'success',
-        timer: 3000,
-        showConfirmButton: false,
-        allowOutsideClick: false
-      })
-      await router.push('/')
+    if (success && user.value) {
+      // Check user status and redirect accordingly
+      if (user.value.status === 'pending' || user.value.status === 'blocked') {
+        await router.push('/account')
+      } else if (user.value.status === 'active') {
+        await Swal.fire({
+          title: 'تم تسجيل الدخول بنجاح',
+          text: 'مرحباً بك مجدداً في كُتُبي',
+          icon: 'success',
+          timer: 3000,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+        })
+        await router.push('/')
+      }
     } else {
       errors.password = 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
     }

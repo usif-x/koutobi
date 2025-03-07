@@ -1,24 +1,27 @@
+// File: middleware/admin.ts
 export default defineNuxtRouteMiddleware(async (to) => {
     if (process.server) return
 
     const { isAuthenticated } = useAuth()
     const { errorAlert } = useAlerts()
 
-    // Check if admin status is valid
-    const checkAdminStatus = async () => {
-        try {
-            const response = await fetch('/api/auth/status')
-            const data = await response.json()
-            return data.isAdmin === true
-        } catch {
-            return false
-        }
+    if (!isAuthenticated.value) {
+        errorAlert('Error', 'Authentication required for admin access')
+        return navigateTo('/admin/login')
     }
 
-    const isAdmin = await checkAdminStatus()
-
-    if (!isAuthenticated.value || !isAdmin) {
-        errorAlert('خطأ', 'غير مصرح لك بالوصول إلى لوحة التحكم')
+    try {
+        const response = await fetch('/api/auth/status')
+        if (!response.ok) {
+            throw new Error('Failed to validate admin status')
+        }
+        const data = await response.json()
+        if (!data.isAdmin) {
+            errorAlert('Error', 'Admin privileges required')
+            return navigateTo('/admin/login')
+        }
+    } catch (error) {
+        errorAlert('Error', 'Unable to verify admin access. Please try again.')
         return navigateTo('/admin/login')
     }
 })
