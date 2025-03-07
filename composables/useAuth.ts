@@ -50,6 +50,11 @@ export function useAuth() {
     const fetchUser = async () => {
         if (!accessToken.value) return
 
+        // Skip user fetch for admin routes
+        if (process.client && window.location.pathname.startsWith('/admin')) {
+            return
+        }
+
         loading.value = true
         error.value = null
 
