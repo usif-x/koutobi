@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
     ratingCount: { type: Number, default: 0 },
     bookType: {
         type: String,
-        enum: ['paperback', 'hardcover', 'ebook', 'audiobook'],
+        enum: ['paperback', 'hardcover', 'ebook', 'audiobook','textbook'],
         required: true
     },
     metadata: {

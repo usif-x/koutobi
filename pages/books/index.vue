@@ -152,92 +152,88 @@
           </div>
 
           <!-- Grid view -->
-          <div v-else-if="viewType === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="book in filteredBooks" :key="book.id" class="bg-white rounded-xl shadow-md overflow-hidden group">
-              <!-- Book image -->
-              <div class="relative h-48">
-                <img :src="book.image" :alt="book.title" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
-                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                  <button @click="openRatingModal(book)" class="btn-icon">
-                    <Icon icon="ph:star" />
-                  </button>
-                  <button @click="addToWishlist(book.id)" class="btn-icon">
-                    <Icon icon="ph:heart" />
-                  </button>
-                  <button @click="addToCart(book)" class="btn-icon" :disabled="!book.inStock">
-                    <Icon icon="ph:shopping-cart" />
-                  </button>
-                </div>
-                <div v-if="book.discount" class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-arabic">
-                  خصم {{ book.discount }}%
-                </div>
-              </div>
+          <!-- Grid view with improved card design -->
+<div v-else-if="viewType === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div v-for="book in filteredBooks" :key="book.id" class="bg-white rounded-xl shadow-md overflow-hidden group relative transition-all duration-300 hover:shadow-lg">
+    <!-- Book image with improved hover overlay -->
+    <div class="relative h-52 overflow-hidden">
+      <img :src="book.image" :alt="book.title" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+      
+      <!-- Discount badge -->
+      <div v-if="book.discount" class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-md text-sm font-arabic font-medium">
+        خصم {{ book.discount }}%
+      </div>
+      
+      <!-- New badge -->
+      <div v-if="book.isNew" class="absolute top-2 left-2 bg-amber-500 text-white px-2 py-1 rounded-md text-sm font-arabic font-medium">
+        جديد
+      </div>
+      
+      <!-- Hover overlay with action buttons -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
+        <div class="flex items-center gap-3">
+          <button @click="openRatingModal(book)" class="w-10 h-10 rounded-full bg-white/90 text-indigo-600 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors">
+            <Icon icon="ph:star" class="text-lg" />
+          </button>
+          <button @click="addToWishlist(book.id)" class="w-10 h-10 rounded-full bg-white/90 text-indigo-600 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors">
+            <Icon icon="ph:heart" class="text-lg" />
+          </button>
+          <button @click="addToCart(book)" class="w-10 h-10 rounded-full bg-white/90 text-indigo-600 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors" :disabled="!book.inStock">
+            <Icon icon="ph:shopping-cart" class="text-lg" />
+          </button>
+          <NuxtLink :to="`/books/${book.id}`" class="w-10 h-10 rounded-full bg-white/90 text-indigo-600 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors">
+            <Icon icon="ph:eye" class="text-lg" />
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
 
-              <!-- Book details -->
-              <div class="p-4">
-                <div class="flex items-center gap-2 mb-2">
-                  <span class="text-sm text-amber-500 font-arabic">{{ getGradeName(book.gradeId) }}</span>
-                  <span class="text-gray-300">•</span>
-                  <span class="text-sm text-indigo-600 font-arabic">{{ getSubjectName(book.subjectId) }}</span>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 font-arabic">{{ book.title }}</h3>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <span class="text-lg font-bold text-indigo-600 font-arabic">{{ book.price }} ج.م</span>
-                    <span v-if="book.originalPrice" class="text-sm text-gray-400 line-through font-arabic">{{ book.originalPrice }} ج.م</span>
-                  </div>
-                  <div class="flex items-center gap-1">
-                    <Icon icon="ph:star-fill" class="text-amber-400" />
-                    <span class="text-sm text-gray-600">{{ book.rating }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Book details with improved layout -->
+    <div class="p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-xs px-2 py-1 bg-amber-100 text-amber-600 rounded-full font-arabic font-medium">{{ getGradeName(book.gradeId) }}</span>
+        <span class="text-xs px-2 py-1 bg-indigo-100 text-indigo-600 rounded-full font-arabic font-medium">{{ getSubjectName(book.subjectId) }}</span>
+      </div>
+      
+      <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 h-12 font-arabic">{{ book.title }}</h3>
+      
+      <!-- Star rating -->
+      <div class="flex items-center mb-3">
+        <div class="flex items-center">
+          <Icon v-for="i in 5" :key="i" :icon="i <= Math.round(book.rating) ? 'ph:star-fill' : 'ph:star'" 
+                :class="i <= Math.round(book.rating) ? 'text-amber-400' : 'text-gray-300'" 
+                class="text-sm" />
+        </div>
+        <span class="text-xs text-gray-500 ml-1">({{ book.rating }})</span>
+      </div>
+      
+      <!-- Price section -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-bold text-indigo-600 font-arabic">{{ book.price }} ج.م</span>
+          <span v-if="book.originalPrice" class="text-sm text-gray-400 line-through font-arabic">{{ Math.round(book.originalPrice) }} ج.م</span>
+        </div>
+      </div>
+      
+      <!-- Add to cart button (visible when not hovering) -->
+      <button 
+        @click="addToCart(book)" 
+        :disabled="!book.inStock"
+        class="mt-3 w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all flex items-center justify-center gap-2 group-hover:opacity-0 group-hover:translate-y-4 font-arabic font-medium"
+      >
+        <Icon icon="ph:shopping-cart" />
+        أضف إلى السلة
+      </button>
+    </div>
+    
+    <!-- Out of stock overlay -->
+    <div v-if="!book.inStock" class="absolute inset-0 bg-white/80 flex items-center justify-center">
+      <div class="bg-red-50 border border-red-200 text-red-600 px-3 py-2 rounded-md font-arabic font-medium">
+        نفذ من المخزون
+      </div>
+    </div>
+  </div>
 
-          <!-- List view -->
-          <div v-else class="space-y-4">
-            <div v-for="book in filteredBooks" :key="book.id" class="bg-white rounded-xl shadow-md overflow-hidden flex">
-              <div class="relative w-48">
-                <img :src="book.image" :alt="book.title" class="w-full h-full object-cover" />
-                <div v-if="book.discount" class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-arabic">
-                  خصم {{ book.discount }}%
-                </div>
-              </div>
-              <div class="flex-1 p-4">
-                <div class="flex items-center gap-2 mb-2">
-                  <span class="text-sm text-amber-500 font-arabic">{{ getGradeName(book.gradeId) }}</span>
-                  <span class="text-gray-300">•</span>
-                  <span class="text-sm text-indigo-600 font-arabic">{{ getSubjectName(book.subjectId) }}</span>
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-2 font-arabic">{{ book.title }}</h3>
-                <p class="text-gray-600 mb-4 line-clamp-2 font-arabic">{{ book.description }}</p>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2">
-                      <span class="text-lg font-bold text-indigo-600 font-arabic">{{ book.price }} ج.م</span>
-                      <span v-if="book.originalPrice" class="text-sm text-gray-400 line-through font-arabic">{{ book.originalPrice }} ج.م</span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                      <Icon icon="ph:star-fill" class="text-amber-400" />
-                      <span class="text-sm text-gray-600">{{ book.rating }}</span>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <button @click="openRatingModal(book)" class="btn-icon">
-                      <Icon icon="ph:star" />
-                    </button>
-                    <button @click="addToWishlist(book.id)" class="btn-icon">
-                      <Icon icon="ph:heart" />
-                    </button>
-                    <button @click="addToCart(book)" class="btn-primary" :disabled="!book.inStock">
-                      <Icon icon="ph:shopping-cart" class="ml-2" />
-                      أضف إلى السلة
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
 
               <!-- Pagination -->
               <div class="mt-8 flex justify-center">
@@ -448,6 +444,9 @@ isLoading.value = false
 const addToWishlist = async (bookId) => {
 try {
 await $fetch('/api/wishlist', {
+headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      },
 method: 'POST',
 body: { productId: bookId }
 })
@@ -481,6 +480,9 @@ showCartModal.value = true
 const confirmAddToCart = async () => {
 try {
 await $fetch('/api/cart/', {
+  headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      },
 method: 'POST',
 body: {
 productId: selectedBook.value.id,
@@ -504,6 +506,9 @@ showRatingModal.value = true
 const submitRating = async () => {
 try {
 await $fetch('/api/ratings', {
+  headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      },
 method: 'POST',
 body: {
 productId: selectedBook.value.id,

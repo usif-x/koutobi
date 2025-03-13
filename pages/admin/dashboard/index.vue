@@ -45,7 +45,7 @@
           </div>
           <div class="mr-4">
             <h3 class="text-sm text-gray-500">إجمالي المبيعات</h3>
-            <p class="text-2xl font-semibold">{{ stats.totalRevenue }} ر.س</p>
+            <p class="text-2xl font-semibold">{{ stats.totalRevenue }} ج.م</p>
           </div>
         </div>
       </div>
@@ -57,7 +57,13 @@
         <h2 class="text-lg font-semibold">آخر الطلبات</h2>
       </div>
       <div class="p-6">
-        <div class="overflow-x-auto">
+        <div v-if="loading" class="flex justify-center py-8">
+          <Icon icon="ph:spinner-bold" class="animate-spin text-3xl text-indigo-600" />
+        </div>
+        <div v-else-if="recentOrders.length === 0" class="text-center py-8 text-gray-500">
+          لا توجد طلبات حديثة
+        </div>
+        <div v-else class="overflow-x-auto">
           <table class="w-full">
             <thead>
             <tr class="text-right border-b">
@@ -69,16 +75,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="order in recentOrders" :key="order.id" class="border-b last:border-0">
-              <td class="py-3">#{{ order.id }}</td>
-              <td class="py-3">{{ order.user }}</td>
-              <td class="py-3">{{ order.amount }} ر.س</td>
+            <tr v-for="order in recentOrders" :key="order._id" class="border-b last:border-0">
+              <td class="py-3">#{{ order._id.substring(order._id.length - 6).toUpperCase() }}</td>
+              <td class="py-3">{{ order.userName || 'غير معروف' }}</td>
+              <td class="py-3">{{ order.total.toFixed(2) }} ج.م</td>
               <td class="py-3">
-                  <span :class="getStatusClass(order.status)">
-                    {{ order.status }}
-                  </span>
+                <span :class="getStatusClass(order.status)">
+                  {{ getStatusText(order.status) }}
+                </span>
               </td>
-              <td class="py-3">{{ order.date }}</td>
+              <td class="py-3">{{ formatDate(order.createdAt) }}</td>
             </tr>
             </tbody>
           </table>
@@ -89,35 +95,90 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Icon } from '@iconify/vue'
 
-// Mock data
+// Real data with loading state
 const stats = ref({
-  totalBooks: 156,
-  todayOrders: 24,
-  activeUsers: 1289,
-  totalRevenue: '45,920'
+  totalBooks: 0,
+  todayOrders: 0,
+  activeUsers: 0,
+  totalRevenue: '0'
 })
 
-const recentOrders = ref([
-  { id: '1234', user: 'أحمد محمد', amount: '259', status: 'مكتمل', date: '2024-02-20' },
-  { id: '1235', user: 'سارة أحمد', amount: '180', status: 'قيد المعالجة', date: '2024-02-20' },
-  { id: '1236', user: 'محمد علي', amount: '450', status: 'مكتمل', date: '2024-02-19' },
-  { id: '1237', user: 'فاطمة حسن', amount: '320', status: 'ملغي', date: '2024-02-19' },
-])
+const recentOrders = ref([])
+const loading = ref(true)
+
+// Fetch dashboard data
+const fetchDashboardData = async () => {
+  loading.value = true
+  try {
+    const response = await fetch('/api/admin/dashboard', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch dashboard data')
+    }
+    
+    const data = await response.json()
+    stats.value = data.stats
+    recentOrders.value = data.recentOrders
+  } catch (error) {
+    console.error('Error fetching dashboard data:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
+// Format date for Arabic locale
+const formatDate = (dateString) => {
+  if (!dateString) return 'غير متوفر'
+  try {
+    const date = new Date(dateString)
+    return new Intl.DateTimeFormat('ar-EG', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }).format(date)
+  } catch (e) {
+    return 'غير متوفر'
+  }
+}
+
+// Status mapping
+const getStatusText = (status) => {
+  const statusMap = {
+    'pending': 'قيد الانتظار',
+    'processing': 'قيد المعالجة',
+    'shipped': 'تم الشحن',
+    'delivered': 'تم التوصيل',
+    'cancelled': 'ملغي'
+  }
+  return statusMap[status] || status
+}
 
 const getStatusClass = (status) => {
   const classes = {
-    'مكتمل': 'bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm',
-    'قيد المعالجة': 'bg-amber-100 text-amber-800 px-2 py-1 rounded-full text-sm',
-    'ملغي': 'bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm'
+    'pending': 'bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm',
+    'processing': 'bg-amber-100 text-amber-800 px-2 py-1 rounded-full text-sm',
+    'shipped': 'bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-sm',
+    'delivered': 'bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm',
+    'cancelled': 'bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm'
   }
-  return classes[status]
+  return classes[status] || 'bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-sm'
 }
 
+// Fetch data on component mount
+onMounted(() => {
+  fetchDashboardData()
+})
+
 definePageMeta({
-  layout: 'admin'
+  layout: 'admin',
+  middleware: ['admin']
 })
 
 useHead({

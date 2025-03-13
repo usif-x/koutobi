@@ -177,11 +177,10 @@ useHead({
               <div class="space-y-4">
                 <div v-for="item in order.items" :key="item._id" class="flex items-center gap-4">
                   <div class="w-16 h-20 bg-gray-100 rounded-lg overflow-hidden">
-                    <img
-                        :src="item.product.image"
-                        :alt="item.product.title"
-                        class="w-full h-full object-cover"
-                        @error="$event.target.src = '/images/placeholder.png'"
+                    <Icon 
+                        icon="ph:books-bold"
+                        class="w-full h-full text-gray-400"
+                        @error="$event.target.icon = 'ph:image-square-duotone'"
                     />
                   </div>
                   <div class="flex-1">

@@ -119,10 +119,6 @@ const handleLogin = async () => {
       password: form.password,
     })
     if (success && user.value) {
-      // Check user status and redirect accordingly
-      if (user.value.status === 'pending' || user.value.status === 'blocked') {
-        await router.push('/account')
-      } else if (user.value.status === 'active') {
         await Swal.fire({
           title: 'تم تسجيل الدخول بنجاح',
           text: 'مرحباً بك مجدداً في كُتُبي',
@@ -131,9 +127,11 @@ const handleLogin = async () => {
           showConfirmButton: false,
           allowOutsideClick: false,
         })
-        await router.push('/')
-      }
-    } else {
+        // Add a small delay before navigation
+        setTimeout(() => {
+          router.push('/')
+        }, 500)
+      } else {
       errors.password = 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
     }
   } catch (error) {

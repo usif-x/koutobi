@@ -31,13 +31,57 @@
           <h2 class="text-lg font-semibold text-indigo-900 font-arabic mb-4">المنتجات</h2>
           <div class="divide-y divide-gray-100">
             <div v-for="item in order.items" :key="item._id" class="py-4">
-              <div class="flex justify-between items-center">
-                <div class="flex-1">
-                  <h3 class="font-semibold text-indigo-900 font-arabic">{{ item.product.title }}</h3>
-                  <p class="text-sm text-gray-600">{{ formatPrice(item.price) }} × {{ item.quantity }}</p>
+              <div class="flex gap-4">
+                <!-- Product Image or Icon -->
+                <div class="w-20 h-24 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center shrink-0">
+                  <img 
+                    v-if="item.product.images && item.product.images.length > 0" 
+                    :src="item.product.images[0]" 
+                    :alt="item.product.name" 
+                    class="w-full h-full object-cover"
+                  />
+                  <Icon 
+                    v-else 
+                    icon="ph:book-duotone" 
+                    class="text-4xl text-indigo-300"
+                  />
                 </div>
-                <div class="text-indigo-900 font-semibold">
-                  {{ formatPrice(item.price * item.quantity) }}
+                
+                <!-- Product Details -->
+                <div class="flex-1">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <h3 class="font-semibold text-indigo-900 font-arabic">{{ item.product.name }}</h3>
+                      <p class="text-sm text-gray-600 mt-1">{{ formatPrice(item.price) }} × {{ item.quantity }}</p>
+                    </div>
+                    <div class="text-indigo-900 font-semibold">
+                      {{ formatPrice(item.price * item.quantity) }}
+                    </div>
+                  </div>
+                  
+                  <!-- Additional Product Details -->
+                  <div class="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                    <div>
+                      <span class="text-gray-500">المؤلف:</span>
+                      <span class="text-gray-700 mr-1">{{ item.product.author }}</span>
+                    </div>
+                    <div>
+                      <span class="text-gray-500">الفئة:</span>
+                      <span class="text-gray-700 mr-1">{{ getCategoryName(item.product.category) }}</span>
+                    </div>
+                    <div>
+                      <span class="text-gray-500">النوع:</span>
+                      <span class="text-gray-700 mr-1">{{ getBookTypeName(item.product.bookType) }}</span>
+                    </div>
+                    <div v-if="item.product.ratingCount > 0">
+                      <span class="text-gray-500">التقييم:</span>
+                      <span class="text-gray-700 mr-1 flex items-center">
+                        {{ item.product.ratingAverage }}
+                        <Icon icon="ph:star-fill" class="text-amber-400 ml-1" />
+                        ({{ item.product.ratingCount }})
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -107,16 +151,45 @@ const statusText = computed(() => {
   return statusMap[order.value.status] || order.value.status
 })
 
-const formatPrice = (price) => `${price} جنيه`
+const formatPrice = (price) => `${price} ج.م`
 
 const formatDate = (dateString) => {
-  return new Intl.DateTimeFormat('ar-EG', {
+  if (!dateString) return 'غير متوفر'
+  const date = new Date(dateString)
+  return isNaN(date) ? 'غير متوفر' : new Intl.DateTimeFormat('ar-EG', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit'
-  }).format(new Date(dateString))
+  }).format(date)
+}
+
+const getCategoryName = (category) => {
+  const categories = {
+    'study': 'كتب دراسية',
+    'novel': 'روايات',
+    'children': 'كتب أطفال',
+    'religious': 'كتب دينية',
+    'self-development': 'تنمية ذاتية',
+    'story': 'قصص',
+    'other': 'أخرى'
+  }
+  return categories[category] || category
+}
+
+const getBookTypeName = (bookType) => {
+  const types = {
+    'textbook': 'كتاب مدرسي',
+    'workbook': 'كتاب تمارين',
+    'guide': 'دليل مرجعي',
+    'novel': 'رواية',
+    'story': 'قصة',
+    'paperback': 'غلاف ورقي',
+    'hardcover': 'غلاف صلب',
+    'other': 'أخرى'
+  }
+  return types[bookType] || bookType
 }
 
 const getAccessToken = () => {

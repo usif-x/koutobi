@@ -95,14 +95,19 @@ export function useAuth() {
 
             if (!response.ok) throw new Error(data.message || 'Login failed')
 
+            // Set tokens first
             setTokens(data.accessToken, data.refreshToken)
+            
+            // Then fetch user data
             await fetchUser()
-            return true
+            
+            // Return success with user data
+            return { success: true, user: user.value }
         } catch (e: any) {
             error.value = e.message || 'Login failed'
             clearTokens()
             user.value = null
-            return false
+            return { success: false, error: error.value }
         } finally {
             loading.value = false
         }
@@ -206,6 +211,12 @@ export function useAuth() {
         }
     }
 
+    // Add a new method to check if the user is admin
+    const isAdmin = computed(() => {
+        if (!user.value) return false
+        return user.value.isAdmin === true
+    })
+
     return {
         user: computed(() => user.value),
         accessToken: computed(() => accessToken.value),
@@ -213,6 +224,7 @@ export function useAuth() {
         isAuthenticated,
         loading: computed(() => loading.value),
         error: computed(() => error.value),
+        isAdmin,
         login,
         logout,
         fetchUser,

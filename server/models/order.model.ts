@@ -15,6 +15,11 @@ const orderSchema = new Schema({
         enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
         default: 'pending'
     }
-}, { timestamps: true })
+}, { 
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    }
+})
 
 export const Order = model('Order', orderSchema)

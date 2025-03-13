@@ -110,9 +110,36 @@ import { Icon } from '@iconify/vue';
 import BookSlider from '~/components/ui/BooksSlider.vue';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
 import { useAuth } from '~/composables/useAuth';
+import { useRouter } from 'vue-router';
 
 // Import authentication composable and get authentication state
 const { isAuthenticated } = useAuth();
+const router = useRouter();
+const isAdmin = ref(false);
+
+// Check if user is admin and redirect if needed
+const checkAdminStatus = async () => {
+  try {
+    const response = await fetch('/api/auth/status', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      isAdmin.value = data.isAdmin;
+      
+      // Redirect to admin dashboard if user is admin
+      if (data.isAdmin) {
+        router.push('/admin/dashboard');
+      }
+    }
+  } catch (error) {
+    console.error('Error checking admin status:', error);
+  }
+};
+
 // SEO
 useHead({
   title: 'كُتُبي - متجر الكتب العربية الأول',
@@ -140,6 +167,11 @@ const featuredBooks = ref([]);
 const newArrivals = ref([]);
 
 onMounted(async () => {
+  // Check admin status if user is authenticated
+  if (isAuthenticated.value) {
+    await checkAdminStatus();
+  }
+  
   await store.fetchProducts();
 
   featuredBooks.value = store.products

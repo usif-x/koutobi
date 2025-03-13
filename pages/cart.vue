@@ -24,9 +24,16 @@
     <section class="relative z-10 px-4 md:px-6 lg:px-8 pb-16">
       <div class="container mx-auto">
         <div class="max-w-6xl mx-auto">
+          <!-- Loading State -->
+          <div v-if="loading" class="bg-white rounded-2xl shadow-lg p-8 text-center">
+            <div class="flex flex-col items-center justify-center gap-4 py-8">
+              <Icon icon="ph:spinner-gap-bold" class="text-indigo-400 text-6xl animate-spin"/>
+              <h2 class="text-2xl font-semibold text-indigo-900 font-arabic">جاري تحميل سلة التسوق...</h2>
+            </div>
+          </div>
 
           <!-- Empty Cart State -->
-          <div v-if="cart.items.length === 0" class="bg-white rounded-2xl shadow-lg p-8 text-center">
+          <div v-else-if="!cart || !cart.items || cart.items.length === 0" class="bg-white rounded-2xl shadow-lg p-8 text-center">
             <div class="flex flex-col items-center justify-center gap-4 py-8">
               <Icon icon="ph:shopping-cart-simple-duotone" class="text-indigo-200 text-8xl"/>
               <h2 class="text-2xl font-semibold text-indigo-900 font-arabic">سلة التسوق فارغة</h2>
@@ -51,43 +58,56 @@
                   </tr>
                   </thead>
                   <tbody class="divide-y divide-indigo-100">
-                  <tr v-for="item in cart.items" :key="item.id" class="hover:bg-indigo-50/30 transition-colors duration-200">
+                  <tr v-for="item in cart.items" :key="item._id" class="hover:bg-indigo-50/30 transition-colors duration-200">
                     <td class="py-4 px-6">
                       <div class="flex items-center gap-4">
                         <div class="w-16 h-20 rounded-md overflow-hidden shadow-sm">
-                          <img :src="item.image" :alt="item.title" class="w-full h-full object-cover" />
+                          <img 
+                            :src="item.product.images && item.product.images.length > 0 ? item.product.images[0] : '/images/placeholder-book.jpg'" 
+                            :alt="item.product.name" 
+                            class="w-full h-full object-cover" 
+                          />
                         </div>
                         <div>
-                          <h3 class="text-indigo-900 font-semibold font-arabic">{{ item.title }}</h3>
-                          <p class="text-gray-500 text-sm font-arabic">{{ item.author }}</p>
+                          <h3 class="text-indigo-900 font-semibold font-arabic">{{ item.product.name }}</h3>
+                          <p class="text-gray-500 text-sm font-arabic">{{ item.product.author }}</p>
                         </div>
                       </div>
                     </td>
-                    <td class="py-4 px-6 text-center font-arabic">{{ formatPrice(item.price) }}</td>
+                    <td class="py-4 px-6 text-center font-arabic">
+                      <div v-if="item.product.hasDiscount" class="flex flex-col items-center">
+                        <span class="line-through text-gray-400 text-sm">{{ formatPrice(item.product.price) }}</span>
+                        <span>{{ formatPrice(getDiscountedPrice(item.product)) }}</span>
+                      </div>
+                      <span v-else>{{ formatPrice(item.product.price) }}</span>
+                    </td>
                     <td class="py-4 px-6 text-center">
                       <div class="flex items-center justify-center">
                         <button
-                            @click="decreaseQuantity(item.id)"
+                            @click="decreaseQuantity(item.product._id)"
                             class="w-8 h-8 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors"
+                            :disabled="updateLoading"
                         >
                           <Icon icon="ph:minus" />
                         </button>
                         <span class="w-12 text-center font-arabic mx-2">{{ item.quantity }}</span>
                         <button
-                            @click="increaseQuantity(item.id)"
+                            @click="increaseQuantity(item.product._id)"
                             class="w-8 h-8 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors"
+                            :disabled="updateLoading || item.quantity >= item.product.stockCount"
                         >
                           <Icon icon="ph:plus" />
                         </button>
                       </div>
                     </td>
                     <td class="py-4 px-6 text-center font-arabic font-semibold text-indigo-900">
-                      {{ formatPrice(item.price * item.quantity) }}
+                      {{ formatPrice(getItemTotal(item)) }}
                     </td>
                     <td class="py-4 px-6 text-center">
                       <button
-                          @click="removeFromCart(item.id)"
+                          @click="removeFromCart(item.product._id)"
                           class="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors"
+                          :disabled="updateLoading"
                       >
                         <Icon icon="ph:trash" />
                       </button>
@@ -109,13 +129,30 @@
                       v-model="couponCode"
                       placeholder="أدخل كود الخصم"
                       class="flex-1 px-4 py-2 border border-indigo-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-right font-arabic"
+                      :disabled="couponLoading || appliedCoupon"
                   />
                   <button
+                      v-if="!appliedCoupon"
                       @click="applyCoupon"
-                      class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg font-arabic hover:bg-indigo-200 transition-colors"
+                      class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg font-arabic hover:bg-indigo-200 transition-colors flex items-center gap-2"
+                      :disabled="couponLoading || !couponCode"
                   >
-                    تطبيق
+                    <Icon v-if="couponLoading" icon="ph:spinner-gap-bold" class="animate-spin" />
+                    <span>تطبيق</span>
                   </button>
+                  <button
+                      v-else
+                      @click="removeCoupon"
+                      class="bg-red-100 text-red-600 px-4 py-2 rounded-lg font-arabic hover:bg-red-200 transition-colors"
+                  >
+                    إلغاء
+                  </button>
+                </div>
+                <div v-if="couponError" class="mt-2 text-red-500 text-sm font-arabic">
+                  {{ couponError }}
+                </div>
+                <div v-if="appliedCoupon" class="mt-2 text-green-600 text-sm font-arabic">
+                  تم تطبيق كوبون "{{ appliedCoupon.code }}" بنجاح ({{ appliedCoupon.discount }}%)
                 </div>
               </div>
 
@@ -148,6 +185,7 @@
                     to="/checkout"
                     isLink
                     class="w-full mt-6"
+                    :disabled="updateLoading || cart.items.length === 0"
                 />
               </div>
             </div>
@@ -173,6 +211,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
+import { useAlerts } from '~/composables/useAlerts';
 
 // SEO
 useHead({
@@ -182,35 +221,65 @@ useHead({
   ],
 });
 
-const cart = ref({
-  items: [
-    {
-      id: 1,
-      title: "الرياضيات للصف الثالث الثانوي",
-      author: "د. أحمد محمود",
-      price: 120,
-      quantity: 1,
-      image: "/images/book1.jpg"
-    },
-    {
-      id: 2,
-      title: "الفيزياء المتقدمة",
-      author: "د. سمير حسين",
-      price: 85,
-      quantity: 2,
-      image: "/images/book2.jpg"
-    }
-  ]
-});
-
+const { successToast, errorToast } = useAlerts();
+const cart = ref(null);
+const loading = ref(true);
+const updateLoading = ref(false);
+const couponLoading = ref(false);
 const couponCode = ref('');
+const couponError = ref('');
+const appliedCoupon = ref(null);
 const discount = ref(0);
 const shippingCost = ref(30); // Fixed shipping cost
 
+// Fetch cart data
+const fetchCart = async () => {
+  loading.value = true;
+  try {
+    const response = await fetch('/api/cart', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch cart');
+    }
+    
+    const data = await response.json();
+    cart.value = data.cart;
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+    errorToast('حدث خطأ أثناء تحميل سلة التسوق');
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Get discounted price for a product
+const getDiscountedPrice = (product) => {
+  if (product.hasDiscount && product.discountPercentage > 0) {
+    return product.price * (1 - product.discountPercentage / 100);
+  }
+  return product.price;
+};
+
+// Get total price for an item (considering discounts)
+const getItemTotal = (item) => {
+  const price = getDiscountedPrice(item.product);
+  return price * item.quantity;
+};
+
 // Computed values
 const subtotal = computed(() => {
+  if (!cart.value || !cart.value.items || cart.value.items.length === 0) {
+    return 0;
+  }
+  
   return cart.value.items.reduce((total, item) => {
-    return total + (item.price * item.quantity);
+    return total + getItemTotal(item);
   }, 0);
 });
 
@@ -220,42 +289,132 @@ const total = computed(() => {
 
 // Methods
 const formatPrice = (price) => {
-  return `${price} جنيه`;
+  return `${price.toFixed(2)} ج.م`;
 };
 
-const increaseQuantity = (itemId) => {
-  cartStore.increaseQuantity(itemId);
-};
-
-const decreaseQuantity = (itemId) => {
-  cartStore.decreaseQuantity(itemId);
-};
-
-const removeFromCart = (itemId) => {
-  cartStore.removeItem(itemId);
-};
-
-const applyCoupon = () => {
-  if (couponCode.value.toLowerCase() === 'discount10') {
-    discount.value = subtotal.value * 0.1;
-    alert('تم تطبيق الخصم بنجاح!');
-  } else if (couponCode.value.toLowerCase() === 'freeshipping') {
-    shippingCost.value = 0;
-    alert('تم تطبيق كوبون الشحن المجاني بنجاح!');
-  } else {
-    alert('كود الخصم غير صالح!');
+// Update cart item quantity
+const updateCartItem = async (productId, quantity) => {
+  updateLoading.value = true;
+  try {
+    const response = await fetch(`/api/cart/${productId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      },
+      body: JSON.stringify({ quantity })
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to update cart');
+    }
+    
+    await fetchCart();
+    successToast('تم تحديث سلة التسوق بنجاح');
+  } catch (error) {
+    console.error('Error updating cart:', error);
+    errorToast('حدث خطأ أثناء تحديث سلة التسوق');
+  } finally {
+    updateLoading.value = false;
   }
 };
 
-// Initialize
-onMounted(() => {
-  // Initialize cart from store or API if needed
-});
+// Increase item quantity
+const increaseQuantity = (productId) => {
+  if (updateLoading.value) return;
+  
+  const item = cart.value.items.find(item => item.product._id === productId);
+  if (item && item.quantity < item.product.stockCount) {
+    updateCartItem(productId, item.quantity + 1);
+  }
+};
 
-// Define page meta
-definePageMeta({
-  middleware: ['auth']
-})
+// Decrease item quantity
+const decreaseQuantity = (productId) => {
+  if (updateLoading.value) return;
+  
+  const item = cart.value.items.find(item => item.product._id === productId);
+  if (item && item.quantity > 1) {
+    updateCartItem(productId, item.quantity - 1);
+  } else if (item && item.quantity === 1) {
+    removeFromCart(productId);
+  }
+};
+
+// Remove item from cart
+const removeFromCart = async (productId) => {
+  updateLoading.value = true;
+  try {
+    const response = await fetch(`/api/cart/${productId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to remove item from cart');
+    }
+    
+    await fetchCart();
+    successToast('تم إزالة المنتج من سلة التسوق بنجاح');
+  } catch (error) {
+    console.error('Error removing item from cart:', error);
+    errorToast('حدث خطأ أثناء إزالة المنتج من سلة التسوق');
+  } finally {
+    updateLoading.value = false;
+  }
+};
+
+// Apply coupon
+const applyCoupon = async () => {
+  if (!couponCode.value || couponLoading.value) return;
+  
+  couponLoading.value = true;
+  couponError.value = '';
+  
+  try {
+    const response = await fetch('/api/coupons/apply', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      },
+      body: JSON.stringify({ code: couponCode.value })
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      couponError.value = data.message || 'كود الخصم غير صالح';
+      return;
+    }
+    
+    appliedCoupon.value = data.coupon;
+    discount.value = (subtotal.value * appliedCoupon.value.discount) / 100;
+    successToast('تم تطبيق كوبون الخصم بنجاح');
+  } catch (error) {
+    console.error('Error applying coupon:', error);
+    couponError.value = 'حدث خطأ أثناء تطبيق كوبون الخصم';
+  } finally {
+    couponLoading.value = false;
+  }
+};
+
+// Remove applied coupon
+const removeCoupon = () => {
+  appliedCoupon.value = null;
+  discount.value = 0;
+  couponCode.value = '';
+  couponError.value = '';
+  successToast('تم إلغاء كوبون الخصم');
+};
+
+// Fetch cart on component mount
+onMounted(() => {
+  fetchCart();
+});
 </script>
 
 <style scoped>

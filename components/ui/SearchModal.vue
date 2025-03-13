@@ -110,11 +110,22 @@ watch(() => props.modelValue, async (newVal) => {
 const handleSearch = () => {
   if (!searchQuery.value.trim()) return;
 
+  // Construct query parameters based on active tab
+  const query = {};
+  
+  if (activeTab.value === 'books') {
+    query.search = searchQuery.value.trim();
+  } else if (activeTab.value === 'authors') {
+    query.authors = searchQuery.value.trim();
+  } else if (activeTab.value === 'categories') {
+    query.categories = searchQuery.value.trim();
+  }
+
   router.push({
     path: '/search',
     query: {
-      type: activeTab.value,
-      query: searchQuery.value.trim()
+      ...query,
+      type: activeTab.value
     }
   });
 
