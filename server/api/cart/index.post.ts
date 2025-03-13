@@ -14,6 +14,9 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, message: 'Product ID and quantity are required' })
     }
 
+    // Define maximum allowed quantity per product
+    const MAX_QUANTITY = 10
+
     try {
         // Check if product exists
         const product = await Product.findById(body.productId)
@@ -33,9 +36,28 @@ export default defineEventHandler(async (event) => {
         )
 
         if (itemIndex > -1) {
+            // Calculate new quantity
+            const newQuantity = cart.items[itemIndex].quantity + body.quantity
+            
+            // Enforce maximum quantity limit
+            if (newQuantity > MAX_QUANTITY) {
+                throw createError({ 
+                    statusCode: 400, 
+                    message: `Maximum quantity of ${MAX_QUANTITY} per product exceeded` 
+                })
+            }
+            
             // Update quantity if product exists
-            cart.items[itemIndex].quantity += body.quantity
+            cart.items[itemIndex].quantity = newQuantity
         } else {
+            // Check if requested quantity exceeds maximum
+            if (body.quantity > MAX_QUANTITY) {
+                throw createError({ 
+                    statusCode: 400, 
+                    message: `Maximum quantity of ${MAX_QUANTITY} per product exceeded` 
+                })
+            }
+            
             // Add new item to cart
             cart.items.push({ product: body.productId, quantity: body.quantity })
         }
