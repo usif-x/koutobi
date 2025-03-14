@@ -78,7 +78,7 @@
               <!-- Member Since -->
               <div class="p-4 flex items-center justify-between">
                 <span class="text-gray-600 font-arabic">عضو منذ</span>
-                <span class="text-indigo-900 font-arabic">{{ userData.memberSince }}</span>
+                <span class="text-indigo-900 font-arabic">{{ new Date(userData.createdAt).toLocaleDateString('ar-EG') }}</span>
               </div>
             </div>
 
@@ -497,7 +497,6 @@ const userData = ref({
     wishlist: 0,
     reviews: 0
   },
-  memberSince: '',
   createdAt: new Date()
 })
 
