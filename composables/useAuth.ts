@@ -184,10 +184,7 @@ export function useAuth() {
                     icon: 'error',
                     showConfirmButton: true
                 })
-
-                const router = useRouter() // استدعاء useRouter() هنا داخل الدالة فقط
-                await router.push("/login")
-                return false
+                return navigateTo('/login')
             }
             setTokens(data.accessToken, data.refreshToken)
             await fetchUser()

@@ -9,8 +9,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
         '/profile',
         '/cart',
         '/orders',
+        '/orders/*',
         '/categories',
         '/books',
+        '/books/*',
         '/authors',
         '/checkout',
         '/logout',
@@ -25,12 +27,12 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const isAuthPath = authRoutes.some((route) => to.path.startsWith(route))
 
     if (isProtectedPath && !isAuthenticated.value) {
-        errorAlert('Error', 'You must log in first')
+        errorAlert('خطأ', 'يجب عليك تسجيل الدخول أولاً')
         return navigateTo('/login')
     }
 
     if (isAuthPath && isAuthenticated.value) {
-        errorAlert('Error', 'You are already logged in')
+        errorAlert('خطأ', 'أنت مسجل دخول بالفعل')
         return navigateTo('/')
     }
 })
