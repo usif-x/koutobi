@@ -599,7 +599,7 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 5px;
-  background: #fefefe;
+  background: transparent;
   overflow: hidden;
   z-index: 9999;
   transform: translateY(-5px);
