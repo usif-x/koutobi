@@ -350,14 +350,15 @@
 
 // Script setup section for books/index.vue
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { Icon } from '@iconify/vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAlerts } from '~/composables/useAlerts'
 import Modal from '~/components/ui/Modal.vue'
 
 // Setup core utilities
 const router = useRouter()
+const route = useRoute()
 const { errorToast, successToast } = useAlerts()
 
 // State Management
@@ -371,6 +372,7 @@ const selectedSubjects = ref([])
 const priceRange = ref([0])
 const sortBy = ref('default')
 const viewType = ref('grid')
+const isSubmitting = ref(false)
 
 // Modal states
 const showRatingModal = ref(false)
@@ -577,21 +579,25 @@ currentPage.value = 1
 fetchBooks()
 })
 
-// Lifecycle Hooks
-onMounted(() => {
+// Improved watchers
+watch([searchQuery, selectedGrades, selectedSubjects, priceRange, sortBy], () => {
+currentPage.value = 1
+fetchBooks()
+}, { deep: true })
+
+// Watch for page changes
+watch(currentPage, () => {
 fetchBooks()
 })
 
-// Page Meta
-useHead({
-title: 'كُتُبي - معرض الكتب',
-meta: [
-{ name: 'description', content: 'تصفح مجموعتنا الواسعة من الكتب والمذكرات الدراسية للمراحل الإعدادية والثانوية' }
-]
+// Watch for route changes to refresh data
+watch(() => route.fullPath, () => {
+fetchBooks()
 })
 
-definePageMeta({
-  middleware: ['auth']
+// Lifecycle Hooks
+onMounted(() => {
+fetchBooks()
 })
 </script>
 

@@ -47,7 +47,6 @@ const fetchNotifications = async () => {
     const response = await $fetch("/api/notifications");
     notifications.value = response.notifications || [];
   } catch (error) {
-    console.error("Failed to fetch notifications:", error);
   }
 };
 

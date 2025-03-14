@@ -99,7 +99,6 @@ const handleUpload = async () => {
     }
     selectedFile.value = null;
   } catch (err) {
-    console.error('Upload failed:', err);
   }
 };
 </script>

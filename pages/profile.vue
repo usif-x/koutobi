@@ -799,7 +799,6 @@ const updateAddress = async () => {
     if (error.value) {
       console.error('خطأ أثناء إرسال الإشعار:', error.value);
     } else {
-      console.log('تم إرسال الإشعار بنجاح:', data.value);
     }
 
     await fetchUserData()

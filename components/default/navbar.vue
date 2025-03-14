@@ -336,7 +336,6 @@ const toggleNotifications = () => {
   // If opening notifications, fetch them
   if (showNotifications.value) {
     fetchNotifications().then(() => {
-      console.log('Notifications after fetch:', notifications.value)
     })
   }
 }
@@ -383,18 +382,14 @@ const fetchCartItems = async () => {
       headers: getAuthHeaders(),
     });
 
-    console.log('Cart API response:', response);
-
     if (response && response.cart && Array.isArray(response.cart.items)) {
       cartItems.value = response.cart.items;
       cartItemsCount.value = response.cart.items.reduce((sum, item) => sum + item.quantity, 0);
-      console.log('Updated cart count to:', cartItemsCount.value);
     } else {
       cartItems.value = [];
       cartItemsCount.value = 0;
     }
   } catch (error) {
-    console.error('Error fetching cart:', error);
     normalToast("❌ فشل في جلب عناصر السلة");
     cartItems.value = [];
     cartItemsCount.value = 0;
