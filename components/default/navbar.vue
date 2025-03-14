@@ -19,6 +19,9 @@
         </NuxtLink>
 
         <!-- Desktop Menu -->
+<div v-if="isLoading" class="bar" :class="{ 'active': isLoading }">
+  <div></div>
+</div>
         <nav class="hidden md:flex space-x-1 space-x-reverse order-2">
           <NuxtLink to="/" class="px-3 py-2 text-gray-700 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
             الرئيسية
@@ -277,6 +280,7 @@ import { useAlerts } from '~/composables/useAlerts'
 const { normalToast, errorToast } = useAlerts()
 
 const router = useRouter()
+const isLoading = ref(false)
 const showSearchModal = ref(false)
 const scrolled = ref(false)
 const scrollY = ref(0)
@@ -525,6 +529,17 @@ onMounted(() => {
 
 })
 
+  router.beforeEach(() => {
+    isLoading.value = true
+    return true
+  })
+
+  router.afterEach(() => {
+    setTimeout(() => {
+      isLoading.value = false
+    }, 2000)
+  })
+
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   window.removeEventListener('click', closeDropdowns)
@@ -576,5 +591,43 @@ onUnmounted(() => {
 
 .animate-pulse {
   animation: pulse 1.5s infinite;
+}
+
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #fefefe;
+  overflow: hidden;
+  z-index: 9999;
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+.bar.active {
+  transform: translateY(0);
+}
+
+.bar div:before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  background: #4f46e5;
+  animation: box-1 0.5s cubic-bezier(0.65, 0.81, 0.73, 0.4) infinite;
+}
+
+.bar div:after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  background: #4f46e5;
+  animation: box-2 0.5s cubic-bezier(0.16, 0.84, 0.44, 1) infinite;
+  animation-delay: 0.5s;
 }
 </style>
