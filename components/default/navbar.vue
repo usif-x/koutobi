@@ -1,6 +1,6 @@
 <!-- components/Navbar.vue -->
 <template dir="rtl">
-  <header class="sticky top-0 z-50 bg-transparent rtl transition-all ease duration-500"
+  <header class="sticky top-0 z-50 bg-transparent rtl transition-all ease duration-300"
           :class="{ 'bg-white/90 backdrop-blur-lg': scrolled }">
     <div class="container mx-auto px-4 md:px-6">
       <div class="flex items-center justify-between h-16 md:h-20">
@@ -19,9 +19,18 @@
         </NuxtLink>
 
         <!-- Desktop Menu -->
-<div v-if="isLoading" class="bar" :class="{ 'active': isLoading }">
-  <div></div>
-</div>
+<Transition
+  enter-active-class="transition duration-300 ease-out"
+  enter-from-class="transform -translate-y-full"
+  enter-to-class="transform translate-y-0"
+  leave-active-class="transition duration-200 ease-in"
+  leave-from-class="transform translate-y-0"
+  leave-to-class="transform -translate-y-full"
+>
+  <div class="bar" :class="{ 'active': isLoading }">
+    <div></div>
+  </div>
+</Transition>
         <nav class="hidden md:flex space-x-1 space-x-reverse order-2">
           <NuxtLink to="/" class="px-3 py-2 text-gray-700 hover:text-indigo-700 hover:shadow-lg hover:scale-105 transition duration-300 rounded-lg font-arabic">
             الرئيسية
@@ -210,7 +219,7 @@
 
     <!-- Add scroll progress bar UNDER the navigation -->
       <div 
-     class="h-1 w-full relative bg-indigo-300 transition-all duration-500 ease-out opacity-0"
+     class="h-1 w-full relative bg-indigo-300 transition-all duration-300 ease-out opacity-0"
      :class="{ '-translate-y-2 opacity-0': !scrolled, 'translate-y-1 opacity-100': scrolled }">
   <div class="absolute top-0 left-0 h-full bg-indigo-600"
        :style="{ width: `${scrollProgress}%` }"></div>
@@ -603,7 +612,7 @@ onUnmounted(() => {
   overflow: hidden;
   z-index: 9999;
   transform: translateY(-5px);
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
 
 .bar.active {
@@ -617,7 +626,7 @@ onUnmounted(() => {
   left: 0px;
   bottom: 0px;
   background: #4f46e5;
-  animation: box-1 0.5s cubic-bezier(0.65, 0.81, 0.73, 0.4) infinite;
+  animation: box-1 0.4s cubic-bezier(0.65, 0.81, 0.73, 0.4) infinite;
 }
 
 .bar div:after {
@@ -627,8 +636,8 @@ onUnmounted(() => {
   left: 0px;
   bottom: 0px;
   background: #4f46e5;
-  animation: box-2 0.5s cubic-bezier(0.16, 0.84, 0.44, 1) infinite;
-  animation-delay: 0.5s;
+  animation: box-2 0.4s cubic-bezier(0.16, 0.84, 0.44, 1) infinite;
+  animation-delay: 04s;
 }
 
 @keyframes box-1 {

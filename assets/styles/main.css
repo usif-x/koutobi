@@ -80,3 +80,73 @@ html {
 .animate-float-slow {
   animation: float-slow 20s ease-in-out infinite;
 }
+.circle-sketch-highlight {
+  position: relative;
+  display: inline-block;
+  direction: rtl;
+  z-index: 20; /* Ensure RTL direction */
+}
+
+.circle-sketch-highlight:before {
+  content: "";
+  z-index: 20;
+  right: -0.1em; /* For RTL */
+  top: -0.1em;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #4f46e5;
+  border-radius: 10px;
+  position: absolute;
+  border-left-color: transparent; /* Changed for RTL */
+  width: 100%;
+  height: 100%;
+  transform: rotate(-2deg); /* Reversed for RTL */
+  opacity: 0;
+  border-radius: 50%;
+  padding: 0.1em 0.25em;
+  animation: sketch-before 1s ease-in-out forwards;
+}
+
+.circle-sketch-highlight:after {
+  content: "";
+  z-index: 20;
+  right: -0.1em; /* For RTL */
+  top: -0.1em;
+  padding: 0.1em 0.25em;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #4f46e5;
+  border-right-color: transparent; /* Changed for RTL */
+  border-top-color: transparent;
+  position: absolute;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  transform: rotate(1deg); /* Reversed for RTL */
+  opacity: 0;
+  border-radius: 50%;
+  animation: sketch-after 1s ease-in-out forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes sketch-before {
+  0% {
+    opacity: 0;
+    transform: rotate(-2deg) scale(0.9); /* Reversed for RTL */
+  }
+  100% {
+    opacity: 0.7;
+    transform: rotate(-2deg) scale(1); /* Reversed for RTL */
+  }
+}
+
+@keyframes sketch-after {
+  0% {
+    opacity: 0;
+    transform: rotate(1deg) scale(0.9); /* Reversed for RTL */
+  }
+  100% {
+    opacity: 0.7;
+    transform: rotate(1deg) scale(1); /* Reversed for RTL */
+  }
+}

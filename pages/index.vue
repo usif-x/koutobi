@@ -25,7 +25,13 @@
           <div class="w-full md:w-1/2 text-right space-y-5 md:space-y-6">
             <div class="relative inline-block">
               <span class="absolute -top-3 -right-3 w-12 h-12 bg-amber-300 rounded-full opacity-20 blur-md"></span>
-              <h1 class="relative text-4xl md:text-5xl lg:text-3xl text-indigo-900 tracking-tight m-3" style="font-family: 'Hemeda';">كُتُبي<span class="text-6xl font-bold" style="font-family: 'Hala'">.شوب</span></h1>
+              <h1 class="relative text-2xl md:text-3xl lg:text-4xl text-indigo-900 tracking-tight m-3 group" style="font-family: 'Hemeda';">
+                <!-- Animated highlight circles -->
+                <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 via-indigo-300 to-amber-400 rounded-lg blur-lg opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200 animate-gradient"></div>
+                <div class="relative">
+                 <span class="circle-sketch-highlight">كُتُبي<span class="lg:text-6xl md:text-5xl text-4xl" style="font-family: 'Hala'">.شوب</span></span>
+                </div>
+              </h1>
               <div class="w-16 h-1.5 bg-gradient-to-l from-amber-400 to-amber-500 mr-1 ml-auto rounded-full mt-3"></div>
             </div>
 
