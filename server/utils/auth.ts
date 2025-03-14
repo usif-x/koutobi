@@ -8,7 +8,7 @@ export const generateTokens = (
     const accessToken = jwt.sign(
         { userId, tokenVersion, isAdmin },
         process.env.JWT_SECRET!,
-        { expiresIn: '7d' }
+        { expiresIn: '1h' }
     )
 
     const refreshToken = jwt.sign(
