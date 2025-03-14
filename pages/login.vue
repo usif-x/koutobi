@@ -1,5 +1,5 @@
 <template>
-  <section class="relative min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4 md:px-6 lg:px-8 rtl overflow-hidden">
+  <section class="relative min-h-screen bg-transparent py-12 px-4 md:px-6 lg:px-8 rtl overflow-hidden">
     <!-- Background elements -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
       <div class="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full mix-blend-multiply opacity-20 animate-float blur-2xl"></div>

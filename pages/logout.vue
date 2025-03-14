@@ -36,7 +36,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+  <div class="min-h-screen flex items-center justify-center bg-transparent">
     <div class="text-center">
       <Icon
           icon="ph:spinner-bold"

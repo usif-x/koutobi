@@ -1,5 +1,5 @@
 <template>
-  <section class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4 md:px-6 lg:px-8 rtl">
+  <section class="min-h-screen bg-transparent py-12 px-4 md:px-6 lg:px-8 rtl">
     <div class="max-w-2xl mx-auto">
       <div class="bg-white rounded-2xl shadow-xl p-8">
         <!-- Account Status Header -->
