@@ -150,12 +150,9 @@
             <p class="text-gray-600 font-arabic mb-4">جرب تغيير معايير البحث</p>
             <button @click="resetFilters" class="btn-primary">إعادة ضبط الفلاتر</button>
           </div>
-
-          <!-- Grid view -->
-          <!-- Grid view with improved card design -->
 <div v-else-if="viewType === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
   <div v-for="book in filteredBooks" :key="book.id" class="bg-white rounded-xl shadow-md overflow-hidden group relative transition-all duration-300 hover:shadow-lg">
-    <!-- Book image with improved hover overlay -->
+    <!-- Book image without hover overlay buttons -->
     <div class="relative h-52 overflow-hidden">
       <img :src="book.image" :alt="book.title" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
       
@@ -168,70 +165,93 @@
       <div v-if="book.isNew" class="absolute top-2 left-2 bg-amber-500 text-white px-2 py-1 rounded-md text-sm font-arabic font-medium">
         جديد
       </div>
-      
-      <!-- Hover overlay with action buttons -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
-        <div class="flex items-center gap-3">
-          <button @click="openRatingModal(book)" class="w-10 h-10 rounded-full bg-white/90 text-indigo-600 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors">
-            <Icon icon="ph:star" class="text-lg" />
-          </button>
-          <button @click="addToWishlist(book.id)" class="w-10 h-10 rounded-full bg-white/90 text-indigo-600 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors">
-            <Icon icon="ph:heart" class="text-lg" />
-          </button>
-          <button @click="addToCart(book)" class="w-10 h-10 rounded-full bg-white/90 text-indigo-600 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors" :disabled="!book.inStock">
-            <Icon icon="ph:shopping-cart" class="text-lg" />
-          </button>
-          <NuxtLink :to="`/books/${book.id}`" class="w-10 h-10 rounded-full bg-white/90 text-indigo-600 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-colors">
-            <Icon icon="ph:eye" class="text-lg" />
-          </NuxtLink>
-        </div>
-      </div>
     </div>
 
     <!-- Book details with improved layout -->
     <div class="p-4">
-      <div class="flex items-center gap-2 mb-2">
+      <!-- Tags -->
+      <div class="flex items-center gap-2 mb-3">
         <span class="text-xs px-2 py-1 bg-amber-100 text-amber-600 rounded-full font-arabic font-medium">{{ getGradeName(book.gradeId) }}</span>
         <span class="text-xs px-2 py-1 bg-indigo-100 text-indigo-600 rounded-full font-arabic font-medium">{{ getSubjectName(book.subjectId) }}</span>
       </div>
       
-      <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2 h-12 font-arabic">{{ book.title }}</h3>
+      <!-- Title with improved styling -->
+      <h3 class="font-bold text-gray-900 mb-2 line-clamp-2 h-12 font-arabic text-lg">{{ book.title }}</h3>
       
-      <!-- Star rating -->
-      <div class="flex items-center mb-3">
+      <!-- Book description with improved styling -->
+      <p class="text-sm text-gray-600 mb-3 line-clamp-2 font-arabic">{{ book.description }}</p>
+      
+      <!-- Star rating with improved styling -->
+      <div class="flex items-center mb-4">
         <div class="flex items-center">
           <Icon v-for="i in 5" :key="i" :icon="i <= Math.round(book.rating) ? 'ph:star-fill' : 'ph:star'" 
                 :class="i <= Math.round(book.rating) ? 'text-amber-400' : 'text-gray-300'" 
                 class="text-sm" />
         </div>
-        <span class="text-xs text-gray-500 ml-1">({{ book.rating }})</span>
+        <span class="text-xs text-gray-500 mr-1 font-arabic">({{ book.rating }})</span>
       </div>
       
-      <!-- Price section -->
-      <div class="flex items-center justify-between">
+      <!-- Price section with improved styling -->
+      <div class="flex items-center justify-between mb-4">
         <div class="flex items-center gap-2">
-          <span class="text-lg font-bold text-indigo-600 font-arabic">{{ book.price }} ج.م</span>
+          <span class="text-xl font-bold text-indigo-600 font-arabic">{{ book.price }} ج.م</span>
           <span v-if="book.originalPrice" class="text-sm text-gray-400 line-through font-arabic">{{ Math.round(book.originalPrice) }} ج.م</span>
         </div>
       </div>
       
-      <!-- Add to cart button (visible when not hovering) -->
-      <button 
-        @click="addToCart(book)" 
-        :disabled="!book.inStock"
-        class="mt-3 w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all flex items-center justify-center gap-2 group-hover:opacity-0 group-hover:translate-y-4 font-arabic font-medium"
-      >
-        <Icon icon="ph:shopping-cart" />
-        أضف إلى السلة
-      </button>
-    </div>
-    
-    <!-- Out of stock overlay -->
-    <div v-if="!book.inStock" class="absolute inset-0 bg-white/80 flex items-center justify-center">
-      <div class="bg-red-50 border border-red-200 text-red-600 px-3 py-2 rounded-md font-arabic font-medium">
-        نفذ من المخزون
+      <!-- Simplified action buttons -->
+      <div class="grid grid-cols-1 gap-3">
+        <!-- Out of stock message (larger and more prominent) -->
+        <div 
+          v-if="!book.inStock"
+          class="py-3 px-4 bg-red-50 border-2 border-red-300 text-red-600 rounded-lg flex items-center justify-center gap-2 font-arabic font-medium text-base"
+        >
+          <Icon icon="ph:x-circle" class="text-xl" />
+          <span>نفذ من المخزون</span>
+        </div>
+        
+        <!-- Add to cart button (only shown when in stock) -->
+        <button 
+          v-else
+          @click="addToCart(book)" 
+          class="py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 font-arabic font-medium"
+        >
+          <Icon icon="ph:shopping-cart" class="text-lg" />
+          <span>أضف للسلة</span>
+        </button>
+      
+        <!-- Add to wishlist button (always shown) -->
+        <button
+          @click="addToWishlist(book.id)"
+          class="py-2 px-3 bg-white border border-rose-500 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors flex items-center justify-center gap-2 font-arabic font-medium text-sm"
+        >
+          <Icon icon="ph:heart" class="text-lg" />
+          <span>المفضلة</span>
+        </button>
+        
+        <!-- Preview and Rating buttons (only shown when in stock) -->
+        <template v-if="book.inStock">
+          <!-- Preview book button -->
+          <NuxtLink
+            :to="`/books/${book.id}`"
+            class="py-2 px-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition-colors flex items-center justify-center gap-2 font-arabic font-medium text-sm"
+          >
+            <Icon icon="ph:eye" class="text-lg" />
+            <span>عرض التفاصيل</span>
+          </NuxtLink>
+          
+          <!-- Rating button -->
+          <button
+            @click="openRatingModal(book)"
+            class="py-2 px-3 bg-white border border-amber-500 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors flex items-center justify-center gap-2 font-arabic font-medium text-sm"
+          >
+            <Icon icon="ph:star" class="text-lg" />
+            <span>أضف تقييم</span>
+          </button>
+        </template>
       </div>
     </div>
+    
   </div>
 
 
@@ -348,9 +368,8 @@
   </Modal>
 </template>
 
-// Script setup section for books/index.vue
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAlerts } from '~/composables/useAlerts'
@@ -384,220 +403,361 @@ const cartQuantity = ref(1)
 
 // Filter options data
 const grades = [
-{ id: 1, name: 'الصف الأول الإعدادي' },
-{ id: 2, name: 'الصف الثاني الإعدادي' },
-{ id: 3, name: 'الصف الثالث الإعدادي' },
-{ id: 4, name: 'الصف الأول الثانوي' },
-{ id: 5, name: 'الصف الثاني الثانوي' },
-{ id: 6, name: 'الصف الثالث الثانوي' }
+  { id: 1, name: 'الصف الأول الإعدادي' },
+  { id: 2, name: 'الصف الثاني الإعدادي' },
+  { id: 3, name: 'الصف الثالث الإعدادي' },
+  { id: 4, name: 'الصف الأول الثانوي' },
+  { id: 5, name: 'الصف الثاني الثانوي' },
+  { id: 6, name: 'الصف الثالث الثانوي' }
 ]
 
 const subjects = [
-{ id: 1, name: 'اللغة العربية' },
-{ id: 2, name: 'اللغة الإنجليزية' },
-{ id: 3, name: 'الرياضيات' },
-{ id: 4, name: 'العلوم' },
-{ id: 5, name: 'الفيزياء' },
-{ id: 6, name: 'الكيمياء' },
-{ id: 7, name: 'الأحياء' },
-{ id: 8, name: 'الدراسات الاجتماعية' }
+  { id: 1, name: 'اللغة العربية' },
+  { id: 2, name: 'اللغة الإنجليزية' },
+  { id: 3, name: 'الرياضيات' },
+  { id: 4, name: 'العلوم' },
+  { id: 5, name: 'الفيزياء' },
+  { id: 6, name: 'الكيمياء' },
+  { id: 7, name: 'الأحياء' },
+  { id: 8, name: 'الدراسات الاجتماعية' }
 ]
 
 // API Functions
 const fetchBooks = async () => {
-try {
-isLoading.value = true
-const { products, count } = await $fetch('/api/product', {
-params: {
-page: currentPage.value,
-limit: 12,
-sort: sortBy.value,
-search: searchQuery.value,
-grades: selectedGrades.value.join(','),
-subjects: selectedSubjects.value.join(','),
-minPrice: priceRange.value[0]
-}
-})
+  try {
+    isLoading.value = true
+    
+    // Add debugging to check what's happening
+    console.log('Fetching books with params:', {
+      page: currentPage.value,
+      search: searchQuery.value,
+      grades: selectedGrades.value,
+      subjects: selectedSubjects.value,
+      minPrice: priceRange.value[0],
+      sort: sortBy.value
+    })
+    
+    const { products, count } = await $fetch('/api/product', {
+      params: {
+        page: currentPage.value,
+        limit: 12,
+        sort: sortBy.value,
+        search: searchQuery.value,
+        grades: selectedGrades.value.length ? selectedGrades.value.join(',') : undefined,
+        subjects: selectedSubjects.value.length ? selectedSubjects.value.join(',') : undefined,
+        minPrice: priceRange.value[0]
+      }
+    })
+    
+    // Check if products were returned
+    if (!products || !Array.isArray(products)) {
+      console.error('Invalid products data returned:', products)
+      errorToast('خطأ في تنسيق البيانات المستردة')
+      books.value = []
+      return
+    }
+    
+    books.value = products.map(product => ({
+      id: product._id,
+      title: product.name,
+      gradeId: product.year,
+      subjectId: getSubjectFromCategory(product.category),
+      price: product.price,
+      originalPrice: product.hasDiscount ? product.price / (1 - product.discountPercentage / 100) : null,
+      discount: product.hasDiscount ? product.discountPercentage : null,
+      rating: product.ratingAverage || 0,
+      isNew: isNewProduct(product.createdAt),
+      image: product.images[0] || '/images/book.png',
+      description: product.description,
+      inStock: product.stockCount > 0
+    }))
 
-books.value = products.map(product => ({
-id: product._id,
-title: product.name,
-gradeId: product.year,
-subjectId: getSubjectFromCategory(product.category),
-price: product.price,
-originalPrice: product.hasDiscount ? product.price / (1 - product.discountPercentage / 100) : null,
-discount: product.hasDiscount ? product.discountPercentage : null,
-rating: product.ratingAverage || 0,
-isNew: isNewProduct(product.createdAt),
-image: product.images[0] || '/images/book.png',
-description: product.description,
-inStock: product.stockCount > 0
-}))
-
-totalPages.value = Math.ceil(count / 12)
-} catch (error) {
-errorToast('فشل في تحميل المنتجات')
-} finally {
-isLoading.value = false
+    totalPages.value = Math.ceil(count / 12)
+  } catch (error) {
+    console.error('Error fetching books:', error)
+    errorToast('فشل في تحميل المنتجات')
+    books.value = [] // Set empty books array to prevent undefined errors
+  } finally {
+    isLoading.value = false
+  }
 }
+
+// Function to update URL based on filters
+const updateRouteFromFilters = () => {
+  const query = {}
+  
+  if (searchQuery.value) query.search = searchQuery.value
+  if (selectedGrades.value.length) query.grade = selectedGrades.value.join(',')
+  if (selectedSubjects.value.length) query.subject = selectedSubjects.value.join(',')
+  if (currentPage.value > 1) query.page = currentPage.value.toString()
+  if (sortBy.value !== 'default') query.sort = sortBy.value
+  if (priceRange.value[0] > 0) query.minPrice = priceRange.value[0].toString()
+  
+  // Use replace to avoid building up history
+  router.replace({ query })
 }
 
 // Wishlist Functions
 const addToWishlist = async (bookId) => {
-try {
-await $fetch('/api/wishlist', {
-headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+  try {
+    const token = localStorage.getItem('accessToken')
+    if (!token) {
+      router.push('/login?redirect=' + encodeURIComponent(route.fullPath))
+      return
+    }
+    
+    await $fetch('/api/wishlist', {
+      headers: {
+        Authorization: `Bearer ${token}`
       },
-method: 'POST',
-body: { productId: bookId }
-})
-successToast('تمت الإضافة إلى المفضلة')
-} catch (error) {
-errorToast('فشل في الإضافة إلى المفضلة')
-}
+      method: 'POST',
+      body: { productId: bookId }
+    })
+    successToast('تمت الإضافة إلى المفضلة')
+  } catch (error) {
+    console.error('Error adding to wishlist:', error)
+    if (error.response && error.response.status === 401) {
+      errorToast('يرجى تسجيل الدخول أولاً')
+      router.push('/login?redirect=' + encodeURIComponent(route.fullPath))
+    } else {
+      errorToast('فشل في الإضافة إلى المفضلة')
+    }
+  }
 }
 
 const removeFromWishlist = async (bookId) => {
-try {
-await $fetch(`/api/wishlist/${bookId}`, {
-method: 'DELETE'
-})
-successToast('تمت الإزالة من المفضلة')
-} catch (error) {
-errorToast('فشل في الإزالة من المفضلة')
-}
+  try {
+    const token = localStorage.getItem('accessToken')
+    if (!token) {
+      errorToast('يرجى تسجيل الدخول أولاً')
+      return
+    }
+    
+    await $fetch(`/api/wishlist/${bookId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      method: 'DELETE'
+    })
+    successToast('تمت الإزالة من المفضلة')
+  } catch (error) {
+    console.error('Error removing from wishlist:', error)
+    errorToast('فشل في الإزالة من المفضلة')
+  }
 }
 
 // Cart Functions
 const addToCart = async (book) => {
-selectedBook.value = book
-if (!book.inStock) {
-errorToast('المنتج غير متوفر حالياً')
-return
-}
-showCartModal.value = true
+  selectedBook.value = book
+  if (!book.inStock) {
+    errorToast('المنتج غير متوفر حالياً')
+    return
+  }
+  
+  const token = localStorage.getItem('accessToken')
+  if (!token) {
+    router.push('/login?redirect=' + encodeURIComponent(route.fullPath))
+    return
+  }
+  
+  showCartModal.value = true
+  cartQuantity.value = 1 // Reset quantity when opening modal
 }
 
 const confirmAddToCart = async () => {
-try {
-await $fetch('/api/cart/', {
-  headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+  try {
+    const token = localStorage.getItem('accessToken')
+    if (!token) {
+      errorToast('يرجى تسجيل الدخول أولاً')
+      showCartModal.value = false
+      router.push('/login?redirect=' + encodeURIComponent(route.fullPath))
+      return
+    }
+    
+    await $fetch('/api/cart/', {
+      headers: {
+        Authorization: `Bearer ${token}`
       },
-method: 'POST',
-body: {
-productId: selectedBook.value.id,
-quantity: cartQuantity.value
-}
-})
-successToast('تمت الإضافة إلى السلة')
-showCartModal.value = false
-cartQuantity.value = 1
-} catch (error) {
-errorToast('فشل في الإضافة إلى السلة')
-}
+      method: 'POST',
+      body: {
+        productId: selectedBook.value.id,
+        quantity: cartQuantity.value
+      }
+    })
+    successToast('تمت الإضافة إلى السلة')
+    showCartModal.value = false
+    cartQuantity.value = 1
+  } catch (error) {
+    console.error('Error adding to cart:', error)
+    if (error.response && error.response.status === 401) {
+      errorToast('يرجى تسجيل الدخول أولاً')
+      showCartModal.value = false
+      router.push('/login?redirect=' + encodeURIComponent(route.fullPath))
+    } else {
+      errorToast('فشل في الإضافة إلى السلة')
+    }
+  }
 }
 
 // Rating Functions
 const openRatingModal = (book) => {
-selectedBook.value = book
-showRatingModal.value = true
+  const token = localStorage.getItem('accessToken')
+  if (!token) {
+    errorToast('يرجى تسجيل الدخول أولاً')
+    router.push('/login?redirect=' + encodeURIComponent(route.fullPath))
+    return
+  }
+  
+  selectedBook.value = book
+  ratingValue.value = 0 // Reset rating
+  ratingComment.value = '' // Reset comment
+  showRatingModal.value = true
 }
 
 const submitRating = async () => {
-try {
-await $fetch('/api/ratings', {
-  headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+  if (!ratingValue.value) {
+    errorToast('يرجى اختيار تقييم')
+    return
+  }
+  
+  try {
+    isSubmitting.value = true
+    const token = localStorage.getItem('accessToken')
+    if (!token) {
+      errorToast('يرجى تسجيل الدخول أولاً')
+      showRatingModal.value = false
+      router.push('/login?redirect=' + encodeURIComponent(route.fullPath))
+      return
+    }
+    
+    await $fetch('/api/ratings', {
+      headers: {
+        Authorization: `Bearer ${token}`
       },
-method: 'POST',
-body: {
-productId: selectedBook.value.id,
-rating: ratingValue.value,
-comment: ratingComment.value
-}
-})
-successToast('تم إضافة التقييم بنجاح')
-showRatingModal.value = false
-ratingValue.value = 0
-ratingComment.value = ''
-await fetchBooks() // Refresh books to update rating
-} catch (error) {
-errorToast('فشل في إضافة التقييم')
-}
+      method: 'POST',
+      body: {
+        productId: selectedBook.value.id,
+        rating: ratingValue.value,
+        comment: ratingComment.value
+      }
+    })
+    successToast('تم إضافة التقييم بنجاح')
+    showRatingModal.value = false
+    ratingValue.value = 0
+    ratingComment.value = ''
+    await fetchBooks() // Refresh books to update rating
+  } catch (error) {
+    console.error('Error submitting rating:', error)
+    errorToast('فشل في إضافة التقييم')
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 // Helper Functions
 const getGradeName = (id) => {
-const grade = grades.find(g => g.id === id)
-return grade ? grade.name : ''
+  const grade = grades.find(g => g.id === id)
+  return grade ? grade.name : ''
 }
 
 const getSubjectName = (id) => {
-const subject = subjects.find(s => s.id === id)
-return subject ? subject.name : ''
+  const subject = subjects.find(s => s.id === id)
+  return subject ? subject.name : ''
 }
 
 const getSubjectFromCategory = (category) => {
-const categoryMap = {
-'arabic': 1,
-'english': 2,
-'math': 3,
-'science': 4,
-'physics': 5,
-'chemistry': 6,
-'biology': 7,
-'social': 8
-}
-return categoryMap[category] || null
+  const categoryMap = {
+    'arabic': 1,
+    'english': 2,
+    'math': 3,
+    'science': 4,
+    'physics': 5,
+    'chemistry': 6,
+    'biology': 7,
+    'social': 8
+  }
+  return categoryMap[category] || null
 }
 
 const isNewProduct = (createdAt) => {
-const productDate = new Date(createdAt)
-const sevenDaysAgo = new Date()
-sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
-return productDate >= sevenDaysAgo
+  const productDate = new Date(createdAt)
+  const sevenDaysAgo = new Date()
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+  return productDate >= sevenDaysAgo
 }
 
 const resetFilters = () => {
-searchQuery.value = ''
-selectedGrades.value = []
-selectedSubjects.value = []
-priceRange.value = [0]
-sortBy.value = 'default'
-currentPage.value = 1
-fetchBooks()
+  searchQuery.value = ''
+  selectedGrades.value = []
+  selectedSubjects.value = []
+  priceRange.value = [0]
+  sortBy.value = 'default'
+  currentPage.value = 1
+  
+  // Update the URL to match the reset state
+  router.replace({ query: {} })
+  
+  fetchBooks()
 }
 
 // Computed Properties
 const filteredBooks = computed(() => books.value)
 
-// Watchers
-watch([searchQuery, selectedGrades, selectedSubjects, priceRange, sortBy], () => {
-currentPage.value = 1
-fetchBooks()
-})
-
-// Improved watchers
-watch([searchQuery, selectedGrades, selectedSubjects, priceRange, sortBy], () => {
-currentPage.value = 1
-fetchBooks()
-}, { deep: true })
+// Watchers - improved to be more specific
+watch(
+  [searchQuery, selectedGrades, selectedSubjects, priceRange, sortBy],
+  () => {
+    currentPage.value = 1
+    updateRouteFromFilters()
+    fetchBooks()
+  },
+  { deep: true }
+)
 
 // Watch for page changes
 watch(currentPage, () => {
-fetchBooks()
+  updateRouteFromFilters()
+  fetchBooks()
 })
 
-// Watch for route changes to refresh data
-watch(() => route.fullPath, () => {
-fetchBooks()
-})
+// Better route watcher that focuses on specific parameters
+watch(
+  () => ({
+    page: route.query.page,
+    search: route.query.search,
+    grade: route.query.grade,
+    subject: route.query.subject,
+    sort: route.query.sort,
+    minPrice: route.query.minPrice
+  }),
+  (newQuery, oldQuery) => {
+    // Only fetch if the component is already mounted and query params changed
+    // This prevents double fetching with the onMounted hook
+    if (JSON.stringify(newQuery) !== JSON.stringify(oldQuery)) {
+      console.log('Route query changed:', newQuery)
+      fetchBooks()
+    }
+  },
+  { deep: true, immediate: false }
+)
 
 // Lifecycle Hooks
 onMounted(() => {
-fetchBooks()
+  // Initialize from route query params if present
+  if (route.query.search) searchQuery.value = route.query.search
+  if (route.query.grade) selectedGrades.value = route.query.grade.split(',').map(Number)
+  if (route.query.subject) selectedSubjects.value = route.query.subject.split(',').map(Number)
+  if (route.query.page) currentPage.value = Number(route.query.page)
+  if (route.query.sort) sortBy.value = route.query.sort
+  if (route.query.minPrice) priceRange.value = [Number(route.query.minPrice)]
+  
+  fetchBooks()
+})
+
+// Clean up on component unmount
+onBeforeUnmount(() => {
+  // Cancel any pending requests or cleanup if needed
+  console.log('Book index component unmounting')
 })
 </script>
 
