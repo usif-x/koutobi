@@ -59,9 +59,6 @@ onMounted(async () => {
 // SEO
 useHead({
   title: 'الأكثر مبيعاً - كُتُبي',
-  meta: [
-    { name: 'description', content: 'تصفح أكثر الكتب مبيعاً في متجر كُتُبي' },
-  ],
 });
 
 definePageMeta({

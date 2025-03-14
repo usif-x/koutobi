@@ -132,4 +132,7 @@
 
 <script setup>
 import { Icon } from '@iconify/vue';
+useHead({
+  title: 'من نحن',
+})
 </script>

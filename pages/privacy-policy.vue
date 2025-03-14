@@ -105,6 +105,10 @@
 
 <script setup>
 import { Icon } from '@iconify/vue';
+
+useHead({
+  title: 'سياسة الخصوصية - كُتُبي',
+})
 </script>
 <style scoped>
 /* Floating animations */

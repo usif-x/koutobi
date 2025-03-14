@@ -64,4 +64,7 @@
 
 <script setup>
 import { Icon } from '@iconify/vue';
+useHead({
+  title: 'الرجوع والاستبدال - متجر كُتُبي',
+})
 </script>

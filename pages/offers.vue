@@ -70,9 +70,6 @@ onMounted(async () => {
 // SEO
 useHead({
   title: 'العروض والخصومات - كُتُبي',
-  meta: [
-    { name: 'description', content: 'تصفح أفضل العروض والخصومات على الكتب في متجر كُتُبي' },
-  ],
 });
 
 definePageMeta({

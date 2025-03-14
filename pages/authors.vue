@@ -118,9 +118,6 @@ const formatDate = (dateString) => {
 // SEO
 useHead({
   title: "المؤلفون - كُتُبي",
-  meta: [
-    { name: "description", content: "تصفح الكتب حسب المؤلف في متجر كُتُبي" },
-  ],
 });
 
 definePageMeta({

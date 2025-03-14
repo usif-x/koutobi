@@ -275,7 +275,9 @@ const handleSubmit = async () => {
     loading.value = false;
   }
 };
-
+useHead({
+  title: 'اتصل بنا - كُتُبي',
+})
 </script>
 
 <style scoped>

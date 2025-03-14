@@ -78,4 +78,8 @@
 
 <script setup>
 import { Icon } from '@iconify/vue';
+
+useHead({
+  title: 'الشروط والأحكام - متجر كُتُبي',
+})
 </script>

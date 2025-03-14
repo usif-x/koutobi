@@ -415,6 +415,10 @@ const removeCoupon = () => {
 onMounted(() => {
   fetchCart();
 });
+
+useHead({
+  title: 'سلة التسوق - كُتُبي',
+})
 </script>
 
 <style scoped>

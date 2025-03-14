@@ -264,9 +264,6 @@ onMounted(async () => {
 // Meta tags
 useHead({
   title: 'إتمام الطلب - كُتُبي',
-  meta: [
-    { name: 'description', content: 'إتمام عملية الشراء وتأكيد الطلب من متجر كُتُبي' }
-  ]
 })
 
 definePageMeta({

@@ -86,9 +86,6 @@ const formatDate = (dateString) => {
 // SEO
 useHead({
   title: 'التصنيفات - كُتُبي',
-  meta: [
-    { name: 'description', content: 'تصفح الكتب حسب التصنيف في متجر كُتُبي' },
-  ],
 });
 
 definePageMeta({

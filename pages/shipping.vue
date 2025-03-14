@@ -62,4 +62,8 @@
 
 <script setup>
 import { Icon } from '@iconify/vue';
+
+useHead({
+  title: 'الشحن والتوصيل - متجر كُتُبي',
+})
 </script>

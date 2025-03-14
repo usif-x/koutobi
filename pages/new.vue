@@ -100,9 +100,6 @@ import ButtonUi from '~/components/ui/ButtonUi.vue';
 // SEO
 useHead({
   title: 'أحدث الإصدارات - كُتُبي',
-  meta: [
-    { name: 'description', content: 'تصفح أحدث إصدارات الكتب والمذكرات في متجر كُتُبي - متجر الكتب العربية الأول' },
-  ],
 });
 
 // Define page meta

@@ -64,4 +64,8 @@ const faqs = ref([
     isOpen: false
   }
 ]);
+
+useHead({
+  title: 'أسئلة شائعة - متجر كُتُبي',
+})
 </script>
