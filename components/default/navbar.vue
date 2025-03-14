@@ -27,7 +27,7 @@
   leave-from-class="transform translate-y-0"
   leave-to-class="transform -translate-y-full"
 >
-  <div class="bar" :class="{ 'active': isLoading }">
+  <div v-if="isLoading" class="bar" :class="{ 'active': isLoading }">
     <div></div>
   </div>
 </Transition>
@@ -607,7 +607,7 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   width: 100%;
-  height: 5px;
+  height: 4px;
   background: transparent;
   overflow: hidden;
   z-index: 9999;
