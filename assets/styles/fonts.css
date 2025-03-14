@@ -87,3 +87,9 @@
     font-weight: 100;
     font-style: normal;
 }
+
+
+@font-face {
+    font-family: 'Hemeda';
+    src: url('@/assets/fonts/hemeda/hemeda.ttf') format('truetype');
+}

@@ -13,17 +13,26 @@
       <div class="container mx-auto z-10 py-8 md:py-0">
         <div class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 md:gap-12 lg:gap-16 max-w-6xl mx-auto">
           <!-- Text content (right side in RTL) -->
+
+
+          <div class="w-full md:w-1/2">
+            <div class="rounded-2xl overflow-hidden">
+              <img src="/images/hero.png" alt="kotoubi Books" class="w-full h-auto object-cover" />
+            </div>
+          </div>
+
+
           <div class="w-full md:w-1/2 text-right space-y-5 md:space-y-6">
             <div class="relative inline-block">
               <span class="absolute -top-3 -right-3 w-12 h-12 bg-amber-300 rounded-full opacity-20 blur-md"></span>
-              <h1 class="relative text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-900 font-arabic tracking-tight">كُتُبي</h1>
+              <h1 class="relative text-4xl md:text-5xl lg:text-3xl text-indigo-900 tracking-tight m-3" style="font-family: 'Hemeda';">كُتُبي<span class="text-6xl font-bold" style="font-family: 'Hala'">.شوب</span></h1>
               <div class="w-16 h-1.5 bg-gradient-to-l from-amber-400 to-amber-500 mr-1 ml-auto rounded-full mt-3"></div>
             </div>
 
             <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold text-indigo-800 font-arabic">كل كتبك في مكان واحد <Icon icon="fa6-solid:face-laugh-wink" class="inline"/></h2>
 
             <p class="text-base md:text-lg text-gray-700 leading-relaxed font-arabic">
-              جمعنالك كل الكتب الخارجية مذكرات المدرسين للصفوف الإعدادية والثانوية، علشان تلاقي كل اللي محتاجه في مكان واحد! بنوفر أحدث الإصدارات من الكتب والمذكرات عشان تساعدك تذاكر وتتفوق.
+              جمعنالك كل الكتب الخارجية و مذكرات المدرسين للصفوف الإعدادية والثانوية، علشان تلاقي كل اللي محتاجه في مكان واحد! بنوفر أحدث الإصدارات من الكتب والمذكرات عشان تساعدك تذاكر وتتفوق.
             </p>
             <div class="flex flex-col sm:flex-row gap-3 justify-end mt-6">
               <template v-if="!isAuthenticated">
@@ -72,11 +81,7 @@
           </div>
 
           <!-- Image content (left side in RTL) -->
-          <div class="w-full md:w-1/2">
-            <div class="rounded-2xl overflow-hidden">
-              <img src="/images/hero.png" alt="kotoubi Books" class="w-full h-auto object-cover" />
-            </div>
-          </div>
+          
         </div>
       </div>
     </section>
