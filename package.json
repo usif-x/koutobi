@@ -13,6 +13,7 @@
     "@iconify/vue": "^4.3.0",
     "@pinia/nuxt": "^0.10.1",
     "@tailwindcss/vite": "^4.0.9",
+    "@vercel/analytics": "^1.5.0",
     "axios": "^1.8.1",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",

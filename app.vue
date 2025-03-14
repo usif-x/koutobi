@@ -1,4 +1,5 @@
 <template>
+<Analytics/>
 <div class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950">
 <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
         <div class="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full mix-blend-multiply opacity-20 animate-float blur-2xl"></div>
@@ -18,7 +19,7 @@ import { useHead } from '#imports'
 import { useAuth } from '~/composables/useAuth'
 import Notifications from '~/components/ui/Notifications.vue'
 import { useAlerts } from '~/composables/useAlerts'
-
+import { Analytics } from '@vercel/analytics/nuxt'
 const { isAuthenticated } = useAuth()
 const { normalToast } = useAlerts()
 
