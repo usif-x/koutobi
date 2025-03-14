@@ -630,4 +630,25 @@ onUnmounted(() => {
   animation: box-2 0.5s cubic-bezier(0.16, 0.84, 0.44, 1) infinite;
   animation-delay: 0.5s;
 }
+
+@keyframes box-1 {
+  0% {
+    left:-35%;
+    right:100%;
+  }
+  60%,100% {
+    left:100%;
+    right:-90%;
+  }
+}
+@keyframes box-2 {
+  0% {
+    left:-200%;
+    right:100%;
+  }
+  60%,100% {
+    left:107%;
+    right:-8%;
+  }
+}
 </style>
