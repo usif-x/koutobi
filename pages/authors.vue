@@ -58,15 +58,14 @@
                  class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
               <NuxtLink :to="`/books?author=${author._id}`" class="block p-6">
                 <div class="text-center">
-                  <div class="w-24 h-24 mx-auto mb-4 relative">
-                    <img
-                        :src="author.photo || '/images/authors/default.jpg'"
-                        :alt="author.name"
-                        class="w-full h-full object-cover rounded-full border-4 border-indigo-100 group-hover:border-indigo-200 transition-colors"
+                  <div class="w-24 h-24 mx-auto mb-4 relative flex items-center justify-center bg-indigo-100 rounded-full border-4 border-indigo-100 group-hover:border-indigo-200 transition-colors">
+                    <Icon 
+                      icon="ph:user-circle-fill" 
+                      class="text-indigo-500 text-5xl"
                     />
                   </div>
                   <h3 class="text-lg font-bold text-indigo-900 font-arabic mb-2">{{ author.name }}</h3>
-                  <p class="text-gray-600 text-sm mb-3">{{ author.bookCount }} كتاب</p>
+                  <p v-if="author.bio" class="text-gray-600 text-sm mb-3 line-clamp-2">{{ author.bio }}</p>
                   <div class="text-sm text-gray-500">
                     أنشئ في: {{ formatDate(author.createdAt) }}
                   </div>
@@ -81,6 +80,7 @@
 </template>
 
 <script setup>
+import { Icon } from '@iconify/vue'
 const { data: apiData, pending, error } = useFetch("/api/author", {
   headers: {
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -88,7 +88,7 @@ const { data: apiData, pending, error } = useFetch("/api/author", {
 });
 
 const authors = computed(() => {
-  if (!apiData.value) return [];
+  if (!apiData.value || !apiData.value.authors) return [];
   return apiData.value.authors.map((author) => ({
     ...author,
     formattedDate: new Date(author.createdAt).toLocaleDateString("ar-EG", {

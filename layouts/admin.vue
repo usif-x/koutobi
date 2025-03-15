@@ -17,7 +17,16 @@
           <Icon icon="ph:x" class="text-xl" />
         </button>
       </div>
-
+<SidebarItem 
+  to="/admin/dashboard/authors" 
+  icon="ph:user-circle" 
+  label="المؤلفون" 
+/>
+<SidebarItem 
+  to="/admin/dashboard/categories" 
+  icon="ph:folders" 
+  label="التصنيفات" 
+/>
       <nav class="mt-6 space-y-1">
         <NuxtLink
           to="/admin/dashboard"
