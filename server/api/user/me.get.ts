@@ -21,7 +21,8 @@ export default defineEventHandler(async (event) => {
                 email: user.email,
                 primaryPhone: user.primaryPhone,
                 address: user.address,
-                secondaryPhone: user.secondaryPhone
+                secondaryPhone: user.secondaryPhone,
+                createdAt: user.createdAt,
             }
         }
     } catch (error) {
