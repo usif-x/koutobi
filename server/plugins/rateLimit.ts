@@ -36,6 +36,12 @@ export default defineNitroPlugin(async (nitroApp) => {
                 if (decoded.isAdmin) return
                 if (!decoded.userId) return
             } catch (error) {
+                // Handle expired tokens gracefully
+                if (error.name === 'TokenExpiredError') {
+                    // Don't apply rate limiting to expired token requests
+                    // This allows the client to request a new token without being rate limited
+                    return
+                }
                 console.error('JWT verification error:', error)
                 return
             }

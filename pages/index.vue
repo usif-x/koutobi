@@ -10,7 +10,7 @@
       </div>
 
       <!-- Main content container -->
-      <div class="container mx-auto z-10 py-8 md:py-0">
+      <div class="container mx-auto z-10 py-8 md:py-0 min-h-screen">
         <div class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 md:gap-12 lg:gap-16 max-w-6xl mx-auto">
           <!-- Text content (right side in RTL) -->
 
