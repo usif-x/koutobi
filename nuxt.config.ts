@@ -50,7 +50,7 @@ export default defineNuxtConfig({
     storage: {
       'rate-limits': {
         driver: 'redis',
-        url: process.env.REDIS_URL
+        url: process.env.REDIS_URL || 'redis://default:mMISvW9MfADr1OoKzLAYiPAHui08OP7Q@redis-16157.c14.us-east-1-3.ec2.redns.redis-cloud.com:16157'
       }
     },
   }

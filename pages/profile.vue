@@ -78,7 +78,7 @@
               <!-- Member Since -->
               <div class="p-4 flex items-center justify-between">
                 <span class="text-gray-600 font-arabic">عضو منذ</span>
-                <span class="text-indigo-900 font-arabic">{{ new Date(userData.createdAt).toLocaleDateString('ar-EG') }}</span>
+                <span class="text-indigo-900 font-arabic">{{ formatMemberDate(userData.createdAt) }}</span>
               </div>
             </div>
 
@@ -479,6 +479,24 @@ const { errorToast, successToast } = useAlerts()
 
 // Loading state
 const isLoading = ref(true)
+
+// Format member date safely
+const formatMemberDate = (dateString) => {
+  try {
+    if (!dateString) return 'غير متوفر';
+    const date = new Date(dateString);
+    // Check if date is valid
+    if (isNaN(date.getTime())) return 'غير متوفر';
+    return date.toLocaleDateString('ar-EG', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return 'غير متوفر';
+  }
+}
 
 // User data state - initialize first
 const userData = ref({

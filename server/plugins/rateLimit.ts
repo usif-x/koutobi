@@ -1,5 +1,5 @@
 import { defineNitroPlugin } from 'nitropack/dist/runtime/plugin'
-import { useStorage, useRuntimeConfig } from '#imports'
+import { useStorage, useRuntimeConfig, createError } from '#imports'
 import jwt from 'jsonwebtoken'
 
 interface RateLimit {
@@ -30,17 +30,18 @@ export default defineNitroPlugin(async (nitroApp) => {
             const token = event.node.req.headers.authorization?.replace('Bearer ', '')
             if (!token) return
 
-            let decoded: { isAdmin?: boolean; sub?: string }
+            let decoded: { userId?: string; isAdmin?: boolean; }
             try {
-                decoded = jwt.verify(token, useRuntimeConfig().jwtSecret) as { isAdmin?: boolean; sub?: string }
+                decoded = jwt.verify(token, useRuntimeConfig().jwtSecret) as { userId?: string; isAdmin?: boolean; }
                 if (decoded.isAdmin) return
-                if (!decoded.sub) return
-            } catch {
+                if (!decoded.userId) return
+            } catch (error) {
+                console.error('JWT verification error:', error)
                 return
             }
 
             const baseApiPath = path.split('/').slice(0, 3).join('/')
-            const key = `rate-limit:${decoded.sub}:${baseApiPath}`
+            const key = `rate-limit:${decoded.userId}:${baseApiPath}`
 
             // جلب أو إنشاء السجل من Redis
             let limit = await storage.getItem<RateLimit>(key)
