@@ -1,11 +1,6 @@
 <template>
-  <div class="relative">
+  <div class="relative z-[10]">
     <!-- Background container -->
-    <div class="fixed inset-0 overflow-hidden">
-      <div class="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full mix-blend-multiply opacity-20 animate-float blur-2xl"></div>
-      <div class="absolute bottom-1/4 right-1/6 w-80 h-80 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full mix-blend-multiply opacity-20 animate-float-delay blur-2xl"></div>
-      <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-amber-200 to-amber-300 rounded-full mix-blend-multiply opacity-10 animate-float-slow blur-3xl"></div>
-    </div>
 
     <!-- Content container -->
     <div class="relative z-10 py-8 px-4 md:px-6 lg:px-8 rtl">

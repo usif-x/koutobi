@@ -1,7 +1,7 @@
 <!-- components/Navbar.vue -->
 <template dir="rtl">
   <header class="fixed w-full top-0 z-50 bg-transparent rtl transition-all ease duration-300"
-          :class="{ 'bg-white/90 backdrop-blur-lg': scrolled }">
+          :class="{ 'bg-white': scrolled }">
     <div class="container mx-auto px-4 md:px-6">
       <div class="flex items-center justify-between h-16 md:h-20">
         <!-- Mobile Menu Button - Left on mobile -->
@@ -228,7 +228,7 @@
 
     <!-- Add scroll progress bar UNDER the navigation -->
       <div 
-     class="h-1 w-full relative bg-indigo-300 transition-all duration-500 ease-out opacity-0"
+     class="h-1 w-full relative bg-indigo-300 transition-all duration-500 ease-out opacity-0 buttom-0"
      :class="{ '-translate-y-2 opacity-0': !scrolled, 'translate-y-1 opacity-100': scrolled }">
   <div class="absolute top-0 left-0 h-full bg-indigo-600"
        :style="{ width: `${scrollProgress}%` }"></div>
