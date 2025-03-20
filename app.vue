@@ -1,17 +1,14 @@
 <template>
-<Analytics/>
-<div class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950">
-<div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-        <div class="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full mix-blend-multiply opacity-20 animate-float blur-2xl"></div>
-        <div class="absolute bottom-1/4 right-1/6 w-80 h-80 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full mix-blend-multiply opacity-20 animate-float-delay blur-2xl"></div>
-        <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-amber-200 to-amber-300 rounded-full mix-blend-multiply opacity-10 animate-float-slow blur-3xl"></div>
-      </div>
-  <NuxtLayout>
-    <NuxtPage />
+  <div>
+    <NuxtLoadingIndicator />
     <Notifications />
-  </NuxtLayout>
-</div>
-
+    <Analytics />
+    <NuxtLayout>
+      <div class="page-wrapper">
+        <NuxtPage />
+      </div>
+    </NuxtLayout>
+  </div>
 </template>
 
 <script setup>
@@ -44,13 +41,18 @@ useHead({
 </script>
 
 <style>
-.page-enter-active,
-.page-leave-active {
-  transition: all 0.4s;
+/* Page Transition */
+.page-wrapper {
+  position: relative;
 }
-.page-enter-from,
-.page-leave-to {
-  opacity: 0;
-  filter: blur(1rem);
+
+/* Loading bar customization */
+.nuxt-loading-indicator {
+  background: repeating-linear-gradient(
+    to right,
+    #4f46e5 0%,
+    #818cf8 50%,
+    #4f46e5 100%
+  ) !important;
 }
 </style>

@@ -1,13 +1,15 @@
 <!-- components/Navbar.vue -->
 <template dir="rtl">
-  <header class="sticky top-0 z-50 bg-transparent rtl transition-all ease duration-300"
+  <header class="fixed w-full top-0 z-50 bg-transparent rtl transition-all ease duration-300"
           :class="{ 'bg-white/90 backdrop-blur-lg': scrolled }">
     <div class="container mx-auto px-4 md:px-6">
       <div class="flex items-center justify-between h-16 md:h-20">
         <!-- Mobile Menu Button - Left on mobile -->
         <button class="md:hidden p-2 text-gray-600 hover:text-indigo-700 transition-colors order-3">
-          <Icon v-if="!mobileMenuOpen" icon="ph:list-bold" class="text-2xl" @click="mobileMenuOpen = !mobileMenuOpen" />
-          <Icon v-else icon="ph:x-bold" class="text-2xl" @click="mobileMenuOpen = !mobileMenuOpen" />
+          <Transition name="fade" mode="out-in">
+            <Icon v-if="!mobileMenuOpen" icon="ph:list-bold" class="text-2xl" @click="mobileMenuOpen = !mobileMenuOpen" key="menu" />
+            <Icon v-else icon="ph:x-bold" class="text-2xl" @click="mobileMenuOpen = !mobileMenuOpen" key="close" />
+          </Transition>
         </button>
 
         <!-- Logo - Left on desktop, centered on mobile -->
@@ -132,7 +134,6 @@
 
 
           <!-- Cart Button -->
-          <!-- Cart Button -->
           <div v-if="isAuthenticated" class="relative group cart-modal-group">
             <button
                 class="p-2 text-gray-600 hover:text-indigo-700 transition-colors relative"
@@ -183,15 +184,23 @@
                 <div class="px-4 py-2 border-b border-gray-100">
                   <p class="text-sm text-gray-600 font-arabic">اهلا {{ user?.firstName }} {{ user?.lastName }}</p>
                 </div>
-                <NuxtLink to="/profile" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-arabic text-right">
+                <NuxtLink 
+                  to="/profile" 
+                  class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-arabic text-right"
+                  @click="closeAllDropdowns"
+                >
                   الملف الشخصي
                 </NuxtLink>
-                <NuxtLink to="/orders" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-arabic text-right">
+                <NuxtLink 
+                  to="/orders" 
+                  class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 font-arabic text-right"
+                  @click="closeAllDropdowns"
+                >
                   طلباتي
                 </NuxtLink>
                 <button
-                    @click="handleLogout"
-                    class="block w-full text-right px-3 py-2 text-rose-600 hover:bg-rose-50 hover:text-rose-700 font-arabic"
+                  @click="handleLogout"
+                  class="block w-full text-right px-3 py-2 text-rose-600 hover:bg-rose-50 hover:text-rose-700 font-arabic"
                 >
                   تسجيل الخروج
                 </button>
@@ -219,7 +228,7 @@
 
     <!-- Add scroll progress bar UNDER the navigation -->
       <div 
-     class="h-1 w-full relative bg-indigo-300 transition-all duration-300 ease-out opacity-0"
+     class="h-1 w-full relative bg-indigo-300 transition-all duration-500 ease-out opacity-0"
      :class="{ '-translate-y-2 opacity-0': !scrolled, 'translate-y-1 opacity-100': scrolled }">
   <div class="absolute top-0 left-0 h-full bg-indigo-600"
        :style="{ width: `${scrollProgress}%` }"></div>
@@ -236,7 +245,7 @@
     >
       <div
           v-if="mobileMenuOpen"
-          class="md:hidden bg-white border-t border-gray-100 shadow-md rtl fixed top-16 left-0 right-0 max-h-[calc(100vh-4rem)] overflow-y-auto z-40 w-[95%] mx-auto rounded-lg overflow-hidden"
+          class="md:hidden bg-white border-t border-gray-100 shadow-md rtl fixed top-18 left-0 right-0 max-h-[calc(100vh-4rem)] overflow-y-auto z-40 w-[98%] mx-auto rounded-lg overflow-hidden"
       >
         <div class="container mx-auto px-4 py-3 space-y-1">
           <NuxtLink
@@ -275,6 +284,7 @@
     </Transition>
   </header>
   <SearchModal v-model="showSearchModal" />
+  <div class="h-15"></div>
 </template>
 
 <script setup>
@@ -328,51 +338,35 @@ const getAuthHeaders = () => {
 
 // Toggle notifications dropdown
 const toggleNotifications = () => {
-  showNotifications.value = !showNotifications.value
-  if (showProfileDropdown.value) {
-    showProfileDropdown.value = false
-  }
-
-  // If opening notifications, fetch them
-  if (showNotifications.value) {
-    fetchNotifications().then(() => {
-    })
-  }
+  showNotifications.value = !showNotifications.value;
+  // Close other dropdowns
+  showProfileDropdown.value = false;
+  showCartModal.value = false;
 }
 
 // Toggle profile dropdown
 const toggleProfileDropdown = () => {
-  showProfileDropdown.value = !showProfileDropdown.value
-  if (showNotifications.value) {
-    showNotifications.value = false
-  }
+  showProfileDropdown.value = !showProfileDropdown.value;
+  // Close other dropdowns
+  showNotifications.value = false;
+  showCartModal.value = false;
 }
 
 // Handle logout with proper error handling and navigation
 const handleLogout = () => {
-  mobileMenuOpen.value = false
-  showProfileDropdown.value = false
-  router.push('/logout')
+  mobileMenuOpen.value = false;
+  closeAllDropdowns(); // Close all dropdowns before logout
+  router.push('/logout');
 }
 
 // Fetch cart items from API with auth token
 const toggleCartModal = (event) => {
-  event.preventDefault(); // Prevent navigation to cart page
+  event.preventDefault();
   showCartModal.value = !showCartModal.value;
-
-  if (showProfileDropdown.value) {
-    showProfileDropdown.value = false;
-  }
-
-  if (showNotifications.value) {
-    showNotifications.value = false;
-  }
-
-  // If opening cart modal, fetch cart items
-  if (showCartModal.value) {
-    fetchCartItems();
-  }
-};
+  // Close other dropdowns
+  showProfileDropdown.value = false;
+  showNotifications.value = false;
+}
 
 const fetchCartItems = async () => {
   if (!isAuthenticated.value) return;
@@ -428,12 +422,13 @@ const readNotification = async (id) => {
       headers: getAuthHeaders()
     })
 
-    // Update the local state
     const notification = notifications.value.find(n => n._id === id)
     if (notification) {
       notification.isRead = true
       unreadNotificationsCount.value = notifications.value.filter(n => !n.isRead).length
     }
+    // Close notifications dropdown after action
+    showNotifications.value = false;
   } catch (error) {
     normalToast('❌ فشل في تعليم الإشعار كمقروء')
   }
@@ -448,10 +443,11 @@ const markAllAsRead = async () => {
       headers: getAuthHeaders()
     })
 
-    // Update local state
     notifications.value.forEach(n => n.isRead = true)
     unreadNotificationsCount.value = 0
     normalToast('تم تعليم جميع الإشعارات كمقروءة')
+    // Close notifications dropdown after action
+    showNotifications.value = false;
   } catch (error) {
     errorToast('حدث خطأ أثناء تعليم جميع الإشعارات كمقروءة')
   }
@@ -495,15 +491,24 @@ const getNotificationIcon = (eventType) => {
 
 // Close dropdowns when clicking outside
 const closeDropdowns = (event) => {
-  if (showNotifications.value && !event.target.closest('.group')) {
-    showNotifications.value = false
-  }
-  if (showProfileDropdown.value && !event.target.closest('.group')) {
-    showProfileDropdown.value = false
-  }
-  if (showCartModal.value && !event.target.closest('.cart-modal-group')) {
+  // Only close if clicking outside of the dropdowns
+  const isClickInsideDropdown = (
+    event.target.closest('.group') || 
+    event.target.closest('.cart-modal-group')
+  );
+
+  if (!isClickInsideDropdown) {
+    showNotifications.value = false;
+    showProfileDropdown.value = false;
     showCartModal.value = false;
   }
+}
+
+// Add new function to close all dropdowns
+const closeAllDropdowns = () => {
+  showNotifications.value = false;
+  showProfileDropdown.value = false;
+  showCartModal.value = false;
 }
 
 // Watch for authentication changes
@@ -529,8 +534,13 @@ const handleScroll = () => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   window.addEventListener('click', closeDropdowns)
+  // Add escape key listener
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeAllDropdowns();
+    }
+  });
   handleScroll()
-
 })
 
   router.beforeEach(() => {
@@ -547,6 +557,11 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   window.removeEventListener('click', closeDropdowns)
+  window.removeEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeAllDropdowns();
+    }
+  });
 })
 </script>
 <style>
@@ -654,5 +669,16 @@ onUnmounted(() => {
     left:107%;
     right:-8%;
   }
+}
+</style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

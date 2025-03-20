@@ -2,7 +2,7 @@
 <template>
   <div class="min-h-screen bg-transparent rtl">
     <!-- Background Effects -->
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+    <div class="bsolute top-0 left-0 w-full h-full overflow-hidden z-[-9999]">
       <div class="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full mix-blend-multiply opacity-20 animate-float blur-2xl"></div>
       <div class="absolute bottom-1/4 right-1/6 w-80 h-80 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full mix-blend-multiply opacity-20 animate-float-delay blur-2xl"></div>
     </div>
