@@ -54,6 +54,10 @@ export default defineNuxtConfig({
     prerender: {
       autoSubfolderIndex: false,
     },
+    externals: {
+      inline: ["mongoose", "mongodb"], // التأكد من تضمين Mongoose بشكل صحيح
+      external: ["@aws-sdk/credential-providers"], // استثناء المكتبة المسببة للمشكلة
+    },
     plugins: ['~/server/plugins/mongodb.ts','~/server/plugins/rateLimit.ts'],
     storage: {
       'rate-limits': {
