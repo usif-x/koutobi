@@ -50,6 +50,10 @@ export default defineNuxtConfig({
     transpile: ['@iconify/vue','vue3-toastify','sweetalert2'],
   },
   nitro: {
+    preset: "cloudflare_pages", 
+    prerender: {
+      autoSubfolderIndex: false,
+    },
     plugins: ['~/server/plugins/mongodb.ts','~/server/plugins/rateLimit.ts'],
     storage: {
       'rate-limits': {
