@@ -109,6 +109,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { Icon } from '@iconify/vue';
+import { useId } from '#imports'; // Import useId from Nuxt auto-imports
 
 const props = defineProps({
   modelValue: {
@@ -149,7 +150,8 @@ const props = defineProps({
   },
   id: {
     type: String,
-    default: () => `input-${Date.now().toString(36)}`
+    // Use useId() for a unique, stable default ID
+    default: () => useId()
   }
 });
 

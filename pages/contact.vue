@@ -1,7 +1,7 @@
 <template>
   <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent py-8 px-4 md:px-6 lg:px-8 rtl">
     <!-- Abstract background shapes -->
-    <div class="bsolute top-0 left-0 w-full h-full overflow-hidden z-[-9999]">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-[-9999]">
       <div class="absolute top-1/4 left-1/6 w-64 h-64 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full mix-blend-multiply opacity-20 animate-float blur-2xl"></div>
       <div class="absolute bottom-1/4 right-1/6 w-80 h-80 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full mix-blend-multiply opacity-20 animate-float-delay blur-2xl"></div>
       <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-amber-200 to-amber-300 rounded-full mix-blend-multiply opacity-10 animate-float-slow blur-3xl"></div>
@@ -11,7 +11,7 @@
     
     <!-- Main content container -->
     <div class="container mx-auto z-10 py-8 md:py-0">
-      <div class="flex flex-col md:flex-row items-start justify-center gap-8 md:gap-12 lg:gap-16 max-w-6xl mx-auto">
+      <div class="flex flex-col md:flex-row items-start justify-center gap-8 md:gap-10 lg:gap-12 max-w-7xl mx-auto">
         <!-- Contact Form Section (right side in RTL) -->
         <div class="w-full md:w-1/2 text-right space-y-6">
           <div class="relative inline-block">
@@ -93,7 +93,7 @@
 
           </form>
         </div>
-        
+
         <!-- Contact Information Section (left side in RTL) -->
         <div class="w-full md:w-1/2 space-y-6">
           <!-- Contact Cards -->
