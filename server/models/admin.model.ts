@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
-import bcrypt from 'bcrypt'
+// Change this import from 'bcrypt' to 'bcryptjs'
+import bcrypt from 'bcryptjs'
 
 const adminSchema = new Schema({
     name: { type: String, required: true },
@@ -22,12 +23,14 @@ const adminSchema = new Schema({
 
 adminSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
+        // This uses the imported bcrypt object, which is now bcryptjs
         this.password = await bcrypt.hash(this.password, 10)
     }
     next()
 })
 
 adminSchema.methods.comparePassword = async function (password: string) {
+    // This also uses the imported bcrypt object
     return bcrypt.compare(password, this.password)
 }
 

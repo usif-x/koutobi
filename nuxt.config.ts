@@ -50,7 +50,7 @@ export default defineNuxtConfig({
     transpile: ['@iconify/vue','vue3-toastify','sweetalert2'],
   },
   nitro: {
-    preset: "cloudflare_pages", 
+    preset: "vercel", 
     prerender: {
       autoSubfolderIndex: false,
     },
